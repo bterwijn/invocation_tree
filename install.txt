@@ -8,13 +8,13 @@ pip install twine
 
 
 # ===== (un)install current module
-pip uninstall invoke_tree
+pip uninstall invocation_tree
 pip install .
 pip install --upgrade .
 
 
 # ===== prepare packages for upload
-# - increase version number in: setup.py invoke_tree/__init__.py 
+# - increase version number in: setup.py invocation_tree/__init__.py 
 # - update images:
 cd images; bash create_images.sh; cd ..
 # - git commit -am "version X.X.X" && git push
