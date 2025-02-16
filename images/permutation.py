@@ -10,7 +10,7 @@ def permutations(all_permutations, data, perm, n):
             permutations(all_permutations, data, perm, n-1)
             perm.pop()
 
-invoke_tree = invoke_tree.Call_Tree(each_line=True)
+invoke_tree = invoke_tree.Invoke_Tree(each_line=True)
 all_permutations = []
 
 invoke_tree.to_string[list] = lambda x : f'my_list:{x}'

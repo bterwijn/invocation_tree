@@ -20,7 +20,7 @@ class Tree_Node:
     def __repr__(self):
         return f'node_id:{self.node_id} frame:{self.frame} return_value:{self.return_value}'
 
-class Call_Tree:
+class Invoke_Tree:
 
     def __init__(self, output_filename='invoke_tree.pdf', block=True, src_location=True, max_string_len=100, indent='   ',
                  color_paused = '#ccffcc', color_active = '#ffffff', color_returned = '#ffcccc', each_line=False, to_string=None):
