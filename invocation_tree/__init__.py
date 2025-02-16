@@ -1,4 +1,4 @@
-# This file is part of invoke_tree.
+# This file is part of invocation_tree.
 # Copyright (c) 2023, Bas Terwijn.
 # SPDX-License-Identifier: BSD-2-Clause
 
@@ -22,7 +22,7 @@ class Tree_Node:
 
 class Invocation_Tree:
 
-    def __init__(self, output_filename='invoke_tree.pdf', block=True, src_location=True, max_string_len=100, indent='   ',
+    def __init__(self, output_filename='invocation_tree.pdf', block=True, src_location=True, max_string_len=100, indent='   ',
                  color_paused = '#ccffcc', color_active = '#ffffff', color_returned = '#ffcccc', each_line=False, to_string=None):
         # --- config
         self.output_filename = output_filename
