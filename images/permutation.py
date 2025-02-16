@@ -1,4 +1,4 @@
-import call_tree
+import invoke_tree
 
 def permutations(all_permutations, data, perm, n):
     if n<=0:
@@ -10,14 +10,14 @@ def permutations(all_permutations, data, perm, n):
             permutations(all_permutations, data, perm, n-1)
             perm.pop()
 
-call_tree = call_tree.Call_Tree(each_line=True)
+invoke_tree = invoke_tree.Call_Tree(each_line=True)
 all_permutations = []
 
-call_tree.to_string[list] = lambda x : f'my_list:{x}'
-call_tree.to_string[id(all_permutations)] = lambda x : f'perms:{x}'
-call_tree.to_string['permutations.return'] = lambda x : f'return:{x}'
-call_tree.to_string['permutations.n'] = lambda x : f'{x} this is n'
+invoke_tree.to_string[list] = lambda x : f'my_list:{x}'
+invoke_tree.to_string[id(all_permutations)] = lambda x : f'perms:{x}'
+invoke_tree.to_string['permutations.return'] = lambda x : f'return:{x}'
+invoke_tree.to_string['permutations.n'] = lambda x : f'{x} this is n'
 
-#call_tree(permutations, ['a','b','c'], [], 2)
-call_tree(permutations, all_permutations, ['a','b','c'], [], 2)
+#invoke_tree(permutations, ['a','b','c'], [], 2)
+invoke_tree(permutations, all_permutations, ['a','b','c'], [], 2)
 print('all_permutations:', all_permutations)
