@@ -26,6 +26,7 @@ class Invocation_Tree:
                  color_paused = '#ccffcc', color_active = '#ffffff', color_returned = '#ffcccc', each_line=False, to_string=None):
         # --- config
         self.output_filename = output_filename
+        self.output_count = -1
         self.block = block
         self.src_location = src_location
         self.max_string_len = max_string_len
@@ -95,6 +96,15 @@ class Invocation_Tree:
         
     def add_edge(self, tree_node1, tree_node2):
         self.edges.append((str(tree_node1.node_id), str(tree_node2.node_id)))
+
+    def get_output_filename(self):
+        if self.output_count >= 0:
+            splits = self.output_filename.split('.')
+            if len(splits)>1:
+                splits[-2]+=str(self.output_count)
+                self.output_count += 1
+                return '.'.join(splits)
+        return self.output_filename
         
     def render_graph(self, frame, event):
         graphviz_graph_attr = {}
@@ -108,7 +118,7 @@ class Invocation_Tree:
             graph.node(nid, label=table)
         for nid1, nid2 in self.edges:
             graph.edge(nid1, nid2)
-        graph.render(outfile=self.output_filename, cleanup=True)
+        graph.render(outfile=self.get_output_filename(), cleanup=True)
         if self.block:
             if self.src_location:
                 filename = frame.f_code.co_filename
