@@ -6,9 +6,24 @@ from graphviz import Digraph
 import html
 import sys
 import inspect
+import difflib 
 
 __version__ = "0.0.1"
 __author__ = 'Bas Terwijn'
+
+def highlight_diff(str1, str2):
+    matcher = difflib.SequenceMatcher(None, str1, str2)
+    result = []
+    for tag, i1, i2, j1, j2 in matcher.get_opcodes():
+        if tag == 'replace':
+            result.append(f"<B>{str1[i1:i2]}</B>")
+        elif tag == 'delete':
+            result.append(f"--")
+        elif tag == 'insert':
+            result.append(f"<B>{str2[j1:j2]}</B>")
+        elif tag == 'equal':
+            result.append(str1[i1:i2])
+    return ''.join(result)
 
 class Tree_Node:
 
@@ -16,6 +31,7 @@ class Tree_Node:
         self.node_id = node_id
         self.frame = frame
         self.return_value = return_value
+        self.strings = {}
 
     def __repr__(self):
         return f'node_id:{self.node_id} frame:{self.frame} return_value:{self.return_value}'
@@ -73,20 +89,21 @@ class Invocation_Tree:
         if returned:
             color = self.color_returned
         table = f'<\n<TABLE BORDER="{str(border)}" CELLBORDER="0" CELLSPACING="1" BGCOLOR="{color}">\n  <TR>'
-        table += '<TD ALIGN="left">'+ self.value_to_string(function_name, 'function_'+function_name) +'</TD>'
-        table += '</TR>\n  <TR>'
-        new_line = True
+        content = self.value_to_string(function_name, 'function_'+function_name)
+        table += '<TD ALIGN="left">'+ content +'</TD>'
+        tree_node.strings['__function_name__'] = content
         for var,val in local_vars.items():
-            if not new_line:
+            if not '__' in var:
                 table += '</TR>\n  <TR>'
-            table += '<TD ALIGN="left">'+  self.indent + self.value_to_string(var, function_name+'_'+var) + ': ' + \
-                                                         self.value_to_string(val, function_name+'.'+var) +'</TD>'
-            new_line = False
+                content = self.indent + self.value_to_string(var, function_name+'_'+var) + ': ' + \
+                                        self.value_to_string(val, function_name+'.'+var)
+                table += '<TD ALIGN="left">'+ content  +'</TD>'
+                tree_node.strings[var] = content
         if returned:
-            if not new_line:
-                table += '</TR>\n  <TR>'
-            table += '<TD ALIGN="left">'+ 'return ' + self.value_to_string(return_value, function_name+'.'+'return') +'</TD>'
-            new_line = False
+            table += '</TR>\n  <TR>'
+            content = self.value_to_string(return_value, function_name+'.'+'return')
+            table += '<TD ALIGN="left">'+ 'return ' + content +'</TD>'
+            tree_node.strings['return'] = content
         table += '</TR>\n</TABLE>>'
         return table
             
