@@ -32,6 +32,7 @@ class Tree_Node:
         self.node_id = node_id
         self.frame = frame
         self.return_value = return_value
+        self.is_retured = False
         self.strings = {}
 
     def __repr__(self):
@@ -81,17 +82,24 @@ class Invocation_Tree:
                 val_str = '...'+val_str[-self.max_string_len:]    
             return html.escape(val_str)
 
-    def get_hightlighted_content(self, tree_node, key, value):
+    def get_hightlighted_content(self, tree_node, key, value, old_content=False):
+        if old_content:
+            return tree_node.strings[key]
         content = self.value_to_string(key, value)
         if key in tree_node.strings:
             old_content = tree_node.strings[key]
+            #print('old:',old_content,'\nnew:',content)
             hightlighted_content = highlight_diff(old_content, content)
         else:
             hightlighted_content = '<B>'+content+'</B>'
         tree_node.strings[key] = content
         return hightlighted_content
 
-    def build_html_table(self, tree_node, active=False, returned=False):
+    def build_html_table(self, tree_node, active=False, is_returned=None, old_content=False):
+        if is_returned is None:
+            is_returned = tree_node.is_returned
+        else:
+            tree_node.is_returned = is_returned
         function_name = tree_node.frame.f_code.co_name
         local_vars = tree_node.frame.f_locals
         return_value = tree_node.return_value
@@ -100,27 +108,27 @@ class Invocation_Tree:
         if active:
             color = self.color_active
             border = 3
-        if returned:
+        if is_returned:
             color = self.color_returned
         table = f'<\n<TABLE BORDER="{str(border)}" CELLBORDER="0" CELLSPACING="1" BGCOLOR="{color}">\n  <TR>'
-        hightlighted_content = self.get_hightlighted_content(tree_node, '__function_name__', function_name)
+        hightlighted_content = self.get_hightlighted_content(tree_node, '__function_name__', function_name, old_content)
         table += '<TD ALIGN="left">'+ hightlighted_content +'</TD>'
         for var,val in local_vars.items():
             if not '__' in var:
                 table += '</TR>\n  <TR>'
-                hightlighted_var = self.get_hightlighted_content(tree_node, function_name+'_'+var, var)
-                hightlighted_val = self.get_hightlighted_content(tree_node, function_name+'.'+var, val)
+                hightlighted_var = self.get_hightlighted_content(tree_node, function_name+'_'+var, var, old_content)
+                hightlighted_val = self.get_hightlighted_content(tree_node, function_name+'.'+var, val, old_content)
                 hightlighted_content = self.indent + hightlighted_var + ': ' + hightlighted_val
                 table += '<TD ALIGN="left">'+ hightlighted_content  +'</TD>'
-        if returned:
+        if is_returned:
             table += '</TR>\n  <TR>'
-            hightlighted_content = self.get_hightlighted_content(tree_node, 'return', return_value)
+            hightlighted_content = self.get_hightlighted_content(tree_node, 'return', return_value, old_content)
             table += '<TD ALIGN="left">'+ 'return ' + hightlighted_content +'</TD>'
         table += '</TR>\n</TABLE>>'
         return table
 
-    def update_node(self, tree_node, active=False, returned=False):
-        table = self.build_html_table(tree_node, active, returned)
+    def update_node(self, tree_node, active=False, returned=None, old_content=False):
+        table = self.build_html_table(tree_node, active, returned, old_content=old_content)
         self.node_id_to_table[str(tree_node.node_id)] = table
         
     def update_node_and_log(self, tree_node, active=False, returned=False):
@@ -140,9 +148,10 @@ class Invocation_Tree:
         return self.output_filename
         
     def output_graph(self, frame, event):
-        for node in {v for k, v in self.update_nodes_log_prev.items() 
+        for idn, node in {(k, v) for k, v in self.update_nodes_log_prev.items() 
                         if k not in self.update_nodes_log}:
-            pass # self.update_node(node) # TODO
+            print('idn:',idn)
+            self.update_node(node, old_content=True) # TODO
         graphviz_graph_attr = {}
         graphviz_node_attr = {'shape':'plaintext'}
         graphviz_edge_attr = {}
