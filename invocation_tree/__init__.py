@@ -14,17 +14,21 @@ __author__ = 'Bas Terwijn'
 def highlight_diff(str1, str2):
     matcher = difflib.SequenceMatcher(None, str1, str2)
     result = []
+    is_highlighted = False
     for tag, i1, i2, j1, j2 in matcher.get_opcodes():
         if tag == 'replace':
-            result.append(f'<B>{str2[j1:j2]}</B>&#8203;')
+            result.append(f'<B>{str2[j1:j2]}&#8203;</B>&#8203;')
+            is_highlighted = True
         elif tag == 'delete':
-            result.append(f'<FONT COLOR="#aaaaaa"><B>-</B></FONT>&#8203;')
+            result.append(f'<FONT COLOR="#aaaaaa"><I>{str1[i1:i2]}&#8203;</I></FONT>&#8203;')
+            is_highlighted = True
         elif tag == 'insert':
-            result.append(f'<B>{str2[j1:j2]}</B>&#8203;')
+            result.append(f'<B>{str2[j1:j2]}&#8203;</B>&#8203;')
+            is_highlighted = True
         elif tag == 'equal':
             result.append(str2[j1:j2])
     diff = ''.join(result)
-    return diff
+    return diff, is_highlighted
 
 class Tree_Node:
 
@@ -64,6 +68,7 @@ class Invocation_Tree:
         self.edges = []
         self.update_nodes_log = {}
         self.update_nodes_log_prev = {}
+        self.is_highlighted = False
         
     def print_stack(self):
         for tree_node in self.stack:
@@ -85,21 +90,25 @@ class Invocation_Tree:
     def get_hightlighted_content(self, tree_node, key, value, old_content=False):
         if old_content:
             return tree_node.strings[key]
+        is_highlighted = False
         content = self.value_to_string(key, value)
         if key in tree_node.strings:
             old_content = tree_node.strings[key]
             #print('old:',old_content,'\nnew:',content)
-            hightlighted_content = highlight_diff(old_content, content)
+            hightlighted_content, is_highlighted = highlight_diff(old_content, content)
         else:
             hightlighted_content = '<B>'+content+'</B>'
+            is_highlighted = True
         tree_node.strings[key] = content
+        self.is_highlighted |= is_highlighted
         return hightlighted_content
-
+    
     def build_html_table(self, tree_node, active=False, is_returned=None, old_content=False):
         if is_returned is None:
             is_returned = tree_node.is_returned
         else:
             tree_node.is_returned = is_returned
+        hightlighted = False
         function_name = tree_node.frame.f_code.co_name
         local_vars = tree_node.frame.f_locals
         return_value = tree_node.return_value
@@ -163,25 +172,31 @@ class Invocation_Tree:
             graph.node(nid, label=table)
         for nid1, nid2 in self.edges:
             graph.edge(nid1, nid2)
-        if self.show:
-            graph.view()
-        else:
-            graph.render(outfile=self.get_output_filename(), cleanup=False)
         if self.block:
-            if self.src_location:
-                filename = frame.f_code.co_filename
-                line_nr = frame.f_lineno
-                print(f'{event.capitalize()} at {filename}:{line_nr}', end='. ')
-            input('Press <Enter> to continue...')
+            print('self.is_highlighted', self.is_highlighted)
+            if self.is_highlighted:
+                if self.show:
+                    graph.view()
+                else:
+                    graph.render(outfile=self.get_output_filename(), cleanup=False)
+                if self.src_location:
+                    filename = frame.f_code.co_filename
+                    line_nr = frame.f_lineno
+                    print(f'{event.capitalize()} at {filename}:{line_nr}', end='. ')
+                    input('Press <Enter> to continue...')
+        else:
+            if self.show:
+                graph.view()
+            else:
+                graph.render(outfile=self.get_output_filename(), cleanup=False)
+        self.is_highlighted = False
         self.update_nodes_log_prev = self.update_nodes_log
         self.update_nodes_log = {}
-            
+
     def trace_calls(self, frame, event, arg):
-        #print('========= event:',event)
         if event == 'call':
             self.stack.append(Tree_Node(self.node_id, frame, None))
             self.node_id += 1
-            #self.print_stack()
             if len(self.stack)>1:
                 self.update_node_and_log(self.stack[-2])
                 self.add_edge(self.stack[-2], self.stack[-1])
@@ -189,7 +204,6 @@ class Invocation_Tree:
             self.output_graph(frame, event)
         elif event == 'return':
             self.stack[-1].return_value = arg
-            #self.print_stack()
             self.update_node_and_log(self.stack[-1], returned=True)
             if len(self.stack)>1:
                 self.update_node_and_log(self.stack[-2], active=True)
