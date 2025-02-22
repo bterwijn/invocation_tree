@@ -66,7 +66,7 @@ class Invocation_Tree:
                  block=True, 
                  src_loc=True, 
                  each_line=False, 
-                 outcount=-1,
+                 gifcount=-1,
                  max_string_len=150, 
                  indent='   ', 
                  color_paused = '#ccffcc', 
@@ -81,7 +81,7 @@ class Invocation_Tree:
         self.block = block
         self.src_loc = src_loc
         self.max_string_len = max_string_len
-        self.outcount = outcount
+        self.gifcount = gifcount
         self.indent = indent
         self.color_paused = color_paused
         self.color_active = color_active
@@ -104,7 +104,7 @@ class Invocation_Tree:
         self.ignore_calls = {'Invocation_Tree.__exit__', 'Invocation_Tree.stop_trace'}
 
     def __repr__(self):
-        return f'Invocation_Tree(filename={repr(self.filename)}, show={self.show}, block={self.block}, each_line={self.each_line}, outcount={self.outcount})'
+        return f'Invocation_Tree(filename={repr(self.filename)}, show={self.show}, block={self.block}, each_line={self.each_line}, gifcount={self.gifcount})'
 
     def __enter__(self):
         frameInfo = inspect.stack()[1]
@@ -211,11 +211,11 @@ class Invocation_Tree:
         self.edges.append((str(tree_node1.node_id), str(tree_node2.node_id)))
 
     def get_output_filename(self):
-        if self.outcount >= 0:
+        if self.gifcount >= 0:
             splits = self.filename.split('.')
             if len(splits)>1:
-                splits[-2]+=str(self.outcount)
-                self.outcount += 1
+                splits[-2]+=str(self.gifcount)
+                self.gifcount += 1
                 return '.'.join(splits)
         return self.filename
         
@@ -286,4 +286,4 @@ def debugger():
     return Invocation_Tree(show=False, block=False, each_line=True)
 
 def gif():
-    return Invocation_Tree(filename='tree.png', show=False, block=False, outcount=0)
+    return Invocation_Tree(filename='tree.png', show=False, block=False, gifcount=0)
