@@ -52,7 +52,7 @@ class Tree_Node:
         self.node_id = node_id
         self.frame = frame
         self.return_value = return_value
-        self.is_retured = False
+        self.is_returned = False
         self.strings = {}
 
     def __repr__(self):
@@ -95,11 +95,11 @@ class Invocation_Tree:
             self.hidden = hidden
         # --- core
         self.stack = []
+        self.returned = []
+        self.prev_returned = []
         self.node_id = 0
         self.node_id_to_table = {}
         self.edges = []
-        self.update_nodes_log = {}
-        self.update_nodes_log_prev = {}
         self.is_highlighted = False
         self.ignore_calls = {'Invocation_Tree.__exit__', 'Invocation_Tree.stop_trace'}
 
@@ -110,24 +110,20 @@ class Invocation_Tree:
         frameInfo = inspect.stack()[1]
         self.stack.append(Tree_Node(self.node_id, frameInfo.frame, None))
         self.node_id += 1
-        self.update_node_and_log(self.stack[-1], active=True)
+        #self.update_node_and_log(self.stack[-1], active=True)
         self.output_graph(frameInfo.frame, 'begin')
         sys.settrace(self.trace_calls)
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.stop_trace()
-        self.update_node_and_log(self.stack[-1], active=True)
+        self.update_node(self.stack[-1], active=True)
         self.stack.pop()
         frameInfo = inspect.stack()[1]
         self.output_graph(frameInfo.frame, 'end')
 
     def stop_trace(self):
         sys.settrace(None)
-
-    def print_stack(self):
-        for tree_node in self.stack:
-            print(tree_node)
 
     def value_to_string(self, key, value, use_repr=False):
         try:
@@ -203,10 +199,6 @@ class Invocation_Tree:
         table = self.build_html_table(tree_node, active, returned, use_old_content=use_old_content)
         self.node_id_to_table[str(tree_node.node_id)] = table
         
-    def update_node_and_log(self, tree_node, active=False, returned=False):
-        self.update_node(tree_node, active, returned)
-        self.update_nodes_log[id(tree_node)] = tree_node
-
     def add_edge(self, tree_node1, tree_node2):
         self.edges.append((str(tree_node1.node_id), str(tree_node2.node_id)))
 
@@ -225,9 +217,15 @@ class Invocation_Tree:
         self.prev_filename = self.filename
 
     def output_graph(self, frame, event):
-        for idn, node in {(k, v) for k, v in self.update_nodes_log_prev.items() 
-                        if k not in self.update_nodes_log}:
-            self.update_node(node, use_old_content=True) # TODO
+        for node in self.prev_returned:
+            self.update_node(node, use_old_content=True)
+        self.prev_returned = []
+        for node in self.returned:
+            self.update_node(node, returned=True)
+            self.prev_returned.append(node)
+        self.returned = []
+        for node in self.stack:
+            self.update_node(node, active=(node is self.stack[-1]))
         graphviz_graph_attr = {}
         graphviz_node_attr = {'shape':'plaintext'}
         graphviz_edge_attr = {}
@@ -250,8 +248,6 @@ class Invocation_Tree:
         else:
             self.render_graph(graph)
         self.is_highlighted = False
-        self.update_nodes_log_prev = self.update_nodes_log
-        self.update_nodes_log = {}
 
     def trace_calls(self, frame, event, arg):
         class_fun_name = get_class_function(frame)
@@ -260,19 +256,13 @@ class Invocation_Tree:
                 self.stack.append(Tree_Node(self.node_id, frame, None))
                 self.node_id += 1
                 if len(self.stack)>1:
-                    self.update_node_and_log(self.stack[-2])
                     self.add_edge(self.stack[-2], self.stack[-1])
-                self.update_node_and_log(self.stack[-1], active=True)
                 self.output_graph(frame, event)
             elif event == 'return':
                 self.stack[-1].return_value = arg
-                self.update_node_and_log(self.stack[-1], returned=True)
-                if len(self.stack)>1:
-                    self.update_node_and_log(self.stack[-2], active=True)
-                self.stack.pop()
+                self.returned.append(self.stack.pop())
                 self.output_graph(frame, event)
             elif event == 'line' and self.each_line:
-                self.update_node_and_log(self.stack[-1], active=True)
                 self.output_graph(frame, event)
         return self.trace_calls
 
