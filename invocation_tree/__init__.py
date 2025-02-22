@@ -15,14 +15,15 @@ def highlight_diff(str1, str2):
     matcher = difflib.SequenceMatcher(None, str1, str2)
     result = []
     is_highlighted = False
+    
     for tag, i1, i2, j1, j2 in matcher.get_opcodes():
-        if tag == 'replace' and j1+1<j2:
+        if tag == 'replace':
             result.append(f'<B>{str2[j1:j2]}&#8203;</B>&#8203;')
             is_highlighted = True
-        elif tag == 'delete' and i1+1<i2:
+        elif tag == 'delete':
             result.append(f'<FONT COLOR="#aaaaaa"><I>{str1[i1:i2]}&#8203;</I></FONT>&#8203;')
             is_highlighted = True
-        elif tag == 'insert' and j1+1<j2:
+        elif tag == 'insert':
             result.append(f'<B>{str2[j1:j2]}&#8203;</B>&#8203;')
             is_highlighted = True
         elif tag == 'equal':
@@ -110,7 +111,6 @@ class Invocation_Tree:
         frameInfo = inspect.stack()[1]
         self.stack.append(Tree_Node(self.node_id, frameInfo.frame, None))
         self.node_id += 1
-        #self.update_node_and_log(self.stack[-1], active=True)
         self.output_graph(frameInfo.frame, 'begin')
         sys.settrace(self.trace_calls)
         return self
@@ -211,12 +211,14 @@ class Invocation_Tree:
                 return '.'.join(splits)
         return self.filename
         
-    def render_graph(self, graph):
-        view = (self.filename!=self.prev_filename) and self.show
-        graph.render(outfile=self.get_output_filename(), cleanup=False, view=view)
-        self.prev_filename = self.filename
-
-    def output_graph(self, frame, event):
+    def create_graph(self):
+        graphviz_graph_attr = {}
+        graphviz_node_attr = {'shape':'plaintext'}
+        graphviz_edge_attr = {}
+        graph = Digraph('invocation_tree',
+                graph_attr=graphviz_graph_attr,
+                node_attr=graphviz_node_attr,
+                edge_attr=graphviz_edge_attr)
         for node in self.prev_returned:
             self.update_node(node, use_old_content=True)
         self.prev_returned = []
@@ -226,18 +228,21 @@ class Invocation_Tree:
         self.returned = []
         for node in self.stack:
             self.update_node(node, active=(node is self.stack[-1]))
-        graphviz_graph_attr = {}
-        graphviz_node_attr = {'shape':'plaintext'}
-        graphviz_edge_attr = {}
-        graph = Digraph('invocation_tree',
-                graph_attr=graphviz_graph_attr,
-                node_attr=graphviz_node_attr,
-                edge_attr=graphviz_edge_attr)
         for nid, table in self.node_id_to_table.items():
             graph.node(nid, label=table)
         for nid1, nid2 in self.edges:
             graph.edge(nid1, nid2)
+        return graph
+        
+    def render_graph(self, graph):
+        view = (self.filename!=self.prev_filename) and self.show
+        graph.render(outfile=self.get_output_filename(), cleanup=False, view=view)
+        self.prev_filename = self.filename
+
+    def output_graph(self, frame, event):
         if self.block:
+            self.is_highlighted = False
+            graph = self.create_graph()
             if self.is_highlighted:
                 self.render_graph(graph)
                 if self.src_loc:
@@ -246,11 +251,12 @@ class Invocation_Tree:
                     print(f'{event.capitalize()} at {filename}:{line_nr}', end='. ')
                     input('Press <Enter> to continue...')
         else:
+            graph = self.create_graph()
             self.render_graph(graph)
-        self.is_highlighted = False
 
     def trace_calls(self, frame, event, arg):
         class_fun_name = get_class_function(frame)
+        print('event:',event)
         if not class_fun_name in self.ignore_calls:
             if event == 'call':
                 self.stack.append(Tree_Node(self.node_id, frame, None))
@@ -275,5 +281,8 @@ def blocking_each_line():
 def debugger():
     return Invocation_Tree(show=False, block=False, each_line=True)
 
-def gif():
-    return Invocation_Tree(filename='tree.png', show=False, block=False, gifcount=0)
+def gif(filename='tree.png'):
+    return Invocation_Tree(filename=filename, show=False, block=False, gifcount=0)
+
+def gif_each_line(filename='tree.png'):
+    return Invocation_Tree(filename=filename, show=False, block=False, gifcount=0, each_line=True)
