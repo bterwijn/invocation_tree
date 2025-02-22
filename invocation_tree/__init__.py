@@ -60,18 +60,28 @@ class Tree_Node:
 
 class Invocation_Tree:
 
-    def __init__(self, output_filename='invocation_tree.pdf', open_viewer=True, output_count=-1, 
-                 block=True, src_location=True, max_string_len=100, indent='   ', 
-                 color_paused = '#ccffcc', color_active = '#ffffff', color_returned = '#ffcccc', 
-                 each_line=False, to_string=None, hidden=None):
+    def __init__(self, 
+                 filename='tree.pdf', 
+                 show=True, 
+                 block=True, 
+                 src_loc=True, 
+                 each_line=False, 
+                 outcount=-1,
+                 max_string_len=150, 
+                 indent='   ', 
+                 color_paused = '#ccffcc', 
+                 color_active = '#ffffff', 
+                 color_returned = '#ffcccc', 
+                 to_string=None, 
+                 hidden=None):
         # --- config
-        self.output_filename = output_filename
-        self.prev_output_filename = None
-        self.open_viewer = open_viewer
-        self.output_count = output_count
+        self.filename = filename
+        self.prev_filename = None
+        self.show = show
         self.block = block
-        self.src_location = src_location
+        self.src_loc = src_loc
         self.max_string_len = max_string_len
+        self.outcount = outcount
         self.indent = indent
         self.color_paused = color_paused
         self.color_active = color_active
@@ -93,6 +103,9 @@ class Invocation_Tree:
         self.is_highlighted = False
         self.ignore_calls = {'Invocation_Tree.__exit__', 'Invocation_Tree.stop_trace'}
 
+    def __repr__(self):
+        return f'Invocation_Tree(filename={repr(self.filename)}, show={self.show}, block={self.block}, each_line={self.each_line}, outcount={self.outcount})'
+
     def __enter__(self):
         frameInfo = inspect.stack()[1]
         self.stack.append(Tree_Node(self.node_id, frameInfo.frame, None))
@@ -111,23 +124,6 @@ class Invocation_Tree:
 
     def stop_trace(self):
         sys.settrace(None)
-
-    def __repr__(self):
-        return f'''Invocation_Tree
-  output_filename:{self.output_filename}
-  open_viewer:{self.open_viewer}
-  output_count:{self.output_count}
-  block:{self.block}
-  src_location:{self.src_location}
-  max_string_len:{self.max_string_len}
-  indent:{repr(self.indent)}
-  color_paused:{self.color_paused}
-  color_active:{self.color_active}
-  color_returned:{self.color_returned}
-  each_line:{self.each_line}
-  to_string:{self.to_string}
-  hidden:{self.hidden}
-'''
 
     def print_stack(self):
         for tree_node in self.stack:
@@ -180,11 +176,11 @@ class Invocation_Tree:
             border = 3
         if is_returned:
             color = self.color_returned
-        table = f'<\n<TABLE BORDER="{str(border)}" CELLBORDER="0" CELLSPACING="1" BGCOLOR="{color}">\n  <TR>'
+        table = f'<\n<TABLE BORDER="{str(border)}" CELLBORDER="0" CELLSPACING="0" BGCOLOR="{color}">\n  <TR>'
         class_fun_name = get_class_function(tree_node.frame)
         local_vars = tree_node.frame.f_locals
         hightlighted_content = self.get_hightlighted_content(tree_node, class_fun_name, class_fun_name, use_old_content)
-        table += '<TD ALIGN="left">'+ hightlighted_content +'</TD>'
+        table += '<TD ALIGN="left">'+ '➤'+ hightlighted_content +'</TD>'
         for var,val in local_vars.items():
             var_name = class_fun_name+'..'+var
             val_name = class_fun_name+'.'+var
@@ -215,18 +211,18 @@ class Invocation_Tree:
         self.edges.append((str(tree_node1.node_id), str(tree_node2.node_id)))
 
     def get_output_filename(self):
-        if self.output_count >= 0:
-            splits = self.output_filename.split('.')
+        if self.outcount >= 0:
+            splits = self.filename.split('.')
             if len(splits)>1:
-                splits[-2]+=str(self.output_count)
-                self.output_count += 1
+                splits[-2]+=str(self.outcount)
+                self.outcount += 1
                 return '.'.join(splits)
-        return self.output_filename
+        return self.filename
         
     def render_graph(self, graph):
-        view = (self.output_filename!=self.prev_output_filename) and self.open_viewer
+        view = (self.filename!=self.prev_filename) and self.show
         graph.render(outfile=self.get_output_filename(), cleanup=False, view=view)
-        self.prev_output_filename = self.output_filename
+        self.prev_filename = self.filename
 
     def output_graph(self, frame, event):
         for idn, node in {(k, v) for k, v in self.update_nodes_log_prev.items() 
@@ -246,7 +242,7 @@ class Invocation_Tree:
         if self.block:
             if self.is_highlighted:
                 self.render_graph(graph)
-                if self.src_location:
+                if self.src_loc:
                     filename = frame.f_code.co_filename
                     line_nr = frame.f_lineno
                     print(f'{event.capitalize()} at {filename}:{line_nr}', end='. ')
@@ -280,11 +276,14 @@ class Invocation_Tree:
                 self.output_graph(frame, event)
         return self.trace_calls
 
-def default():
+def blocking():
     return Invocation_Tree()
 
+def blocking_each_line():
+    return Invocation_Tree(each_line=True)
+
 def debugger():
-    return Invocation_Tree(each_line=True, block=False, open_viewer=False)
+    return Invocation_Tree(show=False, block=False, each_line=True)
 
 def gif():
-    return Invocation_Tree(output_filename='invocation_tree.png', output_count=0, open_viewer=False, block=False)
+    return Invocation_Tree(filename='tree.png', show=False, block=False, outcount=0)
