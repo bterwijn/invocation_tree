@@ -48,6 +48,8 @@ Each node in the tree represents a function call, and its color indicates its st
 
 For every function, the package displays its **local variables** and **return value**. Changes to these values over time are highlighted using bold text and gray shading to make them easy to track.
 
+The [invocation_tree](https://pypi.org/project/invocation-tree/) package visualizes function calls at different moments in time. If you want a more detailed visualization of your data at a specific moment in time, check out the [memory_graph](https://pypi.org/project/memory-graph/) package.
+
 ## Blocking ##
 The program blocks execution at every function call and return statement, printing the current location in the source code. Press the &lt;Enter&gt; key to continue execution. To block at every line of the program (like a debugger) where a change of value occured, use instead:
 
