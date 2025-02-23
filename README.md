@@ -77,7 +77,25 @@ def factorial(n):
     return n * factorial(n - 1)
 
 tree = invo_tree.blocking()
-tree(factorial, 4) # calls functorial(4)
+tree(factorial, 4) # calls factorial(4)
 ```
 ![factorial](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/factorial.gif)
 
+This permutations examples shows the depth-first nature of recursive execution:
+
+```python
+import invocation_tree as invo_tree
+
+def permutations(elements, perm, n):
+    if n==0:
+        return [perm]
+    all_perms = []
+    for element in elements:
+        all_perms.extend(permutations(elements, perm + element, n-1))
+    return all_perms
+
+tree = invo_tree.blocking()
+result = tree(permutations, ['L','R'], '', 3)
+print(result)
+```
+![permutations](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations.gif)
