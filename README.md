@@ -31,12 +31,12 @@ def my_round(value, digits=0):
 
 def passing_students(avg):
     return [student 
-            for student, average in avg.items() 
-            if average >= 5.5]
+        for student, average in avg.items() 
+        if average >= 5.5]
 
 if __name__ == '__main__':
     tree = invo_tree.blocking()
-	tree(main) # show invocation tree starting at main
+    tree(main) # show invocation tree starting at main
 ```
 ![invocation tree](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/students.gif)
 
@@ -64,4 +64,20 @@ To visualize the invocation tree in a debugger tool, such as the integrated debu
 
 and open the 'tree.pdf' file manually.
 ![Visual Studio Code debugger](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/vscode.png)
+
+# Recursion #
+An invocation tree is particularly useful to better understand recursion. A simple factorial example:
+
+```python
+import invocation_tree as invo_tree
+
+def factorial(n):
+    if n <= 1:
+        return 1
+    return n * factorial(n - 1)
+
+tree = invo_tree.blocking()
+tree(factorial, 4) # calls functorial(4)
+```
+![factorial](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/factorial.gif)
 
