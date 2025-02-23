@@ -224,7 +224,7 @@ class Invocation_Tree:
         
     def render_graph(self, graph):
         view = (self.filename!=self.prev_filename) and self.show
-        graph.render(outfile=self.get_output_filename(), cleanup=False, view=view)
+        graph.render(outfile=self.get_output_filename(), view=view, cleanup=True, quiet=True)
         self.prev_filename = self.filename
 
     def output_graph(self, frame, event):

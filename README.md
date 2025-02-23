@@ -117,7 +117,7 @@ Different configuration settings can be set:
   - filename to save the tree to, defaults to 'tree.pdf'
 - **tree.show** : bool
   - if `True` the default application is open to view 'tree.filename'
-- **tree.block** :  block
+- **tree.block** :  bool
   - if `True` program execution is blocked after the tree is saved
 - **tree.src_loc** : bool
   - if `True` the source location is printed when blocking
@@ -147,3 +147,7 @@ For convenience we provide these functions to set common configurations:
 - **invo_tree.debugger()**, for use in debugger tool (open 'tree.pdf') manually
 - **invo_tree.gif(filename)**, for generating many output files on function call and return for gif creation
 - **invo_tree.gif_each_line(filename)**, for generating many output files on each line for gif creation
+
+# Troubleshooting #
+
+- Adobe Acrobat Reader [doesn't refresh a PDF file](https://superuser.com/questions/337011/windows-pdf-viewer-that-auto-refreshes-pdf-when-compiling-with-pdflatex) when it changes on disk and blocks updates which results in an `Could not open 'somefile.pdf' for writing : Permission denied` error. One solution is to install a PDF reader that does refresh ([Evince](https://www.fosshub.com/Evince.html), [Okular](https://okular.kde.org/), [SumatraPDF](https://www.sumatrapdfreader.org/), ...) and set it as the default PDF reader. Another solution is to save the tree to a different [Graphviz Output Format](https://graphviz.org/docs/outputs/).
