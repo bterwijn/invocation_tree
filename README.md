@@ -114,31 +114,31 @@ tree.hide.add('permutations.all_perms')
 Different configuration settings can be set:
 
 - **tree.filename** : str  
- - filename to save the tree to, defaults to 'tree.pdf'
+  - filename to save the tree to, defaults to 'tree.pdf'
 - **tree.show** : bool
- - if `True` the default application is open to view 'tree.filename'
+  - if `True` the default application is open to view 'tree.filename'
 - **tree.block** :  block
- - if `True` program execution is blocked after the tree is saved
+  - if `True` program execution is blocked after the tree is saved
 - **tree.src_loc** : bool
- - if `True` the source location is printed when blocking
+  - if `True` the source location is printed when blocking
 - **tree.each_line** : bool
- - if `True` each line of the program is stepped through
+  - if `True` each line of the program is stepped through
 - **tree.max_string_len** : int
- - the maximum string length, only the end is shown of longer strings 
+  - the maximum string length, only the end is shown of longer strings 
 - **tree.gifcount** : int
- - if `>=0` the out filename is numbered for animated gif making
+  - if `>=0` the out filename is numbered for animated gif making
 - **tree.indent** : string
- - the string used for identing the local variables
+  - the string used for identing the local variables
 - **tree.color_active** : string
- - HTML color name for active function 
+  - HTML color name for active function 
 - **tree.color_paused*** : string
- - HTML color name for paused functions
+  - HTML color name for paused functions
 - **tree.color_returned***: string
- - HTML color name for returned functions
+  - HTML color name for returned functions
 - **tree.hide** : set()
- - set of all variables names that are not shown in the tree
+  - set of all variables names that are not shown in the tree
 - **tree.to_string** : dict[str, fun]
- - mapping from type/name to a to_string() function for custom printing of values
+  - mapping from type/name to a to_string() function for custom printing of values
 
 For convenience we provide these functions to set common configurations:
 
