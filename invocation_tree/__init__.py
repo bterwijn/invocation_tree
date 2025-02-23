@@ -5,7 +5,6 @@
 from graphviz import Digraph
 import html
 import sys
-import inspect
 import difflib 
 
 __version__ = "0.0.1"
@@ -31,7 +30,7 @@ def highlight_diff(str1, str2):
     diff = ''.join(result)
     return diff, is_highlighted
 
-def get_class_function(frame):
+def get_class_function_name(frame):
     class_name = ''
     if 'self' in frame.f_locals:
         class_name = frame.f_locals['self'].__class__.__name__ + '.'
@@ -107,23 +106,12 @@ class Invocation_Tree:
     def __repr__(self):
         return f'Invocation_Tree(filename={repr(self.filename)}, show={self.show}, block={self.block}, each_line={self.each_line}, gifcount={self.gifcount})'
 
-    def __enter__(self):
-        frameInfo = inspect.stack()[1]
-        self.stack.append(Tree_Node(self.node_id, frameInfo.frame, None))
-        self.node_id += 1
-        self.output_graph(frameInfo.frame, 'begin')
-        sys.settrace(self.trace_calls)
-        return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        self.stop_trace()
-        self.update_node(self.stack[-1], active=True)
-        self.stack.pop()
-        frameInfo = inspect.stack()[1]
-        self.output_graph(frameInfo.frame, 'end')
-
-    def stop_trace(self):
-        sys.settrace(None)
+    def __call__(self, fun, *args, **kwargs):
+        try:
+            sys.settrace(self.trace_calls)
+            result = fun(*args, **kwargs)
+        finally:
+            sys.settrace(None)
 
     def value_to_string(self, key, value, use_repr=False):
         try:
@@ -173,7 +161,7 @@ class Invocation_Tree:
         if is_returned:
             color = self.color_returned
         table = f'<\n<TABLE BORDER="{str(border)}" CELLBORDER="0" CELLSPACING="0" BGCOLOR="{color}">\n  <TR>'
-        class_fun_name = get_class_function(tree_node.frame)
+        class_fun_name = get_class_function_name(tree_node.frame)
         local_vars = tree_node.frame.f_locals
         hightlighted_content = self.get_hightlighted_content(tree_node, class_fun_name, class_fun_name, use_old_content)
         table += '<TD ALIGN="left">'+ '➤'+ hightlighted_content +'</TD>'
@@ -240,23 +228,23 @@ class Invocation_Tree:
         self.prev_filename = self.filename
 
     def output_graph(self, frame, event):
-        if self.block:
+        if self.block or self.gifcount >= 0:
             self.is_highlighted = False
             graph = self.create_graph()
             if self.is_highlighted:
                 self.render_graph(graph)
-                if self.src_loc:
-                    filename = frame.f_code.co_filename
-                    line_nr = frame.f_lineno
-                    print(f'{event.capitalize()} at {filename}:{line_nr}', end='. ')
+                if self.block:
+                    if self.src_loc:
+                        filename = frame.f_code.co_filename
+                        line_nr = frame.f_lineno
+                        print(f'{event.capitalize()} at {filename}:{line_nr}', end='. ')
                     input('Press <Enter> to continue...')
         else:
             graph = self.create_graph()
             self.render_graph(graph)
 
     def trace_calls(self, frame, event, arg):
-        class_fun_name = get_class_function(frame)
-        print('event:',event)
+        class_fun_name = get_class_function_name(frame)
         if not class_fun_name in self.ignore_calls:
             if event == 'call':
                 self.stack.append(Tree_Node(self.node_id, frame, None))
