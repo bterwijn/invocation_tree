@@ -79,7 +79,7 @@ def factorial(n):
     return n * factorial(n - 1)
 
 tree = invo_tree.blocking()
-tree(factorial, 4) # calls factorial(4)
+tree(factorial, 4) # show invocation tree of calling factorial(4)
 ```
 ![factorial](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/factorial.gif)
 
