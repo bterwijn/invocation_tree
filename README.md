@@ -6,13 +6,7 @@ pip install --upgrade invocation_tree
 Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 
 # Invocation Tree #
-For program understanding and debugging, the [invocation_tree](https://pypi.org/project/invocation-tree/) package visualizes function invocations, that results from program execution, as tree. Each node represents a function call, and its color indicates its state: 
-
- - white: function currently being executed (top of call stack)
- - green: paused function that will execute later (on call stack)
- - red: function that has returned (removed from call stack)
-
-For each function we show each local variable and indicate changes in value with **bold** and gray highligthing. An example:
+The [invocation_tree](https://pypi.org/project/invocation-tree/) package is designed to help with **program understanding and debugging** by visualizing the **tree of function invocations** that occur during program execution. Here’s an example of how it works:
 
 ```python
 import invocation_tree as invo_tree
@@ -41,7 +35,33 @@ def passing_students(avg):
             if average >= 5.5]
 
 if __name__ == '__main__':
-    tree = invo_tree.blocking(filename="students.png")
-	tree(main) # show invocation tree from main
+    tree = invo_tree.blocking()
+	tree(main) # show invocation tree starting at main
 ```
-![many_types.png](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/students.gif)
+![invocation tree](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/students.gif)
+
+Each node in the tree represents a function call, and its color indicates its current state:
+
+ - White: The function is currently being executed (it is at the top of the call stack).
+ - Green: The function is paused and will resume execution later (it is lower on the call stack).
+ - Red: The function has completed execution and returned (it has been removed from the call stack).
+
+For every function, the package displays its **local variables** and **return value**. Changes to these values over time are highlighted using bold text and gray shading to make them easy to track.
+
+## Blocking ##
+The program blocks execution at every function call and return statement, printing the current location in the source code. Press the &lt;Enter&gt; key to continue execution. To block at every line of the program (like a debugger) where a change of value occured, use instead:
+
+```python
+    tree = invo_tree.blocking_each_line()
+```
+
+# Debugger #
+To visualize the invocation tree in a debugger tool, such as the integrated debugger in Visual Studio Code, use instead:
+
+```python
+    tree = invo_tree.debugger()
+```
+
+and open the 'tree.pdf' file manually.
+![Visual Studio Code debugger](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/vscode.png)
+
