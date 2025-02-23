@@ -13,7 +13,7 @@ largest_size=$(identify -format "%H %Wx%H %f\n" $name*.png | sort -nr | head -n1
 echo "largest_size: $largest_size"
 
 echo "resizing images"
-mogrify -resize $largest_size -background white -gravity center -extent $largest_size $files
+mogrify -resize $largest_size -background white -gravity North -extent $largest_size $files
 echo "creating file: $name.gif"
 convert -delay 150 -loop 0 $files $name.gif
 echo "done"
