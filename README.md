@@ -113,7 +113,11 @@ tree.hide.add('permutations.all_perms')
 ```
 
 # Configuration #
-These configuration settings are available:
+These configuration settings are available for an `Invocation_Tree` objects:
+
+```python
+tree = invo_tree.Invocation_Tree()
+```
 
 - **tree.filename** : str  
   - filename to save the tree to, defaults to 'tree.pdf'
