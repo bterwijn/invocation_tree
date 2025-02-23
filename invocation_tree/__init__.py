@@ -73,7 +73,7 @@ class Invocation_Tree:
                  color_active = '#ffffff', 
                  color_returned = '#ffcccc', 
                  to_string=None, 
-                 hidden=None):
+                 hide=None):
         # --- config
         self.filename = filename
         self.prev_filename = None
@@ -90,9 +90,9 @@ class Invocation_Tree:
         self.to_string = {}
         if not to_string is None:
             self.to_string = to_string
-        self.hidden = set()
-        if not hidden is None:
-            self.hidden = hidden
+        self.hide = set()
+        if not hide is None:
+            self.hide = hide
         # --- core
         self.stack = []
         self.returned = []
@@ -168,7 +168,7 @@ class Invocation_Tree:
         for var,val in local_vars.items():
             var_name = class_fun_name+'..'+var
             val_name = class_fun_name+'.'+var
-            if filter_variables(var,val) and not val_name in self.hidden:
+            if filter_variables(var,val) and not val_name in self.hide:
                 table += '</TR>\n  <TR>'
                 hightlighted_var = self.get_hightlighted_content(tree_node, var_name, var, use_old_content)
                 hightlighted_val = self.get_hightlighted_content(tree_node, val_name, val, use_old_content, use_repr=True)
@@ -176,7 +176,7 @@ class Invocation_Tree:
                 table += '<TD ALIGN="left">'+ hightlighted_content  +'</TD>'
         if is_returned:
             return_name = class_fun_name+'.return'
-            if not return_name in self.hidden:
+            if not return_name in self.hide:
                 table += '</TR>\n  <TR>'
                 hightlighted_content = self.get_hightlighted_content(tree_node, return_name, return_value, use_old_content, use_repr=True)
                 table += '<TD ALIGN="left">'+ 'return ' + hightlighted_content +'</TD>'

@@ -40,10 +40,10 @@ if __name__ == '__main__':
 ```
 ![invocation tree](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/students.gif)
 
-Each node in the tree represents a function call, and its color indicates its current state:
+Each node in the tree represents a function call, and its color indicates its state:
 
  - White: The function is currently being executed (it is at the top of the call stack).
- - Green: The function is paused and will resume execution later (it is lower on the call stack).
+ - Green: The function is paused and will resume execution later (it is lower down on the call stack).
  - Red: The function has completed execution and returned (it has been removed from the call stack).
 
 For every function, the package displays its **local variables** and **return value**. Changes to these values over time are highlighted using bold text and gray shading to make them easy to track.
@@ -96,6 +96,54 @@ def permutations(elements, perm, n):
 
 tree = invo_tree.blocking()
 result = tree(permutations, ['L','R'], '', 3)
-print(result)
+print(result) # all permutations of going Left and Right of length 3
 ```
 ![permutations](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations.gif)
+
+## Hide variables ##
+In an educational context it can be useful to hide certian variables to avoid unnecessary complexity. This can for example be done with:
+
+```python
+tree = invo_tree.blocking()
+tree.hide.add('permutations.elements')
+tree.hide.add('permutations.element')
+tree.hide.add('permutations.all_perms')
+```
+
+# Configuration #
+Different configuration settings can be set:
+
+- **tree.filename** : str  
+ - filename to save the tree to, defaults to 'tree.pdf'
+- **tree.show** : bool
+ - if `True` the default application is open to view 'tree.filename'
+- **tree.block** :  block
+ - if `True` program execution is blocked after the tree is saved
+- **tree.src_loc** : bool
+ - if `True` the source location is printed when blocking
+- **tree.each_line** : bool
+ - if `True` each line of the program is stepped through
+- **tree.max_string_len** : int
+ - the maximum string length, only the end is shown of longer strings 
+- **tree.gifcount** : int
+ - if `>=0` the out filename is numbered for animated gif making
+- **tree.indent** : string
+ - the string used for identing the local variables
+- **tree.color_active** : string
+ - HTML color name for active function 
+- **tree.color_paused*** : string
+ - HTML color name for paused functions
+- **tree.color_returned***: string
+ - HTML color name for returned functions
+- **tree.hide** : set()
+ - set of all variables names that are not shown in the tree
+- **tree.to_string** : dict[str, fun]
+ - mapping from type/name to a to_string() function for custom printing of values
+
+For convenience we provide these functions to set common configurations:
+
+- **invo_tree.blocking()**, for blocking on function call and return
+- **invo_tree.blocking_each_line()**, for blocking on each line of the program
+- **invo_tree.debugger()**, for use in debugger tool (open 'tree.pdf') manually
+- **invo_tree.gif(filename)**, for generating many output files on function call and return for gif creation
+- **invo_tree.gif_each_line(filename)**, for generating many output files on each line for gif creation
