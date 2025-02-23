@@ -112,6 +112,7 @@ class Invocation_Tree:
             result = fun(*args, **kwargs)
         finally:
             sys.settrace(None)
+        return result
 
     def value_to_string(self, key, value, use_repr=False):
         try:
