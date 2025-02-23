@@ -97,8 +97,8 @@ def permutations(elements, perm, n):
     return all_perms
 
 tree = invo_tree.blocking()
-result = tree(permutations, ['L','R'], '', 3)
-print(result) # all permutations of going Left and Right of length 3
+result = tree(permutations, ['L','R'], '', 2)
+print(result) # all permutations of going Left and Right of length 2
 ```
 ![permutations](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations.gif)
 

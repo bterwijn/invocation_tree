@@ -9,5 +9,5 @@ def permutations(elements, perm, n):
     return all_perms
 
 tree = invo_tree.gif('permutations.png')
-result = tree(permutations, ['L','R'], '', 3)
+result = tree(permutations, ['L','R'], '', 2)
 print(result)
