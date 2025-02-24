@@ -148,12 +148,21 @@ tree = invo_tree.Invocation_Tree()
 
 For convenience we provide these functions to set common configurations:
 
-- **invo_tree.blocking()**, for blocking on function call and return
-- **invo_tree.blocking_each_line()**, for blocking on each line of the program
-- **invo_tree.debugger()**, for use in debugger tool (open 'tree.pdf' manually)
+- **invo_tree.blocking(filename)**, for blocking on function call and return
+- **invo_tree.blocking_each_line(filename)**, for blocking on each line of the program
+- **invo_tree.debugger(filename)**, for use in debugger tool (open 'tree.pdf' manually)
 - **invo_tree.gif(filename)**, for generating many output files on function call and return for gif creation
 - **invo_tree.gif_each_line(filename)**, for generating many output files on each line for gif creation
 
 # Troubleshooting #
 
 - Adobe Acrobat Reader [doesn't refresh a PDF file](https://superuser.com/questions/337011/windows-pdf-viewer-that-auto-refreshes-pdf-when-compiling-with-pdflatex) when it changes on disk and blocks updates which results in an `Could not open 'somefile.pdf' for writing : Permission denied` error. One solution is to install a PDF reader that does refresh ([Evince](https://www.fosshub.com/Evince.html), [Okular](https://okular.kde.org/), [SumatraPDF](https://www.sumatrapdfreader.org/), ...) and set it as the default PDF reader. Another solution is to save the tree to a different [Graphviz Output Format](https://graphviz.org/docs/outputs/).
+
+## Author ##
+Bas Terwijn
+
+## Inspiration ##
+Inspired by [rcviz](https://github.com/carlsborg/rcviz).
+
+## Supported by ##
+<img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/uva.png" alt="University of Amsterdam" width="600">
