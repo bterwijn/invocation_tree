@@ -48,8 +48,6 @@ Each node in the tree represents a function call, and the node's color indicates
 
 For every function, the package displays its **local variables** and **return value**. Changes to these values over time are highlighted using bold text and gray shading to make them easy to track.
 
-The [invocation_tree](https://pypi.org/project/invocation-tree/) package visualizes function calls at **different moments in time**. If you want a more detailed visualization of your data at the current time, check out the [memory_graph](https://pypi.org/project/memory-graph/) package.
-
 ## Blocking ##
 The program blocks execution at every function call and return statement, printing the current location in the source code. Press the &lt;Enter&gt; key to continue execution. To block at every line of the program (like in a debugger tool) and only where a change of value occured, use instead:
 
@@ -157,6 +155,9 @@ For convenience we provide these functions to set common configurations:
 # Troubleshooting #
 
 - Adobe Acrobat Reader [doesn't refresh a PDF file](https://superuser.com/questions/337011/windows-pdf-viewer-that-auto-refreshes-pdf-when-compiling-with-pdflatex) when it changes on disk and blocks updates which results in an `Could not open 'somefile.pdf' for writing : Permission denied` error. One solution is to install a PDF reader that does refresh ([Evince](https://www.fosshub.com/Evince.html), [Okular](https://okular.kde.org/), [SumatraPDF](https://www.sumatrapdfreader.org/), ...) and set it as the default PDF reader. Another solution is to save the tree to a different [Graphviz Output Format](https://graphviz.org/docs/outputs/).
+
+## Memory_Graph Package ##
+The [invocation_tree](https://pypi.org/project/invocation-tree/) package visualizes function calls at different moments in time. If instead you want a detailed visualization of your data at the current time, check out the [memory_graph](https://pypi.org/project/memory-graph/) package.
 
 # Author #
 Bas Terwijn
