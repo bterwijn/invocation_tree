@@ -158,11 +158,11 @@ For convenience we provide these functions to set common configurations:
 
 - Adobe Acrobat Reader [doesn't refresh a PDF file](https://superuser.com/questions/337011/windows-pdf-viewer-that-auto-refreshes-pdf-when-compiling-with-pdflatex) when it changes on disk and blocks updates which results in an `Could not open 'somefile.pdf' for writing : Permission denied` error. One solution is to install a PDF reader that does refresh ([Evince](https://www.fosshub.com/Evince.html), [Okular](https://okular.kde.org/), [SumatraPDF](https://www.sumatrapdfreader.org/), ...) and set it as the default PDF reader. Another solution is to save the tree to a different [Graphviz Output Format](https://graphviz.org/docs/outputs/).
 
-## Author ##
+# Author #
 Bas Terwijn
 
-## Inspiration ##
+# Inspiration #
 Inspired by [rcviz](https://github.com/carlsborg/rcviz).
 
-## Supported by ##
+# Supported by #
 <img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/uva.png" alt="University of Amsterdam" width="600">
