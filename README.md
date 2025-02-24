@@ -79,7 +79,7 @@ def factorial(n):
     return n * factorial(n - 1)
 
 tree = invo_tree.blocking()
-tree(factorial, 4) # show invocation tree of calling factorial(4)
+print( tree(factorial, 4) ) # show invocation tree of calling factorial(4)
 ```
 ![factorial](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/factorial.gif)
 
@@ -102,7 +102,7 @@ print(result) # all permutations of going Left and Right of length 2
 ```
 ![permutations](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations.gif)
 
-## Hide variables ##
+## Hide Variables ##
 In an educational context it can be useful to hide certian variables to avoid unnecessary complexity. This can for example be done with:
 
 ```python
