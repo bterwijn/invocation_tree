@@ -261,13 +261,13 @@ class Invocation_Tree:
                 self.output_graph(frame, event)
         return self.trace_calls
 
-def blocking():
-    return Invocation_Tree()
+def blocking(filename='tree.pdf'):
+    return Invocation_Tree(filename=filename)
 
-def blocking_each_line():
-    return Invocation_Tree(each_line=True)
+def blocking_each_line(filename='tree.pdf'):
+    return Invocation_Tree(filename=filename, each_line=True)
 
-def debugger():
+def debugger(filename='tree.pdf'):
     return Invocation_Tree(show=False, block=False, each_line=True)
 
 def gif(filename='tree.png'):

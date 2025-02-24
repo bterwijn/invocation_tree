@@ -150,7 +150,7 @@ For convenience we provide these functions to set common configurations:
 
 - **invo_tree.blocking()**, for blocking on function call and return
 - **invo_tree.blocking_each_line()**, for blocking on each line of the program
-- **invo_tree.debugger()**, for use in debugger tool (open 'tree.pdf') manually
+- **invo_tree.debugger()**, for use in debugger tool (open 'tree.pdf' manually)
 - **invo_tree.gif(filename)**, for generating many output files on function call and return for gif creation
 - **invo_tree.gif_each_line(filename)**, for generating many output files on each line for gif creation
 
