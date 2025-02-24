@@ -40,7 +40,7 @@ if __name__ == '__main__':
 ```
 ![invocation tree](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/students.gif)
 
-Each node in the tree represents a function call, and node's color indicates its state:
+Each node in the tree represents a function call, and the node's color indicates its state:
 
  - White: The function is currently being executed (it is at the top of the call stack).
  - Green: The function is paused and will resume execution later (it is lower down on the call stack).
@@ -48,10 +48,10 @@ Each node in the tree represents a function call, and node's color indicates its
 
 For every function, the package displays its **local variables** and **return value**. Changes to these values over time are highlighted using bold text and gray shading to make them easy to track.
 
-The [invocation_tree](https://pypi.org/project/invocation-tree/) package visualizes function calls at different moments in time. If you want a more detailed visualization of your data at the current time, check out the [memory_graph](https://pypi.org/project/memory-graph/) package.
+The [invocation_tree](https://pypi.org/project/invocation-tree/) package visualizes function calls at **different moments in time**. If you want a more detailed visualization of your data at the current time, check out the [memory_graph](https://pypi.org/project/memory-graph/) package.
 
 ## Blocking ##
-The program blocks execution at every function call and return statement, printing the current location in the source code. Press the &lt;Enter&gt; key to continue execution. To block at every line of the program (like in a debugger tool) where a change of value occured, use instead:
+The program blocks execution at every function call and return statement, printing the current location in the source code. Press the &lt;Enter&gt; key to continue execution. To block at every line of the program (like in a debugger tool) and only where a change of value occured, use instead:
 
 ```python
     tree = invo_tree.blocking_each_line()
