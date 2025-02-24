@@ -29,9 +29,9 @@ def my_round(value, digits=0):
     shift = 10 ** digits
     return math.floor(value * shift + 0.5) / shift
 
-def passing_students(avg):
+def passing_students(averages):
     return [student 
-        for student, average in avg.items() 
+        for student, average in averages.items() 
         if average >= 5.5]
 
 if __name__ == '__main__':
