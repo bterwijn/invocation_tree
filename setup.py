@@ -11,7 +11,7 @@ long_description_from_readme = (this_directory / "README.md").read_text()
 
 setup(
     name = 'invocation_tree',
-    version = '0.0.5',
+    version = '0.0.6',
     description = 'Generate an invocation tree of functions calls.',
     long_description = long_description_from_readme,
     long_description_content_type = 'text/markdown',
