@@ -157,7 +157,7 @@ tree = invo_tree.blocking()
 tree.to_string[types.GeneratorType] = lambda gen: 'generator' # short name
 print('sum:', tree(main))
 ```
-![generators](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/generator.gif)
+![generators](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/generators.gif)
 Resulting in the output:
 
 ```
