@@ -12,9 +12,9 @@ def main():
 
 def compute_average(grades):
     average = sum(grades)/len(grades)
-    return my_round(average, 1)
+    return half_up_round(average, 1)
     
-def my_round(value, digits=0):
+def half_up_round(value, digits=0):
     """ High-precision half-up rounding of 'value' to a specified number of 'digits'. """
     return float(Decimal(str(value)).quantize(Decimal(f"1e-{digits}"),
                                               rounding=ROUND_HALF_UP))
