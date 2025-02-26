@@ -111,7 +111,7 @@ tree.hide.add('permutations.element')
 tree.hide.add('permutations.all_perms')
 ```
 # Generators #
-An invocation tree is also helpful to see how the order in which a pipeline of Iterables and generators gets evaluated.
+An invocation tree is also helpful to see the order in which a pipeline of Iterables and generators gets evaluated.
 
 ```python
 import invocation_tree as invo_tree
