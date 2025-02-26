@@ -1,5 +1,5 @@
 import invocation_tree as invo_tree
-import math 
+from decimal import Decimal, ROUND_HALF_UP
 
 def main():
     students = {'Ann':[7.5, 8.0], 
@@ -15,8 +15,9 @@ def compute_average(grades):
     return my_round(average, 1)
     
 def my_round(value, digits=0):
-    shift = 10 ** digits
-    return math.floor(value * shift + 0.5) / shift
+    """ High-precision half-up rounding of 'value' to a specified number of 'digits'. """
+    return float(Decimal(str(value)).quantize(Decimal(f"1e-{digits}"),
+                                              rounding=ROUND_HALF_UP))
 
 def passing_students(avg):
     return [student 
