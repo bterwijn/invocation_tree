@@ -67,7 +67,7 @@ and open the 'tree.pdf' file manually.
 ![Visual Studio Code debugger](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/vscode.png)
 
 # Recursion #
-An invocation tree is particularly useful to better understand recursion. A simple `factorial()` example:
+An invocation tree is particularly helpful to better understand recursion. A simple `factorial()` example:
 
 ```python
 import invocation_tree as invo_tree
@@ -109,6 +109,61 @@ tree = invo_tree.blocking()
 tree.hide.add('permutations.elements')
 tree.hide.add('permutations.element')
 tree.hide.add('permutations.all_perms')
+```
+# Generators #
+An invocation tree is also helpful to see how the order in which a pipeline of Iterables and generators gets evaluated.
+
+```python
+import invocation_tree as invo_tree
+import types
+
+class Source:
+
+    def __init__(self, stop, start=0, step=1):
+        self.stop = stop
+        self.step = step
+        self.i = start
+
+    def __repr__(self):
+        return f'Source i:{self.i} step:{self.step} stop:{self.stop}'
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        prev = self.i
+        self.i += self.step
+        if prev < self.stop:
+            return prev
+        raise StopIteration()
+
+def double(pipeline):
+    for value in pipeline:
+        yield value*2
+
+def just_print(pipeline):
+    for value in pipeline:
+        print('just print:', value)
+        yield value
+
+def main():
+    pipeline = Source(start=1, stop=3) # Iterable, produces values: 1, 2
+    pipeline = double(pipeline)        # generator, doubles values
+    pipeline = (-i for i in pipeline)  # generator expression, makes negative
+    pipeline = just_print(pipeline)    # generator, just prints values
+    return sum(pipeline)               # sums the values
+
+tree = invo_tree.blocking()
+tree.to_string[types.GeneratorType] = lambda gen: 'generator' # short name
+print('sum:', tree(main))
+```
+![generators](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/generator.gif)
+Resulting in the output:
+
+```
+just print: -2
+just print: -4
+sum: -6
 ```
 
 # Configuration #
