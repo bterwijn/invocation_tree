@@ -7,7 +7,7 @@ import html
 import sys
 import difflib 
 
-__version__ = "0.0.7"
+__version__ = "0.0.8"
 __author__ = 'Bas Terwijn'
 
 def highlight_diff(str1, str2):
@@ -264,7 +264,7 @@ class Invocation_Tree:
 def blocking(filename='tree.pdf'):
     return Invocation_Tree(filename=filename)
 
-def blocking_each_line(filename='tree.pdf'):
+def blocking_each_change(filename='tree.pdf'):
     return Invocation_Tree(filename=filename, each_line=True)
 
 def debugger(filename='tree.pdf'):
@@ -273,5 +273,5 @@ def debugger(filename='tree.pdf'):
 def gif(filename='tree.png'):
     return Invocation_Tree(filename=filename, show=False, block=False, gifcount=0)
 
-def gif_each_line(filename='tree.png'):
+def gif_each_change(filename='tree.png'):
     return Invocation_Tree(filename=filename, show=False, block=False, gifcount=0, each_line=True)

@@ -10,7 +10,7 @@ The [invocation_tree](https://pypi.org/project/invocation-tree/) package is desi
 
 ```python
 import invocation_tree as invo_tree
-import math 
+from decimal import Decimal, ROUND_HALF_UP
 
 def main():
     students = {'Ann':[7.5, 8.0], 
@@ -53,7 +53,7 @@ For every function, the package displays its **local variables** and **return va
 The program blocks execution at every function call and return statement, printing the current location in the source code. Press the &lt;Enter&gt; key to continue execution. To block at every line of the program (like in a debugger tool) and only where a change of value occured, use instead:
 
 ```python
-    tree = invo_tree.blocking_each_line()
+    tree = invo_tree.blocking_each_change()
 ```
 
 # Debugger #
@@ -147,14 +147,13 @@ tree = invo_tree.Invocation_Tree()
 
 For convenience we provide these functions to set common configurations:
 
-- **invo_tree.blocking(filename)**, for blocking on function call and return
-- **invo_tree.blocking_each_line(filename)**, for blocking on each line of the program
+- **invo_tree.blocking(filename)**, blocks on function call and return
+- **invo_tree.blocking_each_change(filename)**, blocks on each change of value
 - **invo_tree.debugger(filename)**, for use in debugger tool (open &lt;filename&gt; manually)
-- **invo_tree.gif(filename)**, for generating many output files on function call and return for gif creation
-- **invo_tree.gif_each_line(filename)**, for generating many output files on each line for gif creation
+- **invo_tree.gif(filename)**, generates many output files on function call and return for gif creation
+- **invo_tree.gif_each_change(filename)**, generates many output files on each change of value for gif creation
 
 # Troubleshooting #
-
 - Adobe Acrobat Reader [doesn't refresh a PDF file](https://superuser.com/questions/337011/windows-pdf-viewer-that-auto-refreshes-pdf-when-compiling-with-pdflatex) when it changes on disk and blocks updates which results in an `Could not open 'somefile.pdf' for writing : Permission denied` error. One solution is to install a PDF reader that does refresh ([Evince](https://www.fosshub.com/Evince.html), [Okular](https://okular.kde.org/), [SumatraPDF](https://www.sumatrapdfreader.org/), ...) and set it as the default PDF reader. Another solution is to save the tree to a different [Graphviz Output Format](https://graphviz.org/docs/outputs/).
 
 ## Memory_Graph Package ##
