@@ -149,12 +149,12 @@ def just_print(pipeline):
 def main():
     pipeline = Source(start=1, stop=3) # Iterable, produces values: 1, 2
     pipeline = double(pipeline)        # generator, doubles values
-    pipeline = (-i for i in pipeline)  # generator expression, makes negative
+    pipeline = (-i for i in pipeline)  # generator expression, makes values negative
     pipeline = just_print(pipeline)    # generator, just prints values
     return sum(pipeline)               # sums the values
 
 tree = invo_tree.blocking()
-tree.to_string[types.GeneratorType] = lambda gen: 'generator' # short name
+tree.to_string[types.GeneratorType] = lambda gen: 'generator' # short name for generators
 print('sum:', tree(main))
 ```
 ![generators](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/generators.gif)
