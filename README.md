@@ -343,7 +343,11 @@ tree(main)
 ```
 [1, 2, 3]
 ```
-When `list(my_generator())` gets executed it uses the Iterator Protocol to get an iterator of `my_generator()`. It then repeatly calls `next()` on the iterator to read the sequence. Each `next()` call results in a call to the `my_generator()` function. When called `my_generator()` yields a value, and then pauses and saves its state, allowing it to continue from where it left off when called again. At the end of the sequence (in this case at the 4th call) `my_generator()` returns None and automatically raises a StopIteration exception. This signals the end of the sequence and makes `list()` return its result.
+In `main()`:
+- The 'list(my_generator())' call requests an iterator from the generator. 
+- It keep calling next() of on it to read the sequence resulting in `my_generator()` calls.
+- When called `my_generator()` yields a value, and then pauses and saves its state, allowing it to continue from where it left off when called again.
+- At the 4th call `my_generator()` returns None and automatically raises a StopIteration exception that signals the end and makes `list()` return its result.
 
 ## Generator Expressions ##
 Another way to create a generator is with a generator expression that looks like a list comprehension except that it uses the '(' and ')' parentheses. A generator expression reads from an iterable and produces a generator iterable:
