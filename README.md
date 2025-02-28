@@ -373,7 +373,7 @@ tree(main)
 ```
 ![generator_expression.gif](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/generator_expression.gif)
 
-<pre style="background-color: darkgray;">
+<pre style="background-color: gray;">
 [10, 20, 30]
 </pre>
 
