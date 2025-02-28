@@ -6,7 +6,43 @@ pip install --upgrade invocation_tree
 Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 
 # Invocation Tree #
-The [invocation_tree](https://pypi.org/project/invocation-tree/) package is designed to help with **program understanding and debugging** by visualizing the **tree of function invocations** that occur during program execution. Here’s an example of how it works:
+The [invocation_tree](https://pypi.org/project/invocation-tree/) package is designed to help with **program understanding and debugging** by visualizing the **tree of function invocations** that occur during program execution. Here’s a simple example of how it works, we start with `a = 12` and compute:
+
+```
+  (a - 7 + 2) * 6
+```
+
+```python
+import invocation_tree as invo_tree
+
+def main():
+    a = 12
+    a = expression(a)
+    return multiply(a, 6)
+    
+def expression(a):
+    a = subtract(a, 7)
+    return add(a, 2)
+    
+def subtract(a, b):
+    return a - b
+
+def add(a, b):
+    return a + b
+
+def multiply(a, b):
+    return a * b
+
+tree = invo_tree.blocking()
+print( tree(main) )
+```
+![compute](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/compute.gif)
+```
+42
+```
+
+## Students ##
+A more interesting example where we compute which students pass a course.
 
 ```python
 import invocation_tree as invo_tree
@@ -39,7 +75,7 @@ if __name__ == '__main__':
     tree = invo_tree.blocking()
     tree(main) # show invocation tree starting at main
 ```
-![invocation tree](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/students.gif)
+![students](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/students.gif)
 
 Each node in the tree represents a function call, and the node's color indicates its state:
 

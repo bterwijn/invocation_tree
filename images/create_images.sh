@@ -1,4 +1,9 @@
 
+rm -f compute*.png
+python compute.py
+rm -f compute0.png
+bash create_gif.sh compute
+
 rm -f students*.png
 python students.py
 rm -f students0.png
