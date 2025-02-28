@@ -296,14 +296,14 @@ def my_generator():
 def main():
     iterable = my_generator()
     print('sum:', sum(iterable)) # 6
-    print('sum:', sum(iterable)) # 0, a used iterable doesn't give any values
+    print('sum:', sum(iterable)) # 0, a used generator doesn't give any values
     iterable = my_generator()
     print('sum:', sum(iterable)) # 6
 
 main()
 ```
 
-A generator is lazy, meaning that it will only produce its values if you request them via the Iterator Protocol. That means that if you print the iterable produced by a generator it will just print '&lt;generator object ...&gt;'. To print its values you can for example use `list()` that uses the Iterator Protocol to request its values and converts them to a `list`.
+A generator is lazy, meaning that it will only produce its values if you request them via the Iterator Protocol. That means that if you print the iterable produced by a generator it will just print '&lt;generator object ...&gt;'. To print its values you can for example use `list()` that uses the Iterator Protocol to request its values and converts them to a `list`, but then you have used the generator so it no longer has values.
 
 ```python
 def my_generator():
@@ -312,13 +312,18 @@ def my_generator():
     yield 3
 
 def main():
-    print( my_generator() )
-    print( list(my_generator()) )
-
+    my_gen = my_generator()
+    print( my_gen )
+    print( list(my_gen) ) 
+    print( list(my_gen) ) # printing values uses up the generator
+    print( list(my_generator()) ) # new generator
+    
 main()
 ```
 ```
 <generator object my_generator at 0x7fd965cf0ca0>
+[1, 2, 3]
+[]
 [1, 2, 3]
 ```
 
@@ -345,12 +350,12 @@ tree(main)
 ```
 In `main()`:
 - The 'list(my_generator())' call requests an iterator from the generator. 
-- It keep calling next() of on it to read the sequence resulting in `my_generator()` calls.
+- It keep calling next() on it to read the sequence resulting in `my_generator()` calls.
 - When called `my_generator()` yields a value, and then pauses and saves its state, allowing it to continue from where it left off when called again.
-- At the 4th call `my_generator()` returns None and automatically raises a StopIteration exception that signals the end and makes `list()` return its result.
+- At the 4th call `my_generator()` returns None and automatically raises a StopIteration exception that signals the end of the sequence and makes `list()` return its result.
 
 ## Generator Expressions ##
-Another way to create a generator is with a generator expression that looks like a list comprehension except that it uses the '(' and ')' parentheses. A generator expression reads from an iterable and produces a generator iterable:
+Another way to create a generator is with a generator expression that looks like a list comprehension except that it uses the '(' and ')' parentheses instead of the '[' and ']' brackets. A generator expression reads from an iterable and produces a generator iterable:
 
 ```python
 import invocation_tree as invo_tree
@@ -366,11 +371,11 @@ tree.to_string[types.GeneratorType]  = lambda x: 'generator'      # short name f
 tree.to_string[type(iter(range(0)))] = lambda x: 'range_iterator' # short name for range_iterator
 tree(main)
 ```
-```
-[10, 20, 30]
-```
 ![generator_expression.gif](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/generator_expression.gif)
 
+<pre style="background-color: darkgray;">
+[10, 20, 30]
+</pre>
 
 
 # Generators #
