@@ -50,7 +50,7 @@ Each node in the tree represents a function call, and the node's color indicates
 For every function, the package displays its **local variables** and **return value**. Changes to these values over time are highlighted using bold text and gray shading to make them easy to track.
 
 ## Students ##
-A more interesting example where we compute which students pass a course.
+In this more interesting example we compute which students pass a course by using list and dictionary comprehensions.
 
 ```python
 import invocation_tree as invo_tree
