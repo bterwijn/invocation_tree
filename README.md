@@ -299,7 +299,7 @@ As you can see a lot happens in `main()` to complete the for-loop:
 
 
 ## Generators ##
-By using `yield` instead of `return` in a function, we can create a generator that produces a sequence of values as an iterable.
+By using `yield` instead of `return` in a function, we can create a [generator](https://docs.python.org/3/reference/expressions.html#yield-expressions) that produces a sequence of values as an iterable.
 
 ```python
 def my_generator():
@@ -390,7 +390,7 @@ In `main()`:
 - At the 4th call `my_generator()` returns None and automatically raises a StopIteration exception that signals the end of the sequence and makes `list()` return its result.
 
 ## Generator Expressions ##
-Another way to create a generator is with a generator expression that looks like a list comprehension except that it uses the '(' and ')' parentheses instead of the '[' and ']' brackets. A generator expression reads from an iterable and produces a generator iterable:
+Another way to create a generator is with a [generator expression](https://docs.python.org/3/reference/expressions.html#generator-expressions) that looks like a list comprehension except that it uses the '(' and ')' parentheses instead of the '[' and ']' brackets. A generator expression reads from an iterable and produces a generator iterable:
 
 ```python
 import invocation_tree as invo_tree
