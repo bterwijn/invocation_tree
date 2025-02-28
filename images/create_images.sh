@@ -14,8 +14,8 @@ python permutations.py
 rm -f permutations0.png
 bash create_gif.sh permutations
 
-rm -f generators*.png
-python generators.py
-rm -f generators0.png
-bash create_gif.sh generators
+rm -f generator_function*.png
+python generator_function.py
+rm -f generator_function0.png
+bash create_gif.sh generator_function
 

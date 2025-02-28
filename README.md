@@ -209,9 +209,12 @@ def my_generator():
     yield 2
     yield 3
 
-for i in my_generator():
-    print(i)
-print('sum:', sum(my_generator()))
+def main():
+    for i in my_generator():
+        print(i)
+    print('sum:', sum(my_generator()))
+
+main()
 ```
 ```
 1
@@ -228,11 +231,14 @@ def my_generator():
     yield 2
     yield 3
 
-iterable = my_generator()
-print('sum:', sum(iterable)) # 6
-print('sum:', sum(iterable)) # 0, a used iterable doesn't give any values
-iterable = my_generator()
-print('sum:', sum(iterable)) # 6
+def main():
+    iterable = my_generator()
+    print('sum:', sum(iterable)) # 6
+    print('sum:', sum(iterable)) # 0, a used iterable doesn't give any values
+    iterable = my_generator()
+    print('sum:', sum(iterable)) # 6
+
+main()
 ```
 
 A generator produces a lazy iterable. Lazy means that it will only produce its values if you request them via the Iterator Protocol. That means that if you print the iterable produced by a generator it will just print '&lt;generator object ...&gt;'. To print its values you can use the Iterator Protocol to request its values and convert them for example to a `list`.
@@ -243,22 +249,49 @@ def my_generator():
     yield 2
     yield 3
 
-print( my_generator() )
-print( list(my_generator()) )
+def main():
+    print( my_generator() )
+    print( list(my_generator()) )
+
+main()
 ```
 ```
 <generator object my_generator at 0x7fd965cf0ca0>
 [1, 2, 3]
 ```
 
+By using invocation_tree we can see how the generator's iterable is evaluated.
+
+```python
+import invocation_tree as invo_tree
+
+def my_generator():
+    yield 1
+    yield 2
+    yield 3
+
+def main():
+    result = sum(my_generator())
+    print('sum:', result)
+
+tree = invo_tree.blocking()
+tree(main)
+```
+![generator_function.gif](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/generator_function.gif)
+
+When `sum(my_generator())` gets executed it uses the Iterator Protocol to get an iterator of `my_generator()`. It then repeatly calls `next()` on the iterator to read the sequence. Each call results in a call to the `my_generator()` function. When called `my_generator()` yields a value, and then pauses and saves its state, allowing it to continue from where it left off when called again. At the end of the sequence (in this case at the 4th call) `my_generator()` returns None and automatically raises a StopIteration exception. This signals the end of the sequence and makes `sum()` return its result.
+
 ## Generator Expressions ##
 
 Another way to create a iterable is with a generator expression that looks like a list comprehension except it uses the '(' and ')' parentheses. A generator expression reads from an iterable and produces a new iterable:
 
 ```python
-iterable_in = range(1,4)
-iterable_out = (i*10 for i in iterable_in) # generator expression
-print(iterable_out)
+def main():
+    iterable_in = range(1,4)
+    iterable_out = (i*10 for i in iterable_in) # generator expression
+    print(iterable_out)
+
+main()
 ```
 ```
 10
