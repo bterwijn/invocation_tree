@@ -200,6 +200,67 @@ sum: 6
 
 </TD></TR></TABLE>
 
+We can define our own `My_Range` and `My_Iterator` class to see the Iterator Protocol in action.
+```python
+import invocation_tree as invo_tree
+
+class My_Iterator:
+
+    def __init__(self, my_range):
+        self.my_range = my_range
+        self.value = self.my_range.start
+
+    def __repr__(self):
+        return f'My_Iterator value:{self.value}'
+
+    def __next__(self):
+        print('My_Iterator.__next__')
+        prev = self.value
+        self.value += self.my_range.step
+        if prev < self.my_range.stop:
+            return prev
+        raise StopIteration
+
+class My_Range:
+
+    def __init__(self, start, stop, step=1):
+        self.start = start
+        self.stop = stop
+        self.step = step
+
+    def __repr__(self):
+        return f'My_Range start:{self.start} stop:{self.stop} step:{self.step}'
+        
+    def __iter__(self):
+        print('My_Range.__iter__')
+        return My_Iterator(self)
+
+def main():
+    my_range = My_Range(1, 4)
+    for i in my_range:
+        print(i)
+
+tree = invo_tree.blocking()
+tree(main)
+```
+```
+My_Range.__iter__
+My_Iterator.__next__
+1
+My_Iterator.__next__
+2
+My_Iterator.__next__
+3
+My_Iterator.__next__
+```
+![my_range.gif](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/my_range.gif)
+
+- A 'my_range' object is created using its `My_Range.__init__` method. 
+- The for-loop requests an iterator using 'iter(my_range)' resulting in a `My_Range.__iter__` method call.
+- The for-loop keeps calling 'next(iterator)' to get the sequence of values resulting in `My_Iterator.__next__` calls.
+- At the 4th call the sequence is ended with a `StopIteration` exception.
+
+
 ## Generators ##
 By using `yield` instead of `return` in a function, we can create a generator that produces a sequence of values as an iterable.
 
