@@ -84,6 +84,9 @@ if __name__ == '__main__':
     tree(main) # show invocation tree starting at main
 ```
 ![students](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/students.gif)
+```
+['Ann', 'Coy']
+```
 
 ## Blocking ##
 The program blocks execution at every function call and return statement, printing the current location in the source code. Press the &lt;Enter&gt; key to continue execution. To block at every line of the program (like in a debugger tool) and only where a change of value occured, use instead:
