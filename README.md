@@ -340,7 +340,9 @@ tree = invo_tree.blocking()
 tree(main)
 ```
 ![generator_function.gif](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/generator_function.gif)
-
+```
+[1, 2, 3]
+```
 When `list(my_generator())` gets executed it uses the Iterator Protocol to get an iterator of `my_generator()`. It then repeatly calls `next()` on the iterator to read the sequence. Each `next()` call results in a call to the `my_generator()` function. When called `my_generator()` yields a value, and then pauses and saves its state, allowing it to continue from where it left off when called again. At the end of the sequence (in this case at the 4th call) `my_generator()` returns None and automatically raises a StopIteration exception. This signals the end of the sequence and makes `list()` return its result.
 
 ## Generator Expressions ##
