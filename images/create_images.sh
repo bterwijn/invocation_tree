@@ -33,3 +33,9 @@ rm -f generator_expression*.png
 python generator_expression.py
 rm -f generator_expression0.png
 bash create_gif.sh generator_expression
+
+rm -f generator_pipeline*.png
+python generator_pipeline.py
+rm -f generator_pipeline0.png
+bash create_gif.sh generator_pipeline
+

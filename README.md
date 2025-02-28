@@ -6,23 +6,23 @@ pip install --upgrade invocation_tree
 Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 
 # Invocation Tree #
-The [invocation_tree](https://pypi.org/project/invocation-tree/) package is designed to help with **program understanding and debugging** by visualizing the **tree of function invocations** that occur during program execution. Here’s a simple example of how it works, we start with `a = 12` and compute:
+The [invocation_tree](https://pypi.org/project/invocation-tree/) package is designed to help with **program understanding and debugging** by visualizing the **tree of function invocations** that occur during program execution. Here’s a simple example of how it works, we start with `a = 1` and compute:
 
 ```
-    (a - 7 + 2) * 6
+    (a - 3 + 9) * 6
 ```
 
 ```python
 import invocation_tree as invo_tree
 
 def main():
-    a = 12
+    a = 1
     a = expression(a)
     return multiply(a, 6)
     
 def expression(a):
-    a = subtract(a, 7)
-    return add(a, 2)
+    a = subtract(a, 3)
+    return add(a, 9)
     
 def subtract(a, b):
     return a - b
@@ -412,7 +412,37 @@ print( tree(main) )
 ```
 [10, 20, 30]
 ```
+## Generator Pipeline ##
+The key advantage of Python generators is their ability to create a **pipeline of computations**, where each generator handles a specific part of the process. Values are processed one at a time and flow through the pipeline lazily, meaning computations are performed only when needed. This eliminates the need to store the entire dataset in memory, such as in a list, making generators highly memory-efficient. Because the computation is split into modular steps, it’s easy to add, remove, or modify generators in the pipeline. This combination of flexibility, low memory usage, and on-demand processing makes generators ideal for handling large datasets or continuous data streams.
 
+```python
+import invocation_tree as invo_tree
+
+def subtract(pipeline):
+    for a in pipeline:
+        yield a - 3
+
+def multiply(pipeline):
+    for a in pipeline:
+        yield a * 6
+        
+def main():
+    pipeline = range(1,4)
+    pipeline = subtract(pipeline)
+    pipeline = (a + 9 for a in pipeline)
+    pipeline = multiply(pipeline)
+    return sum(pipeline)
+
+tree = invo_tree.gif('generator_pipeline.png')
+import types
+tree.to_string[types.GeneratorType]  = lambda x: 'generator'      # short name for generators
+tree.to_string[type(iter(range(0)))] = lambda x: 'range_iterator' # short name for range_iterator
+print( tree(main) )
+```
+![generator_pipeline.gif](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/generator_pipeline.gif)
+```
+144
+```
 # Configuration #
 These configuration settings are available for an `Invocation_Tree` objects:
 

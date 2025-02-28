@@ -1,13 +1,13 @@
 import invocation_tree as invo_tree
 
 def main():
-    a = 12
+    a = 1
     a = expression(a)
     return multiply(a, 6)
     
 def expression(a):
-    a = subtract(a, 7)
-    return add(a, 2)
+    a = subtract(a, 3)
+    return add(a, 9)
     
 def subtract(a, b):
     return a - b
