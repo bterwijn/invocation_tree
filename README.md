@@ -243,6 +243,8 @@ def main():
 tree = invo_tree.blocking()
 tree(main)
 ```
+![my_range.gif](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/my_range.gif)
+
 ```
 My_Range.__iter__
 My_Iterator.__next__
@@ -253,8 +255,7 @@ My_Iterator.__next__
 3
 My_Iterator.__next__
 ```
-![my_range.gif](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/my_range.gif)
-
+As you can see a lot happens in `main()` to complete the for-loop:
 - A 'my_range' object is created using its `My_Range.__init__` method. 
 - The for-loop requests an iterator using 'iter(my_range)' resulting in a `My_Range.__iter__` method call.
 - The for-loop keeps calling 'next(iterator)' to get the sequence of values resulting in `My_Iterator.__next__` calls.
