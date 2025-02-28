@@ -19,3 +19,8 @@ python generator_function.py
 rm -f generator_function0.png
 bash create_gif.sh generator_function
 
+rm -f generator_expression*.png
+python generator_expression.py
+rm -f generator_expression0.png
+bash create_gif.sh generator_expression
+

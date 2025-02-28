@@ -201,7 +201,7 @@ sum: 6
 </TD></TR></TABLE>
 
 ## Generators ##
-By using `yield` instead of `return` in a function, we can create a generator that produces a sequence of values. Calling a generator produces an iterable:
+By using `yield` instead of `return` in a function, we can create a generator that produces a sequence of values as an iterable.
 
 ```python
 def my_generator():
@@ -223,7 +223,7 @@ main()
 sum: 6
 ```
 
-The iterable produced by the generator can only be used once. Call the generator again if you need a new iterable:
+The generator iterable can only be used once. Call the generator again if you need a new iterable:
 
 ```python
 def my_generator():
@@ -241,7 +241,7 @@ def main():
 main()
 ```
 
-A generator produces a lazy iterable. Lazy means that it will only produce its values if you request them via the Iterator Protocol. That means that if you print the iterable produced by a generator it will just print '&lt;generator object ...&gt;'. To print its values you can use the Iterator Protocol to request its values and convert them for example to a `list`.
+A generator is lazy, meaning that it will only produce its values if you request them via the Iterator Protocol. That means that if you print the iterable produced by a generator it will just print '&lt;generator object ...&gt;'. To print its values you can for example use `list()` that uses the Iterator Protocol to request its values and converts them to a `list`.
 
 ```python
 def my_generator():
@@ -260,7 +260,7 @@ main()
 [1, 2, 3]
 ```
 
-By using invocation_tree we can see how the generator's iterable is evaluated.
+By using invocation_tree we can see how a the Iterator Protocol works on the generator.
 
 ```python
 import invocation_tree as invo_tree
@@ -271,33 +271,41 @@ def my_generator():
     yield 3
 
 def main():
-    result = sum(my_generator())
-    print('sum:', result)
+    result = list(my_generator())
+    print('result:', result)
 
 tree = invo_tree.blocking()
 tree(main)
 ```
 ![generator_function.gif](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/generator_function.gif)
 
-When `sum(my_generator())` gets executed it uses the Iterator Protocol to get an iterator of `my_generator()`. It then repeatly calls `next()` on the iterator to read the sequence. Each call results in a call to the `my_generator()` function. When called `my_generator()` yields a value, and then pauses and saves its state, allowing it to continue from where it left off when called again. At the end of the sequence (in this case at the 4th call) `my_generator()` returns None and automatically raises a StopIteration exception. This signals the end of the sequence and makes `sum()` return its result.
+When `list(my_generator())` gets executed it uses the Iterator Protocol to get an iterator of `my_generator()`. It then repeatly calls `next()` on the iterator to read the sequence. Each `next()` call results in a call to the `my_generator()` function. When called `my_generator()` yields a value, and then pauses and saves its state, allowing it to continue from where it left off when called again. At the end of the sequence (in this case at the 4th call) `my_generator()` returns None and automatically raises a StopIteration exception. This signals the end of the sequence and makes `list()` return its result.
 
 ## Generator Expressions ##
 
-Another way to create a iterable is with a generator expression that looks like a list comprehension except it uses the '(' and ')' parentheses. A generator expression reads from an iterable and produces a new iterable:
+Another way to create a generator is with a generator expression that looks like a list comprehension except htat it uses the '(' and ')' parentheses. A generator expression reads from an iterable and produces a generator iterable:
 
 ```python
+import invocation_tree as invo_tree
+
 def main():
     iterable_in = range(1,4)
-    iterable_out = (i*10 for i in iterable_in) # generator expression
-    print(iterable_out)
+    my_generator = (i*10 for i in iterable_in) # generator expression
+    result = list(my_generator)
+    print('result:', result)
 
-main()
+tree = invo_tree.gif('generator_expression.png')
+import types
+tree.to_string[type(iter(range(0)))] = lambda x: 'range_iterator' # short name for range_iterator
+tree.to_string[types.GeneratorType]  = lambda x: 'generator'      # short name for generators
+tree(main)
 ```
 ```
-10
-20
-30
+[10, 20, 30]
 ```
+![generator_expression.gif](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/generator_expression.gif)
+
+
 
 # Generators #
 An invocation tree is also helpful to see how a generator expression is evaluated.

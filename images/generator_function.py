@@ -7,8 +7,8 @@ def my_generator():
     yield 3
 
 def main():
-    result = sum(my_generator())
-    print('sum:', result)
+    result = list(my_generator())
+    print('result:', result)
 
 tree = invo_tree.gif('generator_function.png')
 tree(main)
