@@ -110,8 +110,193 @@ tree.hide.add('permutations.elements')
 tree.hide.add('permutations.element')
 tree.hide.add('permutations.all_perms')
 ```
+
+# Lazy Evalution
+To understand lazy evaluation and generators we first have to understand the Iterator protocol.
+
+## Iterator Protocol ##
+The [Iterator Protocol](https://docs.python.org/3/library/stdtypes.html#iterator-types) is implemented by many different types:
+
+  `range`, `list`, `set`, `dict`, ...
+
+which make these type iterable, meaning we can iterate over a sequence of values. It works by:
+
+- first calling iter(iterable) to get an iterator
+- then repeatedly calling next(iterator) to get each value
+- the sequence ends when a StopIteration exceptions is raised
+
+An example for iterable `range` and `list` in the Python interpreter looks like: 
+
+<TABLE><TR><TD>
+
+```
+$ python
+>>> iterator = iter(range(1,4))
+>>> next(iterator)
+1
+>>> next(iterator)
+2
+>>> next(iterator)
+3
+>>> next(iterator)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+StopIteration
+```
+
+</TD><TD>
+
+```
+$ python
+>>> iterator = iter([1,2,3])
+>>> next(iterator)
+1
+>>> next(iterator)
+2
+>>> next(iterator)
+3
+>>> next(iterator)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+StopIteration
+```
+
+</TD></TR></TABLE>
+
+It is the Iterator Protocol that allows a for-loop to read a sequence of values from an iterable:
+
+```python
+iterable = range(1,4)
+for value in iterable:
+    print(value)
+```
+```
+1
+2
+3
+```
+
+and the same holds for many functions like `list()`, `sum()`,  `max()`, `min()`, ...
+
+<TABLE><TR><TD>
+
+```python
+iterable = range(1,4)
+print('list:', list(iterable))
+```
+```
+list: [1, 2, 3]
+```
+
+</TD><TD>
+
+```python
+iterable = range(1,4)
+print('sum:', sum(iterable))
+```
+```
+sum: 6
+```
+
+</TD></TR></TABLE>
+
+## Generators ##
+By using `yield` instead of `return` in a function, we can create a generator that produces a sequence of values. Calling a generator produces an iterable:
+
+```python
+def my_generator():
+    yield 1
+    yield 2
+    yield 3
+
+for i in my_generator():
+    print(i)
+print('sum:', sum(my_generator()))
+```
+```
+1
+2
+3
+sum: 6
+```
+
+The iterable produced by the generator can only be used once. Call the generator again if you need a new iterable:
+
+```python
+def my_generator():
+    yield 1
+    yield 2
+    yield 3
+
+iterable = my_generator()
+print('sum:', sum(iterable)) # 6
+print('sum:', sum(iterable)) # 0, a used iterable doesn't give any values
+iterable = my_generator()
+print('sum:', sum(iterable)) # 6
+```
+
+A generator produces a lazy iterable. Lazy means that it will only produce its values if you request them via the Iterator Protocol. That means that if you print the iterable produced by a generator it will just print '&lt;generator object ...&gt;'. To print its values you can use the Iterator Protocol to request its values and convert them for example to a `list`.
+
+```python
+def my_generator():
+    yield 1
+    yield 2
+    yield 3
+
+print( my_generator() )
+print( list(my_generator()) )
+```
+```
+<generator object my_generator at 0x7fd965cf0ca0>
+[1, 2, 3]
+```
+
+## Generator Expressions ##
+
+Another way to create a iterable is with a generator expression that looks like a list comprehension except it uses the '(' and ')' parentheses. A generator expression reads from an iterable and produces a new iterable:
+
+```python
+iterable_in = range(1,4)
+iterable_out = (i*10 for i in iterable_in) # generator expression
+print(iterable_out)
+```
+```
+10
+20
+30
+```
+
 # Generators #
-An invocation tree is also helpful to see the order in which a pipeline of Iterables and generators gets evaluated.
+An invocation tree is also helpful to see how a generator expression is evaluated.
+
+```python
+import invocation_tree as invo_tree
+import types
+
+def main():
+    start = 1
+    stop = 4
+    genexp = (i**2 for i in range(start, stop))
+    return sum(genexp)
+
+tree = invo_tree.blocking()
+tree.to_string[type(iter(range(0)))] = lambda ri: 'range_iterator' # short name for range_iterator
+tree.to_string[types.GeneratorType] = lambda gen: 'generator'      # short name for generators
+print('sum:', tree(main))
+```
+![genexp](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/genexp.gif)
+
+A generator expression reads from an Iterable, and returns  in this case a range, .
+When called a generator expressions returns a value, it then pauses and saves its state, allowing it to continue from where it left off when called again. At the end of the sequence (in this case at the 4th call) the generator_function() returns None and automatically raises a StopIteration exception. This signals the end of the sequence and stops the for-loop in main(), resulting in output:
+
+A generator is called 
+The resulting output is:
+```
+sum: 6
+```
+
+the order in which a pipeline of Iterables and generators gets evaluated.
+
 
 ```python
 import invocation_tree as invo_tree

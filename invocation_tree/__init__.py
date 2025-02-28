@@ -14,7 +14,6 @@ def highlight_diff(str1, str2):
     matcher = difflib.SequenceMatcher(None, str1, str2)
     result = []
     is_highlighted = False
-    
     for tag, i1, i2, j1, j2 in matcher.get_opcodes():
         if tag == 'replace':
             result.append(f'<B>{str2[j1:j2]}&#8203;</B>&#8203;')
@@ -73,7 +72,9 @@ class Invocation_Tree:
                  color_active = '#ffffff', 
                  color_returned = '#ffcccc', 
                  to_string=None, 
-                 hide=None):
+                 hide=None,
+                 cleanup=True,
+                 quiet=True):
         # --- config
         self.filename = filename
         self.prev_filename = None
@@ -93,6 +94,8 @@ class Invocation_Tree:
         self.hide = set()
         if not hide is None:
             self.hide = hide
+        self.cleanup = cleanup
+        self.quiet = quiet
         # --- core
         self.stack = []
         self.returned = []
@@ -125,7 +128,7 @@ class Invocation_Tree:
             else:
                 val_str = repr(value) if use_repr else str(value)
         except Exception as e:
-            return '<I>not-string-convertable</I>'
+            val_str = '<not-string-convertable>'
         if len(val_str) > self.max_string_len:
             val_str = '...'+val_str[-self.max_string_len:]
         return html.escape(val_str)
@@ -225,7 +228,7 @@ class Invocation_Tree:
         
     def render_graph(self, graph):
         view = (self.filename!=self.prev_filename) and self.show
-        graph.render(outfile=self.get_output_filename(), view=view, cleanup=True, quiet=True)
+        graph.render(outfile=self.get_output_filename(), view=view, cleanup=self.cleanup, quiet=self.quiet)
         self.prev_filename = self.filename
 
     def output_graph(self, frame, event):
