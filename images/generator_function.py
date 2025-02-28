@@ -1,4 +1,3 @@
-
 import invocation_tree as invo_tree
 
 def my_generator():
@@ -7,8 +6,7 @@ def my_generator():
     yield 3
 
 def main():
-    result = list(my_generator())
-    print('result:', result)
+    return list(my_generator())
 
 tree = invo_tree.gif('generator_function.png')
-tree(main)
+print( tree(main) )

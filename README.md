@@ -338,11 +338,10 @@ def my_generator():
     yield 3
 
 def main():
-    result = list(my_generator())
-    print('result:', result)
+    return list(my_generator())
 
 tree = invo_tree.blocking()
-tree(main)
+print( tree(main) )
 ```
 ![generator_function.gif](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/generator_function.gif)
 ```
@@ -362,105 +361,17 @@ import invocation_tree as invo_tree
 
 def main():
     my_generator = (i*10 for i in range(1,4)) # generator expression
-    result = list(my_generator)
-    print('result:', result)
+    return list(my_generator)
 
 tree = invo_tree.blocking()
 import types
 tree.to_string[types.GeneratorType]  = lambda x: 'generator'      # short name for generators
 tree.to_string[type(iter(range(0)))] = lambda x: 'range_iterator' # short name for range_iterator
-tree(main)
+print( tree(main) )
 ```
 ![generator_expression.gif](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/generator_expression.gif)
-
-<pre style="background-color: gray;">
+```
 [10, 20, 30]
-</pre>
-
-
-# Generators #
-An invocation tree is also helpful to see how a generator expression is evaluated.
-
-```python
-import invocation_tree as invo_tree
-import types
-
-def main():
-    start = 1
-    stop = 4
-    genexp = (i**2 for i in range(start, stop))
-    return sum(genexp)
-
-tree = invo_tree.blocking()
-tree.to_string[type(iter(range(0)))] = lambda ri: 'range_iterator' # short name for range_iterator
-tree.to_string[types.GeneratorType] = lambda gen: 'generator'      # short name for generators
-print('sum:', tree(main))
-```
-![genexp](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/genexp.gif)
-
-A generator expression reads from an Iterable, and returns  in this case a range, .
-When called a generator expressions returns a value, it then pauses and saves its state, allowing it to continue from where it left off when called again. At the end of the sequence (in this case at the 4th call) the generator_function() returns None and automatically raises a StopIteration exception. This signals the end of the sequence and stops the for-loop in main(), resulting in output:
-
-A generator is called 
-The resulting output is:
-```
-sum: 6
-```
-
-the order in which a pipeline of Iterables and generators gets evaluated.
-
-
-```python
-import invocation_tree as invo_tree
-import types
-
-class Source:
-
-    def __init__(self, stop, start=0, step=1):
-        self.stop = stop
-        self.step = step
-        self.i = start
-
-    def __repr__(self):
-        return f'Source i:{self.i} step:{self.step} stop:{self.stop}'
-
-    def __iter__(self):
-        return self
-
-    def __next__(self):
-        prev = self.i
-        self.i += self.step
-        if prev < self.stop:
-            return prev
-        raise StopIteration()
-
-def double(pipeline):
-    for value in pipeline:
-        yield value*2
-
-def just_print(pipeline):
-    for value in pipeline:
-        print('just print:', value)
-        yield value
-
-def main():
-    pipeline = Source(start=1, stop=3) # Iterable, produces values: 1, 2
-    pipeline = double(pipeline)        # generator, doubles values
-    pipeline = (-i for i in pipeline)  # generator expression, makes values negative
-    pipeline = just_print(pipeline)    # generator, just prints values
-    return sum(pipeline)               # sums the values
-
-tree = invo_tree.blocking()
-tree.to_string[types.GeneratorType] = lambda gen: 'generator' # short name for generators
-print('sum:', tree(main))
-```
-![generators](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/generators.gif)
-Resulting in the output:
-
-```
-just print: -2
-just print: -4
-sum: -6
 ```
 
 # Configuration #
