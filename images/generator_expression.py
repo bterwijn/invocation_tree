@@ -2,8 +2,7 @@ import invocation_tree as invo_tree
 import types
 
 def main():
-    iterable_in = range(1,4)
-    my_generator = (i*10 for i in iterable_in) # generator expression
+    my_generator = (i*10 for i in range(1,4)) # generator expression
     result = list(my_generator)
     print('result:', result)
 

@@ -111,21 +111,21 @@ tree.hide.add('permutations.element')
 tree.hide.add('permutations.all_perms')
 ```
 
-# Lazy Evalution
-To understand lazy evaluation and generators we first have to understand the Iterator protocol.
+# Lazy Evalution of a Generator Pipeline
+An invocation tree is helpful to understand how a pipeline of generators is lazily evaluated. But to understand generators and lazy evaluation we first have to understand the Iterator Protocol.
 
 ## Iterator Protocol ##
 The [Iterator Protocol](https://docs.python.org/3/library/stdtypes.html#iterator-types) is implemented by many different types:
 
   `range`, `list`, `set`, `dict`, ...
 
-which make these type iterable, meaning we can iterate over a sequence of values. It works by:
+which make these type iterable, meaning we can iterate over values of these types to get a sequence of values. It works by:
 
 - first calling iter(iterable) to get an iterator
 - then repeatedly calling next(iterator) to get each value
 - the sequence ends when a StopIteration exceptions is raised
 
-An example for iterable `range` and `list` in the Python interpreter looks like: 
+An example of iterable `range` and `list` in the Python interpreter looks like: 
 
 <TABLE><TR><TD>
 
@@ -282,22 +282,20 @@ tree(main)
 When `list(my_generator())` gets executed it uses the Iterator Protocol to get an iterator of `my_generator()`. It then repeatly calls `next()` on the iterator to read the sequence. Each `next()` call results in a call to the `my_generator()` function. When called `my_generator()` yields a value, and then pauses and saves its state, allowing it to continue from where it left off when called again. At the end of the sequence (in this case at the 4th call) `my_generator()` returns None and automatically raises a StopIteration exception. This signals the end of the sequence and makes `list()` return its result.
 
 ## Generator Expressions ##
-
-Another way to create a generator is with a generator expression that looks like a list comprehension except htat it uses the '(' and ')' parentheses. A generator expression reads from an iterable and produces a generator iterable:
+Another way to create a generator is with a generator expression that looks like a list comprehension except that it uses the '(' and ')' parentheses. A generator expression reads from an iterable and produces a generator iterable:
 
 ```python
 import invocation_tree as invo_tree
 
 def main():
-    iterable_in = range(1,4)
-    my_generator = (i*10 for i in iterable_in) # generator expression
+    my_generator = (i*10 for i in range(1,4)) # generator expression
     result = list(my_generator)
     print('result:', result)
 
-tree = invo_tree.gif('generator_expression.png')
+tree = invo_tree.blocking()
 import types
-tree.to_string[type(iter(range(0)))] = lambda x: 'range_iterator' # short name for range_iterator
 tree.to_string[types.GeneratorType]  = lambda x: 'generator'      # short name for generators
+tree.to_string[type(iter(range(0)))] = lambda x: 'range_iterator' # short name for range_iterator
 tree(main)
 ```
 ```
