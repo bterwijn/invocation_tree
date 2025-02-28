@@ -9,7 +9,7 @@ Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 The [invocation_tree](https://pypi.org/project/invocation-tree/) package is designed to help with **program understanding and debugging** by visualizing the **tree of function invocations** that occur during program execution. Here’s a simple example of how it works, we start with `a = 12` and compute:
 
 ```
-  (a - 7 + 2) * 6
+    (a - 7 + 2) * 6
 ```
 
 ```python
@@ -36,10 +36,18 @@ def multiply(a, b):
 tree = invo_tree.blocking()
 print( tree(main) )
 ```
+Running the program and pressing &lt;Enter&gt; a number of times results in:
 ![compute](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/compute.gif)
 ```
 42
 ```
+Each node in the tree represents a function call, and the node's color indicates its state:
+
+ - White: The function is currently being executed (it is at the top of the call stack).
+ - Green: The function is paused and will resume execution later (it is lower down on the call stack).
+ - Red: The function has completed execution and returned (it has been removed from the call stack).
+
+For every function, the package displays its **local variables** and **return value**. Changes to these values over time are highlighted using bold text and gray shading to make them easy to track.
 
 ## Students ##
 A more interesting example where we compute which students pass a course.
@@ -76,14 +84,6 @@ if __name__ == '__main__':
     tree(main) # show invocation tree starting at main
 ```
 ![students](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/students.gif)
-
-Each node in the tree represents a function call, and the node's color indicates its state:
-
- - White: The function is currently being executed (it is at the top of the call stack).
- - Green: The function is paused and will resume execution later (it is lower down on the call stack).
- - Red: The function has completed execution and returned (it has been removed from the call stack).
-
-For every function, the package displays its **local variables** and **return value**. Changes to these values over time are highlighted using bold text and gray shading to make them easy to track.
 
 ## Blocking ##
 The program blocks execution at every function call and return statement, printing the current location in the source code. Press the &lt;Enter&gt; key to continue execution. To block at every line of the program (like in a debugger tool) and only where a change of value occured, use instead:
