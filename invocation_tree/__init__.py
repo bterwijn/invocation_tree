@@ -271,10 +271,13 @@ def blocking_each_change(filename='tree.pdf'):
     return Invocation_Tree(filename=filename, each_line=True)
 
 def debugger(filename='tree.pdf'):
-    return Invocation_Tree(show=False, block=False, each_line=True)
+    return Invocation_Tree(filename=filename, show=False, block=False, each_line=True)
 
 def gif(filename='tree.png'):
     return Invocation_Tree(filename=filename, show=False, block=False, gifcount=0)
 
 def gif_each_change(filename='tree.png'):
     return Invocation_Tree(filename=filename, show=False, block=False, gifcount=0, each_line=True)
+
+def non_blocking(filename='tree.pdf'):
+    return Invocation_Tree(filename=filename, block=False)

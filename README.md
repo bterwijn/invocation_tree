@@ -458,7 +458,7 @@ def main():
     pipeline = multiply(pipeline)
     return sum(pipeline)
 
-tree = invo_tree.gif('generator_pipeline.png')
+tree = invo_tree.blocking()
 import types
 tree.to_string[types.GeneratorType]  = lambda x: 'generator'      # short name for generators
 tree.to_string[type(iter(range(0)))] = lambda x: 'range_iterator' # short name for range_iterator
@@ -468,6 +468,7 @@ print( tree(main) )
 ```
 144
 ```
+Note that the generators are lazy but the `sum()` function is not, and that is what is pulling the values through the pipeline one at the time.
 
 ## Itertools ##
 The pythonic (or idiomatic) way of programming in Python is not to use raw for-loops but to use iterables, generators and [itertools](https://docs.python.org/3/library/itertools.html) functions instead. See for a short introduction:
@@ -500,11 +501,11 @@ tree = invo_tree.Invocation_Tree()
 - **tree.indent** : string
   - the string used for identing the local variables
 - **tree.color_active** : string
-  - HTML color name for active function 
+  - HTML color for active function 
 - **tree.color_paused*** : string
-  - HTML color name for paused functions
+  - HTML color for paused functions
 - **tree.color_returned***: string
-  - HTML color name for returned functions
+  - HTML color for returned functions
 - **tree.hide** : set()
   - set of all variables names that are not shown in the tree
 - **tree.to_string** : dict[str, fun]
@@ -514,9 +515,10 @@ For convenience we provide these functions to set common configurations:
 
 - **invo_tree.blocking(filename)**, blocks on function call and return
 - **invo_tree.blocking_each_change(filename)**, blocks on each change of value
-- **invo_tree.debugger(filename)**, for use in debugger tool (open &lt;filename&gt; manually)
+- **invo_tree.debugger(filename)**, non-blocking for use in debugger tool (open &lt;filename&gt; manually)
 - **invo_tree.gif(filename)**, generates many output files on function call and return for gif creation
 - **invo_tree.gif_each_change(filename)**, generates many output files on each change of value for gif creation
+- **invo_tree.non_blocking(filename)**, non blocking on each function call and return
 
 # Troubleshooting #
 - Adobe Acrobat Reader [doesn't refresh a PDF file](https://superuser.com/questions/337011/windows-pdf-viewer-that-auto-refreshes-pdf-when-compiling-with-pdflatex) when it changes on disk and blocks updates which results in an `Could not open 'somefile.pdf' for writing : Permission denied` error. One solution is to install a PDF reader that does refresh ([Evince](https://www.fosshub.com/Evince.html), [Okular](https://okular.kde.org/), [SumatraPDF](https://www.sumatrapdfreader.org/), ...) and set it as the default PDF reader. Another solution is to save the tree to a different [Graphviz Output Format](https://graphviz.org/docs/outputs/).
