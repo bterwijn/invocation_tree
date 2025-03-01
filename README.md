@@ -49,7 +49,33 @@ Each node in the tree represents a function call, and the node's color indicates
 
 For every function, the package displays its **local variables** and **return value**. Changes to these values over time are highlighted using bold text and gray shading to make them easy to track.
 
-## Students ##
+# Chapters #
+
+[Comprehensions](#Comprehensions)
+
+[Debugger](#Debugger)
+
+[Recursion](#Recursion)
+
+[Lazy Evalution](#Lazy-Evalution)
+
+[Configuration](#Configuration)
+
+[Troubleshooting](#Troubleshooting)
+
+# Author #
+Bas Terwijn
+
+# Inspiration #
+Inspired by [rcviz](https://github.com/carlsborg/rcviz).
+
+# Supported by #
+<img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/uva.png" alt="University of Amsterdam" width="600">
+
+___
+___
+
+# Comprehensions #
 In this more interesting example we compute which students pass a course by using list and dictionary comprehensions.
 
 ```python
@@ -150,7 +176,7 @@ tree.hide.add('permutations.element')
 tree.hide.add('permutations.all_perms')
 ```
 
-# Lazy Evalution of a Generator Pipeline
+# Lazy Evalution
 An invocation tree is helpful to understand how a pipeline of generators is lazily evaluated. But to understand generators and lazy evaluation we first have to understand the Iterator Protocol.
 
 ## Iterator Protocol ##
@@ -498,12 +524,3 @@ For convenience we provide these functions to set common configurations:
 
 ## Memory_Graph Package ##
 The [invocation_tree](https://pypi.org/project/invocation-tree/) package visualizes function calls at different moments in time. If instead you want a detailed visualization of your data at the current time, check out the [memory_graph](https://pypi.org/project/memory-graph/) package.
-
-# Author #
-Bas Terwijn
-
-# Inspiration #
-Inspired by [rcviz](https://github.com/carlsborg/rcviz).
-
-# Supported by #
-<img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/uva.png" alt="University of Amsterdam" width="600">
