@@ -17,6 +17,6 @@ def main():
 
 tree = invo_tree.gif('generator_pipeline.png')
 import types
-tree.to_string[types.GeneratorType]  = lambda x: 'generator'      # short name for generators
-tree.to_string[type(iter(range(0)))] = lambda x: 'range_iterator' # short name for range_iterator
+tree.to_string[types.GeneratorType]  = lambda x: 'generator' # short name for generators
+tree.to_string[type(iter(range(0)))] = lambda x: 'iterator'  # short name for iterator
 print( tree(main) )

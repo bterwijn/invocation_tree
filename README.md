@@ -435,8 +435,8 @@ def main():
 
 tree = invo_tree.blocking()
 import types
-tree.to_string[types.GeneratorType]  = lambda x: 'generator'      # short name for generators
-tree.to_string[type(iter(range(0)))] = lambda x: 'range_iterator' # short name for range_iterator
+tree.to_string[types.GeneratorType]  = lambda x: 'generator' # short name for generators
+tree.to_string[type(iter(range(0)))] = lambda x: 'iterator'  # short name for iterator
 print( tree(main) )
 ```
 ![generator_expression.gif](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/generator_expression.gif)
@@ -466,8 +466,8 @@ def main():
 
 tree = invo_tree.blocking()
 import types
-tree.to_string[types.GeneratorType]  = lambda x: 'generator'      # short name for generators
-tree.to_string[type(iter(range(0)))] = lambda x: 'range_iterator' # short name for range_iterator
+tree.to_string[types.GeneratorType]  = lambda x: 'generator' # short name for generators
+tree.to_string[type(iter(range(0)))] = lambda x: 'iterator'  # short name for iterator
 print( tree(main) )
 ```
 ![generator_pipeline.gif](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/generator_pipeline.gif)
