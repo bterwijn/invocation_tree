@@ -326,8 +326,7 @@ As you can see a lot happens in `main()` to complete the for-loop:
 - The for-loop keeps calling 'next(iterator)' to get the sequence of values resulting in `My_Iterator.__next__` calls.
 - At the 4th call the sequence is ended with a `StopIteration` exception.
 
-
-## Generators ##
+## Generator Functions ##
 By using `yield` instead of `return` in a function, we can create a [generator](https://docs.python.org/3/reference/expressions.html#yield-expressions) that produces a sequence of values as an iterable.
 
 ```python
@@ -350,7 +349,7 @@ main()
 sum: 6
 ```
 
-The generator iterable can only be used once. Call the generator again if you need a new iterable:
+The generator iterable can only be used once. Call the generator again when you need a new iterable:
 
 ```python
 def my_generator():
@@ -361,7 +360,7 @@ def my_generator():
 def main():
     iterable = my_generator()
     print('sum:', sum(iterable)) # 6
-    print('sum:', sum(iterable)) # 0, a used generator doesn't give any values
+    print('sum:', sum(iterable)) # 0, a used up generator doesn't give any values
     iterable = my_generator()
     print('sum:', sum(iterable)) # 6
 
@@ -379,8 +378,8 @@ def my_generator():
 def main():
     my_gen = my_generator()
     print( my_gen )
-    print( list(my_gen) ) 
-    print( list(my_gen) ) # printing values uses up the generator
+    print( list(my_gen) ) # printing uses up the generator
+    print( list(my_gen) ) # no more values available
     print( list(my_generator()) ) # new generator
     
 main()
@@ -471,14 +470,14 @@ print( tree(main) )
 ```
 
 ## Itertools ##
-The pythonic (or idiomatic) way of programming in Python is not to use raw for-loops but to use iterables, generators and [itertools](https://docs.python.org/3/library/itertools.html) functions. See for a short introduction:
+The pythonic (or idiomatic) way of programming in Python is not to use raw for-loops but to use iterables, generators and [itertools](https://docs.python.org/3/library/itertools.html) functions instead. See for a short introduction:
 
 [![Idiomatic Python: The `itertools` Module](https://img.youtube.com/vi/guEDsBshGfI/maxresdefault.jpg)](https://www.youtube.com/watch?v=guEDsBshGfI)
 
-Whenever you write a for-loop, finish it and make it work correctly, but afterwards see of if you can rewrite it with generators and [itertools](https://docs.python.org/3/library/itertools.html) functions. Then in time you will find you can think in terms of iterables and itertools from the start. This can make your code shorter, easier to change, use less memory, faster, more expressive, and generally more correct.
+Whenever you write a for-loop, finish it and make it work correctly, but afterwards see of if you can rewrite it with generators and itertools functions. Then in time you will find you can think in terms of generators and itertools from the start. This can make your code shorter, more expressive, easier to change, use less memory, faster, and generally more correct.
 
 # Configuration #
-These configuration settings are available for an `Invocation_Tree` objects:
+These invocation_tree configurations are available for an `Invocation_Tree` objects:
 
 ```python
 tree = invo_tree.Invocation_Tree()
