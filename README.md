@@ -443,6 +443,14 @@ print( tree(main) )
 ```
 144
 ```
+
+## Itertools ##
+The pythonic (or idiomatic) way of programming in Python is not to write raw for-loops but to use generators and [itertools](https://docs.python.org/3/library/itertools.html) functions. See for a short introduction:
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/guEDsBshGfI?si=P0dMedWHGTT2gLNO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+Whenever you write a for-loop, finish it and make it work correctly, but afterwards see of if you can rewrite it with generators and [itertools](https://docs.python.org/3/library/itertools.html) functions. Then in time you will find you can think in terms of generators and itertools from the start. This could make your code shorter, easier to change, use less memory, faster, more expressive, and generally more correct.
+
 # Configuration #
 These configuration settings are available for an `Invocation_Tree` objects:
 
