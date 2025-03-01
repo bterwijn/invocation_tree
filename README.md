@@ -34,7 +34,7 @@ def multiply(a, b):
     return a * b
 
 tree = invo_tree.blocking()
-print( tree(main) )
+print( tree(main) ) # show invocation tree starting at main
 ```
 Running the program and pressing &lt;Enter&gt; a number of times results in:
 ![compute](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/compute.gif)
@@ -107,7 +107,7 @@ def passing_students(averages):
 
 if __name__ == '__main__':
     tree = invo_tree.blocking()
-    tree(main) # show invocation tree starting at main
+    tree(main)
 ```
 ![students](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/students.gif)
 ```
