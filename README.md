@@ -146,6 +146,9 @@ tree = invo_tree.blocking()
 print( tree(factorial, 4) ) # show invocation tree of calling factorial(4)
 ```
 ![factorial](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/factorial.gif)
+```
+24
+```
 
 This `permutations()` example shows the depth-first nature of recursive execution:
 
@@ -165,6 +168,9 @@ result = tree(permutations, ['L','R'], '', 2)
 print(result) # all permutations of going Left or Right of length 2
 ```
 ![permutations](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations.gif)
+```
+['LL', 'LR', 'RL', 'RR']
+```
 
 ## Hide Variables ##
 In an educational context it can be useful to hide certian variables to avoid unnecessary complexity. This can for example be done with:
