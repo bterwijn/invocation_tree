@@ -480,7 +480,7 @@ print( tree(main) )
 ```
 144
 ```
-Note that the generators are lazy but the `my_sum()` or `sum()` function are not, and that is what is pulling the values through the pipeline one at the time.
+Note that the generators are lazy but the `my_sum()` or `sum()` function are not, and that is what is pulling the values through the pipeline one at the time. It can be instructive to see that, if we change the generator expression to a list comprehension simply by changing '(...)' to '[...]', that then the pipeline is cut in two parts, which is undesirable.
 
 ## Itertools ##
 The pythonic (or idiomatic) way of programming in Python is not to use raw for-loops but to use iterables, generators and [itertools](https://docs.python.org/3/library/itertools.html) functions instead. See for a short introduction:
