@@ -487,7 +487,7 @@ The pythonic (or idiomatic) way of programming in Python is not to use raw for-l
 
 [![Idiomatic Python: The `itertools` Module](https://img.youtube.com/vi/guEDsBshGfI/maxresdefault.jpg)](https://www.youtube.com/watch?v=guEDsBshGfI)
 
-Whenever you write a for-loop, finish it and make it work correctly, but afterwards see of if you can rewrite it with generators and itertools functions. Then in time you will find you can think in terms of generators and itertools from the start. This can make your code shorter, more expressive, easier to change, use less memory, faster, and generally more correct.
+Whenever you write a for-loop, finish it and make it work correctly, but afterwards see if you can rewrite it with generators and itertools functions. Then in time you will find you can think in terms of generators and itertools from the start. This can make your code shorter, more expressive, easier to change, use less memory, faster, and generally more correct.
 
 # Configuration #
 These invocation_tree configurations are available for an `Invocation_Tree` objects:
