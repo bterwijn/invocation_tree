@@ -367,7 +367,7 @@ def main():
 main()
 ```
 
-A generator is lazy, meaning that it will only produce its values if you request them via the Iterator Protocol. That means that if you print the iterable produced by a generator it will just print '&lt;generator object ...&gt;'. To print its values you can for example use `list()` that uses the Iterator Protocol to request its values and converts them to a `list`, but then you have used the generator so it no longer has values.
+A generator is lazy, meaning that it will only produce its values if you request them via the Iterator Protocol. That means that if you print the generator it will just print '&lt;generator object ...&gt;'. To print its values you can for example use `list()` that uses the Iterator Protocol to request its values and converts them to a `list` that can be printed. But then you have used the generator so it no longer has values.
 
 ```python
 def my_generator():
@@ -381,7 +381,7 @@ def main():
     print( list(my_gen) ) # printing uses up the generator
     print( list(my_gen) ) # no more values available
     print( list(my_generator()) ) # new generator
-    
+
 main()
 ```
 ```
@@ -391,7 +391,7 @@ main()
 [1, 2, 3]
 ```
 
-By using invocation_tree we can see how a the Iterator Protocol works on the generator.
+By using invocation_tree we can see how the Iterator Protocol works on the generator.
 
 ```python
 import invocation_tree as invo_tree
