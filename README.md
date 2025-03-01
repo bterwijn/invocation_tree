@@ -162,7 +162,7 @@ def permutations(elements, perm, n):
 
 tree = invo_tree.blocking()
 result = tree(permutations, ['L','R'], '', 2)
-print(result) # all permutations of going Left and Right of length 2
+print(result) # all permutations of going Left or Right of length 2
 ```
 ![permutations](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations.gif)
 
@@ -518,7 +518,7 @@ For convenience we provide these functions to set common configurations:
 - **invo_tree.debugger(filename)**, non-blocking for use in debugger tool (open &lt;filename&gt; manually)
 - **invo_tree.gif(filename)**, generates many output files on function call and return for gif creation
 - **invo_tree.gif_each_change(filename)**, generates many output files on each change of value for gif creation
-- **invo_tree.non_blocking(filename)**, non blocking on each function call and return
+- **invo_tree.non_blocking(filename)**, non-blocking on each function call and return
 
 # Troubleshooting #
 - Adobe Acrobat Reader [doesn't refresh a PDF file](https://superuser.com/questions/337011/windows-pdf-viewer-that-auto-refreshes-pdf-when-compiling-with-pdflatex) when it changes on disk and blocks updates which results in an `Could not open 'somefile.pdf' for writing : Permission denied` error. One solution is to install a PDF reader that does refresh ([Evince](https://www.fosshub.com/Evince.html), [Okular](https://okular.kde.org/), [SumatraPDF](https://www.sumatrapdfreader.org/), ...) and set it as the default PDF reader. Another solution is to save the tree to a different [Graphviz Output Format](https://graphviz.org/docs/outputs/).
