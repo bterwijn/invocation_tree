@@ -483,7 +483,7 @@ print( tree(main) )
 Note that the generators are lazy but the `my_sum()` or `sum()` function is not, and that is what is pulling the values through the pipeline one at the time. It can be instructive to see that, if we change the generator expression to a non-lazy list comprehension simply by changing '(...)' to '[...]', that then the pipeline is cut in two parts, which is undesirable.
 
 ## Eager Evalution ##
-Compare this with eager evaluation.
+Compare this to eager evaluation of the same computation.
 ```python
 import invocation_tree as invo_tree
 
@@ -513,6 +513,7 @@ tree.to_string[type(iter(range(0)))] = lambda x: 'iterator'  # short name for it
 print( tree(main) )
 ```
 ![eager_pipeline.gif](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/eager_pipeline.gif)
+
 All the values are now processed and going to the next step together in a list. This can cause memory problems if the amount of values is very large (when reading from a large file, or continues data stream) and it takes much longer before the first values reach the endpoint. Instead, with lazy evaluation the endpoint can just start reading values one at the time without any memory problems, making lazy evalution more flexible. 
 
 ## Itertools ##
