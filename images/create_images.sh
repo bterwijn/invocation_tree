@@ -39,3 +39,8 @@ python generator_pipeline.py
 rm -f generator_pipeline0.png
 bash create_gif.sh generator_pipeline
 
+rm -f eager_pipeline*.png
+python eager_pipeline.py
+rm -f eager_pipeline0.png
+bash create_gif.sh eager_pipeline
+
