@@ -436,7 +436,7 @@ def main():
 tree = invo_tree.blocking()
 import types
 tree.to_string[types.GeneratorType]  = lambda x: 'generator' # short name for generators
-tree.to_string[type(iter(range(0)))] = lambda x: 'iterator'  # short name for iterator
+tree.to_string[type(iter(range(0)))] = lambda x: 'iterator'  # short name for iterators
 print( tree(main) )
 ```
 ![generator_expression.gif](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/generator_expression.gif)
@@ -444,7 +444,7 @@ print( tree(main) )
 [10, 20, 30]
 ```
 ## Generator Pipeline ##
-The key advantage of Python generators is their ability to create a **pipeline of computations**, where each generator handles a specific part of the process. Values are processed one at a time and flow through the pipeline lazily, meaning computations are performed only when needed. This eliminates the need to store the entire dataset in memory, such as in a list, making generators memory-efficient. Because the computation is split into modular steps, it’s easy to add, remove, or modify generators in the pipeline. This combination of flexibility, low memory usage, and on-demand processing makes generators ideal for handling large datasets or continuous data streams.
+The key advantage of Python generators is their ability to create a **pipeline of computations**, where each generator handles a specific part of the process. Values are processed one at a time and flow through the pipeline lazily, meaning computations are performed only when needed. Here we show an example with an arbitrary mix of generators and generator expressions.
 
 ```python
 import invocation_tree as invo_tree
@@ -466,21 +466,21 @@ def my_sum(pipeline):
 def main():
     pipeline = range(1,4)
     pipeline = subtract(pipeline)
-    pipeline = (a + 9 for a in pipeline)
+    pipeline = (a + 9 for a in pipeline) 
     pipeline = multiply(pipeline)
     return my_sum(pipeline)
 
 tree = invo_tree.blocking()
 import types
 tree.to_string[types.GeneratorType]  = lambda x: 'generator' # short name for generators
-tree.to_string[type(iter(range(0)))] = lambda x: 'iterator'  # short name for iterator
+tree.to_string[type(iter(range(0)))] = lambda x: 'iterator'  # short name for iterators
 print( tree(main) )
 ```
 ![generator_pipeline.gif](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/generator_pipeline.gif)
 ```
 144
 ```
-Note that the generators are lazy but the `my_sum()` or `sum()` function is not, and that is what is pulling the values through the pipeline one at the time. It can be instructive to see that, if we change the generator expression to a non-lazy list comprehension simply by changing '(...)' to '[...]', that then the pipeline is cut in two parts, which is undesirable.
+Note that the generators are lazy but the `my_sum()` (or `sum()`) function is not, and that is what is pulling the values through the pipeline one at the time.
 
 ## Eager Evalution ##
 Compare this to a non-lazy or **eager** evaluation of the same computation.
@@ -507,14 +507,11 @@ def main():
     return my_sum(pipeline)
 
 tree = invo_tree.blocking()
-import types
-tree.to_string[types.GeneratorType]  = lambda x: 'generator' # short name for generators
-tree.to_string[type(iter(range(0)))] = lambda x: 'iterator'  # short name for iterator
 print( tree(main) )
 ```
 ![eager_pipeline.gif](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/eager_pipeline.gif)
 
-All the values are now processed and going to the next step together in a list. This can cause memory problems if the amount of values is very large (when reading from a large data set or continues data stream) and it takes much longer before the first values reach the endpoint. Instead, with lazy evaluation the endpoint can quickly start reading values one at the time without any memory problems, making lazy evalution more flexible.
+All the values are now processed and going to the next step together in a list. This can cause memory problems if the amount of values is very large (when reading from a large data set or continues data stream) and it can takes much longer before the first value reaches `my_sum()`. Instead, with lazy evaluation `my_sum()` can quickly start reading values one at the time without any memory problems.
 
 ## Itertools ##
 The pythonic (or idiomatic) way of programming in Python is not to use raw for-loops but to use iterables, generators and [itertools](https://docs.python.org/3/library/itertools.html) functions instead. See for a short introduction:
