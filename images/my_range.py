@@ -3,6 +3,7 @@ import invocation_tree as invo_tree
 class My_Iterator:
 
     def __init__(self, my_range):
+        print('My_Iterator.__init__')
         self.my_range = my_range
         self.value = self.my_range.start
 
@@ -20,6 +21,7 @@ class My_Iterator:
 class My_Range:
 
     def __init__(self, start, stop, step=1):
+        print('My_Range.__init__')
         self.start = start
         self.stop = stop
         self.step = step

@@ -271,13 +271,14 @@ sum: 6
 
 </TD></TR></TABLE>
 
-We can define our own `My_Range` and `My_Iterator` class to see the Iterator Protocol in action.
+We can define our own `My_Iterator` and `My_Range` class to see the Iterator Protocol in action.
 ```python
 import invocation_tree as invo_tree
 
 class My_Iterator:
 
     def __init__(self, my_range):
+        print('My_Iterator.__init__')
         self.my_range = my_range
         self.value = self.my_range.start
 
@@ -295,6 +296,7 @@ class My_Iterator:
 class My_Range:
 
     def __init__(self, start, stop, step=1):
+        print('My_Range.__init__')
         self.start = start
         self.stop = stop
         self.step = step
@@ -317,7 +319,9 @@ tree(main)
 ![my_range.gif](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/my_range.gif)
 
 ```
+My_Range.__init__
 My_Range.__iter__
+My_Iterator.__init__
 My_Iterator.__next__
 1
 My_Iterator.__next__
@@ -328,7 +332,7 @@ My_Iterator.__next__
 ```
 As you can see a lot happens in `main()` to complete the for-loop:
 - A 'my_range' object is created using its `My_Range.__init__` method. 
-- The for-loop requests an iterator using 'iter(my_range)' resulting in a `My_Range.__iter__` method call.
+- The for-loop requests an iterator using 'iter(my_range)' resulting in a `My_Range.__iter__` and `My_Iterator.__init__` method call.
 - The for-loop keeps calling 'next(iterator)' to get the sequence of values resulting in `My_Iterator.__next__` calls.
 - At the 4th call the sequence is ended with a `StopIteration` exception.
 
