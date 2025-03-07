@@ -57,8 +57,6 @@ For every function, the package displays its **local variables** and **return va
 
 [Recursion](#Recursion)
 
-[Lazy Evalution](#Lazy-Evalution)
-
 [Configuration](#Configuration)
 
 [Troubleshooting](#Troubleshooting)
