@@ -1,4 +1,4 @@
-import invocation_tree as invo_tree
+import invocation_tree as ivt
 from decimal import Decimal, ROUND_HALF_UP
 
 def main():
@@ -25,4 +25,4 @@ def passing_students(avg):
             if average >= 5.5]
 
 if __name__ == '__main__':
-    invo_tree.gif(filename="students.png")(main)
+    ivt.gif(filename="students.png")(main)

@@ -1,4 +1,4 @@
-import invocation_tree as invo_tree
+import invocation_tree as ivt
 
 def permutations(elements, perm, n):
     if n==0:
@@ -8,6 +8,6 @@ def permutations(elements, perm, n):
         all_perms.extend(permutations(elements, perm + element, n-1))
     return all_perms
 
-tree = invo_tree.gif('permutations.png')
+tree = ivt.gif('permutations.png')
 result = tree(permutations, ['L','R'], '', 2)
 print(result)

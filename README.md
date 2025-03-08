@@ -13,7 +13,7 @@ The [invocation_tree](https://pypi.org/project/invocation-tree/) package is desi
 ```
 
 ```python
-import invocation_tree as invo_tree
+import invocation_tree as ivt
 
 def main():
     a = 1
@@ -33,7 +33,7 @@ def add(a, b):
 def multiply(a, b):
     return a * b
 
-tree = invo_tree.blocking()
+tree = ivt.blocking()
 print( tree(main) ) # show invocation tree starting at main
 ```
 Running the program and pressing &lt;Enter&gt; a number of times results in:
@@ -77,7 +77,7 @@ ___
 In this more interesting example we compute which students pass a course by using list and dictionary comprehensions.
 
 ```python
-import invocation_tree as invo_tree
+import invocation_tree as ivt
 from decimal import Decimal, ROUND_HALF_UP
 
 def main():
@@ -104,7 +104,7 @@ def passing_students(averages):
         if average >= 5.5]
 
 if __name__ == '__main__':
-    tree = invo_tree.blocking()
+    tree = ivt.blocking()
     tree(main)
 ```
 ![students](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/students.gif)
@@ -116,14 +116,14 @@ if __name__ == '__main__':
 The program blocks execution at every function call and return statement, printing the current location in the source code. Press the &lt;Enter&gt; key to continue execution. To block at every line of the program (like in a debugger tool) and only where a change of value occured, use instead:
 
 ```python
-    tree = invo_tree.blocking_each_change()
+    tree = ivt.blocking_each_change()
 ```
 
 # Debugger #
 To visualize the invocation tree in a debugger tool, such as the integrated debugger in Visual Studio Code, use instead:
 
 ```python
-    tree = invo_tree.debugger()
+    tree = ivt.debugger()
 ```
 
 and open the 'tree.pdf' file manually.
@@ -133,14 +133,14 @@ and open the 'tree.pdf' file manually.
 An invocation tree is particularly helpful to better understand recursion. A simple `factorial()` example:
 
 ```python
-import invocation_tree as invo_tree
+import invocation_tree as ivt
 
 def factorial(n):
     if n <= 1:
         return 1
     return n * factorial(n - 1)
 
-tree = invo_tree.blocking()
+tree = ivt.blocking()
 print( tree(factorial, 4) ) # show invocation tree of calling factorial(4)
 ```
 ![factorial](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/factorial.gif)
@@ -151,7 +151,7 @@ print( tree(factorial, 4) ) # show invocation tree of calling factorial(4)
 This `permutations()` example shows the depth-first nature of recursive execution:
 
 ```python
-import invocation_tree as invo_tree
+import invocation_tree as ivt
 
 def permutations(elements, perm, n):
     if n==0:
@@ -161,7 +161,7 @@ def permutations(elements, perm, n):
         all_perms.extend(permutations(elements, perm + element, n-1))
     return all_perms
 
-tree = invo_tree.blocking()
+tree = ivt.blocking()
 result = tree(permutations, ['L','R'], '', 2)
 print(result) # all permutations of going Left or Right of length 2
 ```
@@ -174,7 +174,7 @@ print(result) # all permutations of going Left or Right of length 2
 In an educational context it can be useful to hide certian variables to avoid unnecessary complexity. This can for example be done with:
 
 ```python
-tree = invo_tree.blocking()
+tree = ivt.blocking()
 tree.hide.add('permutations.elements')
 tree.hide.add('permutations.element')
 tree.hide.add('permutations.all_perms')
@@ -184,7 +184,7 @@ tree.hide.add('permutations.all_perms')
 These invocation_tree configurations are available for an `Invocation_Tree` objects:
 
 ```python
-tree = invo_tree.Invocation_Tree()
+tree = ivt.Invocation_Tree()
 ```
 
 - **tree.filename** : str  
@@ -216,12 +216,12 @@ tree = invo_tree.Invocation_Tree()
 
 For convenience we provide these functions to set common configurations:
 
-- **invo_tree.blocking(filename)**, blocks on function call and return
-- **invo_tree.blocking_each_change(filename)**, blocks on each change of value
-- **invo_tree.debugger(filename)**, non-blocking for use in debugger tool (open &lt;filename&gt; manually)
-- **invo_tree.gif(filename)**, generates many output files on function call and return for gif creation
-- **invo_tree.gif_each_change(filename)**, generates many output files on each change of value for gif creation
-- **invo_tree.non_blocking(filename)**, non-blocking on each function call and return
+- **ivt.blocking(filename)**, blocks on function call and return
+- **ivt.blocking_each_change(filename)**, blocks on each change of value
+- **ivt.debugger(filename)**, non-blocking for use in debugger tool (open &lt;filename&gt; manually)
+- **ivt.gif(filename)**, generates many output files on function call and return for gif creation
+- **ivt.gif_each_change(filename)**, generates many output files on each change of value for gif creation
+- **ivt.non_blocking(filename)**, non-blocking on each function call and return
 
 # Troubleshooting #
 - Adobe Acrobat Reader [doesn't refresh a PDF file](https://superuser.com/questions/337011/windows-pdf-viewer-that-auto-refreshes-pdf-when-compiling-with-pdflatex) when it changes on disk and blocks updates which results in an `Could not open 'somefile.pdf' for writing : Permission denied` error. One solution is to install a PDF reader that does refresh ([Evince](https://www.fosshub.com/Evince.html), [Okular](https://okular.kde.org/), [SumatraPDF](https://www.sumatrapdfreader.org/), ...) and set it as the default PDF reader. Another solution is to save the tree to a different [Graphviz Output Format](https://graphviz.org/docs/outputs/).

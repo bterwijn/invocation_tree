@@ -1,4 +1,4 @@
-import invocation_tree as invo_tree
+import invocation_tree as ivt
 
 def main():
     a = 1
@@ -18,5 +18,5 @@ def add(a, b):
 def multiply(a, b):
     return a * b
 
-tree = invo_tree.gif('compute.png')
+tree = ivt.gif('compute.png')
 print( tree(main) )
