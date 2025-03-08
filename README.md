@@ -149,6 +149,7 @@ print( tree(factorial, 4) ) # show invocation tree of calling factorial(4)
 24
 ```
 
+## Permutations ##
 This `permutations()` example shows the depth-first nature of recursive execution:
 
 ```python
