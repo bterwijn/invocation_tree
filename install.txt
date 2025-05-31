@@ -2,10 +2,7 @@
 
 
 # ===== pip install
-pip install setuptools
-pip install wheel
-pip install twine
-
+pip install --upgrade build twine setuptools wheel
 
 # ===== (un)install current module
 pip uninstall invocation_tree
@@ -14,14 +11,12 @@ pip install --upgrade .
 
 
 # ===== prepare packages for upload
-# - increase version number in: setup.py invocation_tree/__init__.py 
+# - increase version number in: pyproject.toml  invocation_tree/__init__.py 
 # - update images:
 cd images; bash create_images.sh; cd ..
 # - git commit -am "version X.X.X" && git push
-rm -f ./dist/*
-python setup.py check
-python setup.py sdist
-python setup.py bdist_wheel --universal
+
+rm -rf ./dist/ ./build/ ./*.egg-info && python -m build -n -s -w
 
 
 # ===== upload packages to pypi for 'pip install' purposes
