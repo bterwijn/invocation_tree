@@ -26,8 +26,8 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/bterwijn/invocation-tree"
-Repository = "https://github.com/bterwijn/invocation-tree.git"
+Homepage = "https://github.com/bterwijn/invocation_tree"
+Repository = "https://github.com/bterwijn/invocation_tree.git"
 
 [tool.setuptools]
 packages = ["invocation_tree"]
