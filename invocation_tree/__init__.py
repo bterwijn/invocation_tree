@@ -60,7 +60,8 @@ class Tree_Node:
 class Invocation_Tree:
 
     def __init__(self, 
-                 filename='tree.pdf', 
+                 filename='tree.pdf',
+                 render=True,
                  show=True, 
                  block=True, 
                  src_loc=True, 
@@ -78,6 +79,7 @@ class Invocation_Tree:
         # --- config
         self.filename = filename
         self.prev_filename = None
+        self.render = render
         self.show = show
         self.block = block
         self.src_loc = src_loc
@@ -104,6 +106,7 @@ class Invocation_Tree:
         self.node_id_to_table = {}
         self.edges = []
         self.is_highlighted = False
+        self.graph = None
         self.ignore_calls = {'Invocation_Tree.__exit__', 'Invocation_Tree.stop_trace'}
 
     def __repr__(self):
@@ -234,9 +237,10 @@ class Invocation_Tree:
     def output_graph(self, frame, event):
         if self.block or self.gifcount >= 0:
             self.is_highlighted = False
-            graph = self.create_graph()
+            self.graph = self.create_graph()
             if self.is_highlighted:
-                self.render_graph(graph)
+                if self.render:
+                    self.render_graph(self.graph)
                 if self.block:
                     if self.src_loc:
                         filename = frame.f_code.co_filename
@@ -244,8 +248,12 @@ class Invocation_Tree:
                         print(f'{event.capitalize()} at {filename}:{line_nr}', end='. ')
                     input('Press <Enter> to continue...')
         else:
-            graph = self.create_graph()
-            self.render_graph(graph)
+            self.graph = self.create_graph()
+            if self.render:
+                self.render_graph(self.graph)
+
+    def get_graph(self):
+        return self.graph
 
     def trace_calls(self, frame, event, arg):
         class_fun_name = get_class_function_name(frame)
@@ -272,6 +280,9 @@ def blocking_each_change(filename='tree.pdf'):
 
 def debugger(filename='tree.pdf'):
     return Invocation_Tree(filename=filename, show=False, block=False, each_line=True)
+
+def debugger_no_render(filename='tree.pdf'):
+    return Invocation_Tree(filename=filename, render=False, show=False, block=False, each_line=True)
 
 def gif(filename='tree.png'):
     return Invocation_Tree(filename=filename, show=False, block=False, gifcount=0)
