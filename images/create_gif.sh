@@ -5,7 +5,7 @@
 #   sudo apt install imagemagick
 
 name="$1"
-files=$(ls -v $name*.png)
+files=$(ls -v $name*.png | tr '\n' ' ')
 echo "creating gif with:"
 echo "$files"
 
@@ -16,4 +16,10 @@ echo "resizing images"
 mogrify -resize $largest_size -background white -gravity North -extent $largest_size $files
 echo "creating file: $name.gif"
 convert -delay 150 -dither None -loop 0 $files $name.gif
+
+if [ "$2" = "-d" ]; then
+    echo "deleting: $files"
+    rm $files
+fi
+
 echo "done"
