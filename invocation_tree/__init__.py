@@ -7,7 +7,7 @@ import html
 import sys
 import difflib 
 
-__version__ = "0.0.16"
+__version__ = "0.0.17"
 __author__ = 'Bas Terwijn'
 
 def highlight_diff(str1, str2):
@@ -115,9 +115,12 @@ class Invocation_Tree:
     def __call__(self, fun, *args, **kwargs):
         try:
             sys.settrace(self.trace_calls)
+            print('calling fun()')
             result = fun(*args, **kwargs)
+            print('fun() ended')
         finally:
             sys.settrace(None)
+            print('fun() finally')
         return result
 
     def value_to_string(self, key, value, use_repr=False):
@@ -256,6 +259,7 @@ class Invocation_Tree:
         return self.graph
 
     def trace_calls(self, frame, event, arg):
+        print('trace_calls file:',  frame.f_code.co_filename, 'line:', frame.f_lineno)
         class_fun_name = get_class_function_name(frame)
         if not class_fun_name in self.ignore_calls:
             if event == 'call':
