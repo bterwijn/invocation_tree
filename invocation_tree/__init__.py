@@ -107,6 +107,7 @@ class Invocation_Tree:
         self.edges = []
         self.is_highlighted = False
         self.graph = None
+        self.prev_global_tracer = None
         self.ignore_calls = {'Invocation_Tree.__exit__', 'Invocation_Tree.stop_trace'}
 
     def __repr__(self):
@@ -114,13 +115,11 @@ class Invocation_Tree:
 
     def __call__(self, fun, *args, **kwargs):
         try:
-            sys.settrace(self.trace_calls)
-            print('calling fun()')
+            self.prev_global_tracer = sys.gettrace()
+            sys.settrace(self.global_tracer)
             result = fun(*args, **kwargs)
-            print('fun() ended')
         finally:
-            sys.settrace(None)
-            print('fun() finally')
+            sys.settrace(self.prev_global_tracer)
         return result
 
     def value_to_string(self, key, value, use_repr=False):
@@ -258,8 +257,7 @@ class Invocation_Tree:
     def get_graph(self):
         return self.graph
 
-    def trace_calls(self, frame, event, arg):
-        print('trace_calls file:',  frame.f_code.co_filename, 'line:', frame.f_lineno)
+    def trace(self, frame, event, arg):
         class_fun_name = get_class_function_name(frame)
         if not class_fun_name in self.ignore_calls:
             if event == 'call':
@@ -274,7 +272,33 @@ class Invocation_Tree:
                 self.output_graph(frame, event)
             elif event == 'line' and self.each_line:
                 self.output_graph(frame, event)
-        return self.trace_calls
+
+    def global_tracer(self, frame, event, arg):
+        """ Global trace function that chains to any previous global tracer so it works in a debugger too. """
+        self.trace(frame, event, arg)
+        # call previous global tracer if any existed
+        prev_local_tracer = self.prev_global_tracer(frame, event, arg) if self.prev_global_tracer else None
+        
+        def local_tracer(frame, event, arg):
+            """ Global trace is for a 'call' event that signals a new frame, it returns a local tracer to 
+            handle other events in that frame. """
+            self.trace(frame, event, arg)
+            return local_tracer
+
+        def local_multiplexer(frame, event, arg):
+            """ Multiplexes between the local tracer and any previous local tracer so it works in a debugger too. """
+            # call local tracer
+            new_local_tracer = local_tracer(frame, event, arg)
+            if prev_local_tracer is not None:
+                # call previous local tracer if any existed
+                new_prev_local_tracer = prev_local_tracer(frame, event, arg)
+                # if previous local tracer returns None, stop tracing this frame as debugger probably stopped it
+                if new_prev_local_tracer is None:
+                    return None
+            return new_local_tracer
+
+        return local_multiplexer
+
 
 def blocking(filename='tree.pdf'):
     return Invocation_Tree(filename=filename)
