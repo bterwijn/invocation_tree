@@ -7,7 +7,7 @@ import html
 import sys
 import difflib 
 
-__version__ = "0.0.18"
+__version__ = "0.0.19"
 __author__ = 'Bas Terwijn'
 
 def highlight_diff(str1, str2):
