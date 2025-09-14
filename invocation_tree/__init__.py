@@ -275,27 +275,22 @@ class Invocation_Tree:
 
     def global_tracer(self, frame, event, arg):
         """ Global trace function that chains to any previous global tracer so it works in a debugger too. """
-        self.trace(frame, event, arg)
+        self.trace(frame, event, arg) # update graph
         # call previous global tracer if any existed
         prev_local_tracer = self.prev_global_tracer(frame, event, arg) if self.prev_global_tracer else None
-        
+
         def local_tracer(frame, event, arg):
             """ Global trace is for a 'call' event that signals a new frame, it returns a local tracer to 
             handle other events in that frame. """
             self.trace(frame, event, arg)
-            return local_tracer
 
         def local_multiplexer(frame, event, arg):
             """ Multiplexes between the local tracer and any previous local tracer so it works in a debugger too. """
             nonlocal prev_local_tracer
-            # call local tracer
-            new_local_tracer = local_tracer(frame, event, arg)
+            local_tracer(frame, event, arg) # update graph
             if prev_local_tracer is not None:
-                # call previous local tracer if any existed
+                # call previous local tracer if any existed and update it
                 prev_local_tracer = prev_local_tracer(frame, event, arg)
-                # if previous local tracer returns None, stop tracing this frame as debugger probably stopped it
-                if prev_local_tracer is None:
-                    return None
             return local_multiplexer
 
         return local_multiplexer
