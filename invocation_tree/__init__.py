@@ -287,15 +287,16 @@ class Invocation_Tree:
 
         def local_multiplexer(frame, event, arg):
             """ Multiplexes between the local tracer and any previous local tracer so it works in a debugger too. """
+            nonlocal prev_local_tracer
             # call local tracer
             new_local_tracer = local_tracer(frame, event, arg)
             if prev_local_tracer is not None:
                 # call previous local tracer if any existed
-                new_prev_local_tracer = prev_local_tracer(frame, event, arg)
+                prev_local_tracer = prev_local_tracer(frame, event, arg)
                 # if previous local tracer returns None, stop tracing this frame as debugger probably stopped it
-                if new_prev_local_tracer is None:
+                if prev_local_tracer is None:
                     return None
-            return new_local_tracer
+            return local_multiplexer
 
         return local_multiplexer
 
