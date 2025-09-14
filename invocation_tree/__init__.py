@@ -7,7 +7,7 @@ import html
 import sys
 import difflib 
 
-__version__ = "0.0.20"
+__version__ = "0.0.21"
 __author__ = 'Bas Terwijn'
 
 def highlight_diff(str1, str2):
@@ -291,6 +291,8 @@ class Invocation_Tree:
             if prev_local_tracer is not None:
                 # call previous local tracer if any existed and update it
                 prev_local_tracer = prev_local_tracer(frame, event, arg)
+                if prev_local_tracer is None:
+                    return None # stop tracing if debugger stopped tracing
             return local_multiplexer
 
         return local_multiplexer
