@@ -172,14 +172,28 @@ print(result) # all permutations of going Left or Right of length 2
 ['LL', 'LR', 'RL', 'RR']
 ```
 
-## Hide Variables ##
-In an educational context it can be useful to hide certian variables to avoid unnecessary complexity. This can for example be done with:
+## Hidding ##
+It can be useful to hide certian variables or functions to avoid unnecessary complexity. This can for example be done with:
 
 ```python
 tree = ivt.blocking()
-tree.hide.add('permutations.elements')
-tree.hide.add('permutations.element')
-tree.hide.add('permutations.all_perms')
+tree.hide_vars.add('permutations.elements')
+tree.hide_vars.add('permutations.element')
+tree.hide_vars.add('permutations.all_perms')
+```
+
+Or hide certain function calls:
+
+```python
+tree = ivt.blocking()
+tree.hide_calls.add('namespace.functionname')
+```
+
+Or ignore certain function calls so that all it's children are hidden too:
+
+```python
+tree = ivt.blocking()
+tree.ignore_calls.add('namespace.functionname')
 ```
 
 # Configuration #

@@ -73,7 +73,7 @@ class Invocation_Tree:
                  color_active = '#ffffff', 
                  color_returned = '#ffcccc', 
                  to_string=None, 
-                 hide=None,
+                 hide_vars=None,
                  cleanup=True,
                  quiet=True):
         # --- config
@@ -93,9 +93,9 @@ class Invocation_Tree:
         self.to_string = {}
         if not to_string is None:
             self.to_string = to_string
-        self.hide = set()
-        if not hide is None:
-            self.hide = hide
+        self.hide_vars = set()
+        if not hide_vars is None:
+            self.hide_vars = hide_vars
         self.cleanup = cleanup
         self.quiet = quiet
         # --- core
@@ -108,7 +108,9 @@ class Invocation_Tree:
         self.is_highlighted = False
         self.graph = None
         self.prev_global_tracer = None
-        self.ignore_calls = {'Invocation_Tree.__exit__', 'Invocation_Tree.stop_trace'}
+        self.hide_calls = {'Invocation_Tree.__exit__', 'Invocation_Tree.stop_trace'}
+        self.ignore_calls = set()
+        self.ignoring_call = None
 
     def __repr__(self):
         return f'Invocation_Tree(filename={repr(self.filename)}, show={self.show}, block={self.block}, each_line={self.each_line}, gifcount={self.gifcount})'
@@ -177,7 +179,7 @@ class Invocation_Tree:
         for var,val in local_vars.items():
             var_name = class_fun_name+'..'+var
             val_name = class_fun_name+'.'+var
-            if filter_variables(var,val) and not val_name in self.hide:
+            if filter_variables(var,val) and not val_name in self.hide_vars:
                 table += '</TR>\n  <TR>'
                 hightlighted_var = self.get_hightlighted_content(tree_node, var_name, var, use_old_content)
                 hightlighted_val = self.get_hightlighted_content(tree_node, val_name, val, use_old_content, use_repr=True)
@@ -185,7 +187,7 @@ class Invocation_Tree:
                 table += '<TD ALIGN="left">'+ hightlighted_content  +'</TD>'
         if is_returned:
             return_name = class_fun_name+'.return'
-            if not return_name in self.hide:
+            if not return_name in self.hide_vars:
                 table += '</TR>\n  <TR>'
                 hightlighted_content = self.get_hightlighted_content(tree_node, return_name, return_value, use_old_content, use_repr=True)
                 table += '<TD ALIGN="left">'+ 'return ' + hightlighted_content +'</TD>'
@@ -259,14 +261,24 @@ class Invocation_Tree:
 
     def trace(self, frame, event, arg):
         class_fun_name = get_class_function_name(frame)
-        if not class_fun_name in self.ignore_calls:
+        if not class_fun_name in self.hide_calls:
+            skip_return = False
+            if event == 'call':
+                if class_fun_name in self.ignore_calls:
+                    self.ignoring_call = class_fun_name
+            elif event == 'return':
+                if class_fun_name == self.ignoring_call:
+                    self.ignoring_call = None
+                    skip_return = True
+            if self.ignoring_call is not None:
+                return
             if event == 'call':
                 self.stack.append(Tree_Node(self.node_id, frame, None))
                 self.node_id += 1
                 if len(self.stack)>1:
                     self.add_edge(self.stack[-2], self.stack[-1])
                 self.output_graph(frame, event)
-            elif event == 'return':
+            elif event == 'return' and not skip_return:
                 self.stack[-1].return_value = arg
                 self.returned.append(self.stack.pop())
                 self.output_graph(frame, event)
