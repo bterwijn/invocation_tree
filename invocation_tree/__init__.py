@@ -306,17 +306,11 @@ class Invocation_Tree:
             if prev_local_tracer is not None:
                 # call previous local tracer if any existed and update it
                 prev_local_tracer = prev_local_tracer(frame, event, arg)
-                # if prev_local_tracer is None:
-                #    return None # stop tracing if debugger stopped tracing
-            self.reset_tracer(self.global_tracer)
+                if prev_local_tracer is None:
+                   return None # stop tracing if debugger stopped tracing
             return local_multiplexer
 
         return local_multiplexer
-
-    def reset_tracer(self, tracer=None, hard=False):
-        """ Reset the global tracer to 'tracer' use None or self.global_tracer. """
-        if hard or sys.gettrace() == None:
-            sys.settrace(tracer) # reinforce global tracer, as DBD debugger 'continue' may disable it
 
 def blocking(filename='tree.pdf'):
     return Invocation_Tree(filename=filename)
