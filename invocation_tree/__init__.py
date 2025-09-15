@@ -75,8 +75,7 @@ class Invocation_Tree:
                  to_string=None, 
                  hide_vars=None,
                  cleanup=True,
-                 quiet=True,
-                 keep_tracing=False):
+                 quiet=True):
         # --- config
         self.filename = filename
         self.prev_filename = None
@@ -112,7 +111,6 @@ class Invocation_Tree:
         self.hide_calls = {'Invocation_Tree.__exit__', 'Invocation_Tree.stop_trace'}
         self.ignore_calls = set()
         self.ignoring_call = None
-        self.keep_tracing = keep_tracing
 
     def __repr__(self):
         return f'Invocation_Tree(filename={repr(self.filename)}, show={self.show}, block={self.block}, each_line={self.each_line}, gifcount={self.gifcount})'
@@ -123,8 +121,7 @@ class Invocation_Tree:
             sys.settrace(self.global_tracer)
             result = fun(*args, **kwargs)
         finally:
-            if not self.keep_tracing:
-                sys.settrace(self.prev_global_tracer)
+            sys.settrace(self.prev_global_tracer)
         return result
 
     def value_to_string(self, key, value, use_repr=False):
