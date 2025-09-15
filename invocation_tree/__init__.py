@@ -7,7 +7,7 @@ import html
 import sys
 import difflib 
 
-__version__ = "0.0.23"
+__version__ = "0.0.24"
 __author__ = 'Bas Terwijn'
 
 def highlight_diff(str1, str2):
@@ -75,7 +75,8 @@ class Invocation_Tree:
                  to_string=None, 
                  hide_vars=None,
                  cleanup=True,
-                 quiet=True):
+                 quiet=True,
+                 keep_tracing=False):
         # --- config
         self.filename = filename
         self.prev_filename = None
@@ -111,6 +112,7 @@ class Invocation_Tree:
         self.hide_calls = {'Invocation_Tree.__exit__', 'Invocation_Tree.stop_trace'}
         self.ignore_calls = set()
         self.ignoring_call = None
+        self.keep_tracing = keep_tracing
 
     def __repr__(self):
         return f'Invocation_Tree(filename={repr(self.filename)}, show={self.show}, block={self.block}, each_line={self.each_line}, gifcount={self.gifcount})'
@@ -121,7 +123,8 @@ class Invocation_Tree:
             sys.settrace(self.global_tracer)
             result = fun(*args, **kwargs)
         finally:
-            sys.settrace(self.prev_global_tracer)
+            if not self.keep_tracing:
+                sys.settrace(self.prev_global_tracer)
         return result
 
     def value_to_string(self, key, value, use_repr=False):
@@ -305,16 +308,15 @@ class Invocation_Tree:
                 prev_local_tracer = prev_local_tracer(frame, event, arg)
                 # if prev_local_tracer is None:
                 #    return None # stop tracing if debugger stopped tracing
-            self.reset_tracer()
+            self.reset_tracer(self.global_tracer)
             return local_multiplexer
 
         return local_multiplexer
 
-    def reset_tracer(self, hard = False):
-        """ Reset the global tracer to Invocation_Tree.global_tracer(). """
+    def reset_tracer(self, tracer=None, hard=False):
+        """ Reset the global tracer to 'tracer' use None or self.global_tracer. """
         if hard or sys.gettrace() == None:
-            sys.settrace(self.global_tracer) # reinforce global tracer, as DBD debugger 'continue' may disable it
-
+            sys.settrace(tracer) # reinforce global tracer, as DBD debugger 'continue' may disable it
 
 def blocking(filename='tree.pdf'):
     return Invocation_Tree(filename=filename)
