@@ -135,7 +135,7 @@ In some functional and logical programming languages (e.g. Haskell, Prolog) ther
 
 We can use recursion to compute all permutation of a number of elements with replacement, meaning each element can be used any number of times. All permutations of length 3 of elements 'L' and 'R' can be made by moving down a tree for 3 steps and going first Left and then Right in a depth-first manner:
 
-![permutations_LR3](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations_LR3.png)
+![perms_LR3](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/perms_LR3.png)
 
 This can be implemented recursively like:
 

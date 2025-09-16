@@ -14,7 +14,7 @@ python factorial.py
 rm -f factorial0.png
 bash create_gif.sh factorial -d
 
-python permutations_dot.py permutations_LR3.png LR 3
+python permutations_dot.py perms_LR3.png LR 3
 
 rm -f permutations*.png
 python permutations.py
