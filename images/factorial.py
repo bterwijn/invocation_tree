@@ -6,4 +6,4 @@ def factorial(n):
     return n * factorial(n - 1)
 
 tree = ivt.gif('factorial.png')
-tree(factorial, 4)
+print(tree(factorial, 4))

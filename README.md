@@ -23,7 +23,7 @@ permutations('LR', '', 3)
 Run a live demo in the 👉 [**Invocation Tree Web Debugger**](https://invocation-tree.com/#timestep=1.0&play) 👈 now, no installation required!
 
 - shows the invocation tree (call tree) of a program **in real time**
-- helps to **understand recursion** and it's depth-first nature
+- helps to **understand recursion** and its depth-first nature
 
 # Chapters #
 
@@ -79,7 +79,7 @@ print(factorial(4))
 24
 ```
 
-or we can use recursion, a function that calls itself. Then we also need a stop condition to prevent the function from calling itself continuously, like so:
+or we can use recursion, a function that calls itself. Then we also need a stop condition to prevent the function from calling itself indefinitely, like so:
 
 ```python
 def factorial(n):
@@ -152,14 +152,22 @@ def permutations(elements, perm, n):
 tree = ivt.gif('permutations.png')
 tree(permutations, 'LR', '', 3)  # permutations of L and R of length 3
 ```
-
+```
+LLL
+LLR
+LRL
+LRR
+RLL
+RLR
+RRL
+RRR
+```
 ![permutations](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations.gif)
-
 Or see it in the [Invocation Tree Web Debugger](https://invocation-tree.com/#timestep=1.0&play)
 
 The visualization shows the depth-first nature of recursion. Each time the first elements is chosen first, and quickly the bottom of the tree is reached. Then one step back is made, and the next element is chosen. When each element had it's turn, another step back is made. This pattern repeats until all permutations are printed.
 
-We can also iterate over all permutations with replacement using the `product()` function of `iterools`:
+We can also iterate over all permutations with replacement using the `product()` function of `iterools` to get the same result:
 
 ```python
 import itertools as it
@@ -186,8 +194,30 @@ def permutations(elems, perm, n):
 tree = ivt.blocking()
 tree(permutations, 'ABC', '', 3)  # permutations of A, B, C of length 3
 ```
+```
+ABA
+ABC
+ACA
+ACB
+BAB
+BAC
+BCA
+BCB
+CAB
+CAC
+CBA
+CBC
+```
 ![permutations](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations_neighbor.gif)
 Or see it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/permutations_neighbor.py)
+
+This stops neighbors from being equal early, in contrast to iteration, where we would have had to filter permutation with equal neighbors out after the fact which could be much slower.
+
+**exercise1:** Print all permutations with replacements of elements 'A', 'B', and 'C' of length 5 that are palindrome ('ABABA' is palindrome because if you read it backwards it's the same).
+
+## Path Planning ##
+
+
 ## Blocking ##
 The program blocks execution at every function call and return statement, printing the current location in the source code. Press the &lt;Enter&gt; key to continue execution. To block at every line of the program (like in a debugger tool) and only where a change of value occured, use instead:
 

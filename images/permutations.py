@@ -8,4 +8,4 @@ def permutations(elements, perm, n):
             permutations(elements, perm + element, n-1)
 
 tree = ivt.gif('permutations.png')
-result = tree(permutations, ['L','R'], '', 3)
+result = tree(permutations, 'LR', '', 3)
