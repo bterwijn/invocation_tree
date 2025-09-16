@@ -1,13 +1,15 @@
 
-rm -f compute*.png
-python compute.py
-rm -f compute0.png
-bash create_gif.sh compute -d
+#rm -f compute*.png
+#python compute.py
+#rm -f compute0.png
+#bash create_gif.sh compute -d
 
-rm -f students*.png
-python students.py
-rm -f students0.png
-bash create_gif.sh students -d
+#rm -f students*.png
+#python students.py
+#rm -f students0.png
+#bash create_gif.sh students -d
+
+python permutations_dot.py permutations_LR3.png LR 3
 
 rm -f factorial*.png
 python factorial.py

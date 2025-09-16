@@ -5,53 +5,14 @@ pip install --upgrade invocation_tree
 ```
 Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 
-# Invocation Tree #
-The [invocation_tree](https://pypi.org/project/invocation-tree/) package is designed to help with **program understanding and debugging** by visualizing the **tree of function invocations** that occur during program execution. Here’s a simple example of how it works, we start with `a = 1` and compute:
+# Highlights #
+![permutations](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations.gif)
+Run a live demo in the 👉 [**Invocation Tree Web Debugger**](https://invocation-tree.com/#timestep=1.0&play) 👈 now, no installation required!
 
-```
-    (a - 3 + 9) * 6
-```
-
-```python
-import invocation_tree as ivt
-
-def main():
-    a = 1
-    a = expression(a)
-    return multiply(a, 6)
-    
-def expression(a):
-    a = subtract(a, 3)
-    return add(a, 9)
-    
-def subtract(a, b):
-    return a - b
-
-def add(a, b):
-    return a + b
-
-def multiply(a, b):
-    return a * b
-
-tree = ivt.blocking()
-print( tree(main) ) # show invocation tree starting at main
-```
-Running the program and pressing &lt;Enter&gt; a number of times results in:
-![compute](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/compute.gif)
-```
-42
-```
-Each node in the tree represents a function call, and the node's color indicates its state:
-
- - White: The function is currently being executed (it is at the top of the call stack).
- - Green: The function is paused and will resume execution later (it is lower down on the call stack).
- - Red: The function has completed execution and returned (it has been removed from the call stack).
-
-For every function, the package displays its **local variables** and **return value**. Changes to these values over time are highlighted using bold text and gray shading to make them easy to track.
+- shows the invocation tree (call tree) of a program **in real time**
+- helps to **understand recursion** and it's depth-first nature
 
 # Chapters #
-
-[Comprehensions](#Comprehensions)
 
 [Debugger](#Debugger)
 
@@ -73,44 +34,104 @@ Inspired by [rcviz](https://github.com/carlsborg/rcviz).
 ___
 ___
 
-# Comprehensions #
-In this more interesting example we compute which students pass a course by using list and dictionary comprehensions.
+
+## Recursion and Iteration ##
+
+Repetion can be implemented with recursion and iteration. Lets first look at simply computing the factorial of 4.
+
+``` python
+import math
+
+print(math.factorial(4))
+```
+```
+24
+```
+The result is `1 x 2 x 3 x 4 = 24`.
+
+To implement our own factorial function we can use iteration, a for-loop or while-loop, like so:
+
+```python
+def factorial(n):
+    result = 1
+    for i in range(1, n+1):
+        result *= i
+    return result
+
+print(factorial(4))
+```
+```
+24
+```
+
+or we can use recursion, a function that calls itself. Then we also need a stop condition to prevent the function from calling itself continuously, like so:
+
+```python
+def factorial(n):
+    if n <= 1:  # stop condition
+        return 1
+    return n * factorial(n - 1)  # function calling itself
+print(factorial(4))
+```
+```
+24
+```
+
+To better understand what is going on we can use invocation_tree:
 
 ```python
 import invocation_tree as ivt
-from decimal import Decimal, ROUND_HALF_UP
 
-def main():
-    students = {'Ann':[7.5, 8.0], 
-                'Bob':[4.5, 6.0], 
-                'Coy':[7.5, 6.0]}
-    averages = {student:compute_average(grades)
-                for student, grades in students.items()}
-    passing = passing_students(averages)
-    print(passing)
+def factorial(n):
+    if n <= 1:
+        return 1
+    return n * factorial(n - 1)
 
-def compute_average(grades):
-    average = sum(grades)/len(grades)
-    return half_up_round(average, 1)
-    
-def half_up_round(value, digits=0):
-    """ High-precision half-up rounding of 'value' to a specified number of 'digits'. """
-    return float(Decimal(str(value)).quantize(Decimal(f"1e-{digits}"),
-                                              rounding=ROUND_HALF_UP))
-
-def passing_students(averages):
-    return [student 
-        for student, average in averages.items() 
-        if average >= 5.5]
-
-if __name__ == '__main__':
-    tree = ivt.blocking()
-    tree(main)
+tree = ivt.blocking()  # block and wait for <Enter> 
+tree(factorial, 4)     # call function 'factorial' with argument '4' 
 ```
-![students](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/students.gif)
+
+to graph the function invocations. Press &lt;Enter&gt; to walk through each step of the repetition until the stop condition is met.
+
+![factorial](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/factorial.gif)
+Or see it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/factorial.py).
+
+Each node in the invocation tree represents a function call, and the node's color indicates its state:
+
+ - White: The function is currently being executed (it is at the top of the call stack).
+ - Green: The function is paused and will resume execution later (it is lower down on the call stack).
+ - Red: The function has completed execution and returned (it has been removed from the call stack).
+
+For every function, the package displays its **local variables** and **return value**. Changes to these values over time are highlighted using bold text and gray shading to make them easier to track.
+
+In some functional and logical programming languages (e.g. Haskell, Prolog) there is only recursion to implement repetition, but in Python we have a choice between recursion and iteration. Generally iteration is the default choice in Python as it is often faster and many find it easier to understand. However, in some situation recursion comes with great benefits so it is good to master both ways of implemention repetition.
+
+## Permutations ##
+
+One example where recursion comes with benefits is when computing all permutation of a number of elements. All permutations of length 3 of elements 'L' and 'R' can be made by moving down a tree for 3 steps and going first Left and then Right in a depth-first manner:
+
+![permutations_LR3](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations_LR3.png)
+
+This can be implemented recursively like:
+
 ```
-['Ann', 'Coy']
+import invocation_tree as ivt
+
+def permutations(elements, perm, n):
+    if n == 0:        # check if all steps are used up (stop condition)
+        print(perm)
+    else:
+        for element in elements:                         # for each element in turn
+            permutations(elements, perm + element, n-1)  #   add it to the permutation, reduce 'n', and make next step
+
+tree = ivt.gif('permutations.png')
+result = tree(permutations, ['L','R'], '', 3)  # only 3 step
 ```
+
+![permutations](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations.gif)
+Or see it in the [Invocation Tree Web Debugger](https://invocation-tree.com/#timestep=1.0&play)
+
+The visualization shows the depth-first nature of recursion. The first elements is choosen 3 times, then one step back is made, and the next element get a turn. This pattern repeats until all permutations are printed.
 
 ## Blocking ##
 The program blocks execution at every function call and return statement, printing the current location in the source code. Press the &lt;Enter&gt; key to continue execution. To block at every line of the program (like in a debugger tool) and only where a change of value occured, use instead:
@@ -129,48 +150,7 @@ To visualize the invocation tree in a debugger tool, such as the integrated debu
 and open the 'tree.pdf' file manually.
 ![Visual Studio Code debugger](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/vscode.png)
 
-# Recursion #
-An invocation tree is particularly helpful to better understand recursion. A simple `factorial()` example:
 
-```python
-import invocation_tree as ivt
-
-def factorial(n):
-    if n <= 1:
-        return 1
-    prev_result = factorial(n - 1)
-    return n * prev_result
-
-tree = ivt.blocking()
-print( tree(factorial, 4) ) # show invocation tree of calling factorial(4)
-```
-![factorial](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/factorial.gif)
-```
-24
-```
-
-## Permutations ##
-This `permutations()` example shows the depth-first nature of recursive execution:
-
-```python
-import invocation_tree as ivt
-
-def permutations(elements, perm, n):
-    if n==0:
-        return [perm]
-    all_perms = []
-    for element in elements:
-        all_perms.extend(permutations(elements, perm + element, n-1))
-    return all_perms
-
-tree = ivt.blocking()
-result = tree(permutations, ['L','R'], '', 2)
-print(result) # all permutations of going Left or Right of length 2
-```
-![permutations](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations.gif)
-```
-['LL', 'LR', 'RL', 'RR']
-```
 
 ## Hidding ##
 It can be useful to hide certian variables or functions to avoid unnecessary complexity. This can for example be done with:

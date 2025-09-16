@@ -1,13 +1,11 @@
 import invocation_tree as ivt
 
 def permutations(elements, perm, n):
-    if n==0:
-        return [perm]
-    all_perms = []
-    for element in elements:
-        all_perms.extend(permutations(elements, perm + element, n-1))
-    return all_perms
+    if n == 0:
+        print(perm)
+    else:
+        for element in elements:
+            permutations(elements, perm + element, n-1)
 
 tree = ivt.gif('permutations.png')
-result = tree(permutations, ['L','R'], '', 2)
-print(result)
+result = tree(permutations, ['L','R'], '', 3)
