@@ -1,3 +1,5 @@
+this package is under constructions, there may be inconsistencies or things missing
+
 # Installation #
 Install (or upgrade) `invocation_tree` using pip:
 ```
@@ -25,9 +27,11 @@ Run a live demo in the 👉 [**Invocation Tree Web Debugger**](https://invocatio
 
 # Chapters #
 
-[Debugger](#Debugger)
+[Recursion and Iteration](#recursion-and-iteration)
 
-[Recursion](#Recursion)
+[Permutations](#permutations)
+
+[Permutations Benefits](#recursion-benefits)
 
 [Configuration](#Configuration)
 
@@ -46,7 +50,7 @@ ___
 ___
 
 
-## Recursion and Iteration ##
+# Recursion and Iteration #
 
 Repetion can be implemented with recursion and iteration. Lets first look at simply computing the factorial of 4.
 
@@ -121,13 +125,13 @@ Each node in the invocation tree represents a function call, and the node's colo
 
  - White: The function is currently being executed.
  - Green: The function is paused and will resume execution later.
- - Red: The function has completed execution and returned.
+ - Red: The function has completed execution and has returned.
 
-For every function call, the package displays its **local variables** and **return value**. Changes to these values over time are highlighted using bold text and gray shading to make them easier to track.
+For every function call, the package displays its **local variables** and **return value**. Changes to the values of these variables over time are highlighted using bold text and gray shading to make them easier to track.
 
-In some functional and logical programming languages (e.g. Haskell, Prolog) there is only recursion to implement repetition, but in Python we have a choice between recursion and iteration. Generally iteration is the default choice in Python as it is often faster and many find it easier to understand. However, in some situation recursion comes with great benefits so it's important to master both ways of implemention repetition.
+In some functional and logical programming languages (e.g. Haskell, Prolog) there are not loops so there 2is only recursion to implement repetition, but in Python we have a choice between recursion and iteration. Generally iteration is the default choice in Python as it is often faster and many find it easier to understand. However, in some situation recursion comes with great benefits so it's important to master both ways of implemention repetition.
 
-## Permutations ##
+# Permutations #
 
 We can use recursion to compute all permutation of a number of elements with replacement, meaning each element can be used any number of times. All permutations of length 3 of elements 'L' and 'R' can be made by moving down a tree for 3 steps and going first Left and then Right in a depth-first manner:
 
@@ -153,7 +157,7 @@ tree(permutations, 'LR', '', 3)  # permutations of L and R of length 3
 
 Or see it in the [Invocation Tree Web Debugger](https://invocation-tree.com/#timestep=1.0&play)
 
-The visualization shows the depth-first nature of recursion. Each time the first elements is choosen first, and quickly the bottom of the tree is reached. Then one step back is made, and the next element is choosen. When each element had it's turn, another step back is made. This pattern repeats until all permutations are printed.
+The visualization shows the depth-first nature of recursion. Each time the first elements is chosen first, and quickly the bottom of the tree is reached. Then one step back is made, and the next element is chosen. When each element had it's turn, another step back is made. This pattern repeats until all permutations are printed.
 
 We can also iterate over all permutations with replacement using the `product()` function of `iterools`:
 
@@ -164,7 +168,7 @@ for perm in it.product('LR', repeat = 3):
     print(perm)
 ```
 
-## Recussion Benefit ##
+# Recussion Benefit #
 
 The benefit recursion brings is that we have more control over which permutations are generated. For example if we don't want neighboring elements to be equal we could simply write:
 
