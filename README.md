@@ -6,6 +6,17 @@ pip install --upgrade invocation_tree
 Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 
 # Highlights #
+
+```python
+def permutations(elements, perm, n):
+    if n == 0:
+        print(perm)
+    else:
+        for element in elements:
+            permutations(elements, perm + element, n-1)
+
+permutations('LR', '', 3)
+```
 ![permutations](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations.gif)
 Run a live demo in the 👉 [**Invocation Tree Web Debugger**](https://invocation-tree.com/#timestep=1.0&play) 👈 now, no installation required!
 
@@ -47,7 +58,7 @@ print(math.factorial(4))
 ```
 24
 ```
-The result is `1 x 2 x 3 x 4 = 24`.
+The result is `1 * 2 * 3 * 4 = 24`.
 
 To implement our own factorial function we can use iteration, a for-loop or while-loop, like so:
 
@@ -77,7 +88,16 @@ print(factorial(4))
 24
 ```
 
-To better understand what is going on we can use invocation_tree:
+We can evaluate this as:
+```
+factorial(4) = 4 * factorial(3)
+             = 4 * 3 * factorial(2)
+             = 4 * 3 * 2 * factorial(1)
+             = 4 * 3 * 2 * 1
+             = 24
+```
+
+To better understand what is going on when we run the program we can use invocation_tree:
 
 ```python
 import invocation_tree as ivt
@@ -87,52 +107,83 @@ def factorial(n):
         return 1
     return n * factorial(n - 1)
 
-tree = ivt.blocking()  # block and wait for <Enter> 
+tree = ivt.blocking()  # block and wait for <Enter> key press
 tree(factorial, 4)     # call function 'factorial' with argument '4' 
 ```
 
 to graph the function invocations. Press &lt;Enter&gt; to walk through each step of the repetition until the stop condition is met.
 
 ![factorial](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/factorial.gif)
+
 Or see it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/factorial.py).
 
 Each node in the invocation tree represents a function call, and the node's color indicates its state:
 
- - White: The function is currently being executed (it is at the top of the call stack).
- - Green: The function is paused and will resume execution later (it is lower down on the call stack).
- - Red: The function has completed execution and returned (it has been removed from the call stack).
+ - White: The function is currently being executed.
+ - Green: The function is paused and will resume execution later.
+ - Red: The function has completed execution and returned.
 
-For every function, the package displays its **local variables** and **return value**. Changes to these values over time are highlighted using bold text and gray shading to make them easier to track.
+For every function call, the package displays its **local variables** and **return value**. Changes to these values over time are highlighted using bold text and gray shading to make them easier to track.
 
-In some functional and logical programming languages (e.g. Haskell, Prolog) there is only recursion to implement repetition, but in Python we have a choice between recursion and iteration. Generally iteration is the default choice in Python as it is often faster and many find it easier to understand. However, in some situation recursion comes with great benefits so it is good to master both ways of implemention repetition.
+In some functional and logical programming languages (e.g. Haskell, Prolog) there is only recursion to implement repetition, but in Python we have a choice between recursion and iteration. Generally iteration is the default choice in Python as it is often faster and many find it easier to understand. However, in some situation recursion comes with great benefits so it's important to master both ways of implemention repetition.
 
 ## Permutations ##
 
-One example where recursion comes with benefits is when computing all permutation of a number of elements. All permutations of length 3 of elements 'L' and 'R' can be made by moving down a tree for 3 steps and going first Left and then Right in a depth-first manner:
+We can use recursion to compute all permutation of a number of elements with replacement, meaning each element can be used any number of times. All permutations of length 3 of elements 'L' and 'R' can be made by moving down a tree for 3 steps and going first Left and then Right in a depth-first manner:
 
 ![permutations_LR3](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations_LR3.png)
 
 This can be implemented recursively like:
 
-```
+```python
 import invocation_tree as ivt
 
 def permutations(elements, perm, n):
-    if n == 0:        # check if all steps are used up (stop condition)
+    if n == 0:       # stop condition, check if all steps are used up
         print(perm)
     else:
-        for element in elements:                         # for each element in turn
-            permutations(elements, perm + element, n-1)  #   add it to the permutation, reduce 'n', and make next step
+        for element in elements:                         # for each element
+            permutations(elements, perm + element, n-1)  #   add it and do next step
 
 tree = ivt.gif('permutations.png')
-result = tree(permutations, ['L','R'], '', 3)  # only 3 step
+tree(permutations, 'LR', '', 3)  # permutations of L and R of length 3
 ```
 
 ![permutations](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations.gif)
+
 Or see it in the [Invocation Tree Web Debugger](https://invocation-tree.com/#timestep=1.0&play)
 
-The visualization shows the depth-first nature of recursion. The first elements is choosen 3 times, then one step back is made, and the next element get a turn. This pattern repeats until all permutations are printed.
+The visualization shows the depth-first nature of recursion. Each time the first elements is choosen first, and quickly the bottom of the tree is reached. Then one step back is made, and the next element is choosen. When each element had it's turn, another step back is made. This pattern repeats until all permutations are printed.
 
+We can also iterate over all permutations with replacement using the `product()` function of `iterools`:
+
+```python
+import itertools as it
+
+for perm in it.product('LR', repeat = 3):
+    print(perm)
+```
+
+## Recussion Benefit ##
+
+The benefit recursion brings is that we have more control over which permutations are generated. For example if we don't want neighboring elements to be equal we could simply write:
+
+```python
+import invocation_tree as ivt
+
+def permutations(elems, perm, n):
+    if n == 0:
+        print(perm)
+    else:
+        for element in elems:
+            if len(perm) == 0 or not perm[-1] == element:  # test neighbor
+                permutations(elems, perm + element, n-1)  
+
+tree = ivt.blocking()
+tree(permutations, 'ABC', '', 3)  # permutations of A, B, C of length 3
+```
+![permutations](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations_neighbor.gif)
+Or see it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/permutations_neighbor.py)
 ## Blocking ##
 The program blocks execution at every function call and return statement, printing the current location in the source code. Press the &lt;Enter&gt; key to continue execution. To block at every line of the program (like in a debugger tool) and only where a change of value occured, use instead:
 
