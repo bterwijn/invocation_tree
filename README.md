@@ -316,6 +316,9 @@ def permutations(elements, perm, n):
 tree = ivt.blocking()
 print(tree(permutations, 'LR', '', 3))
 ```
+```
+['LLL', 'LLR', 'LRL', 'LRR', 'RLL', 'RLR', 'RRL', 'RRR']
+```
 ![permutations_return](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations_return.gif)
 Or see it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/permutations_return.py)
 
@@ -335,6 +338,9 @@ tree = ivt.blocking()
 results = []
 tree(permutations, 'LR', '', 3, results)
 print(results)
+```
+```
+['LLL', 'LLR', 'LRL', 'LRR', 'RLL', 'RLR', 'RRL', 'RRR']
 ```
 
 ![permutations_collect](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations_collect.gif)
