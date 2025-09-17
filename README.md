@@ -92,12 +92,14 @@ print(factorial(4))
 24
 ```
 
-We can evaluate this as:
+This logic is evaluate as:
 ```
 factorial(4) = 4 * factorial(3)
              = 4 * 3 * factorial(2)
              = 4 * 3 * 2 * factorial(1)
              = 4 * 3 * 2 * 1
+             = 4 * 3 * 2
+             = 4 * 6
              = 24
 ```
 
@@ -131,15 +133,15 @@ For every function call, the package displays its **local variables** and **retu
 
 With recursion we often use a divide and conquer strategy, spliting the problem in subproblems that are easier to solve. With factorial we split `factorial(4)` in a `4` and `factorial(3)` subproblem.
 
-**exerise1:** Use recursions to compute the sum of all the values in a list (hint: split for example the list `[1,2,3,...]` in head `1` and tail `[2,3,...]`).
+**exercise1:** Use recursions to compute the sum of all the values in a list (hint: split for example the list `[1, 2, 3, ...]` in head `1` and tail `[2, 3, ...]`).
 ```python
 def sum(values):
     # <your recursive implementation>
 
-print(sum([3,7,4,9,2]))  # 25
+print(sum([3, 7, 4, 9, 2]))  # 25
 ```
 
-**exerise2:** Rewrite this iterative implementation of a decimal to binary conversion to a recursive implementation.
+**exercise2:** Rewrite this iterative implementation of a decimal to binary conversion to a recursive implementation.
 
 ```python
 def binary(decimal):
@@ -152,7 +154,16 @@ def binary(decimal):
 print( binary(22) )  # [1, 0, 1, 1, 0]
 ```
 
-In some functional and logical programming languages (e.g. Haskell, Prolog) there are not loops so there is only recursion to implement repetition, but in Python we have a choice between recursion and iteration. Generally iteration is chosen in Python as it is often faster and many find it easier to understand. However, in some situation recursion comes with great benefits so it's important to master both ways.
+To check the result is correct:
+
+|       | 2<sup>4</sup> | 2<sup>3</sup> | 2<sup>2</sup> | 2<sup>1</sup> | 2<sup>0</sup> |               |
+|------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|
+| value |      16       |       8       |       4       |       2       |       1       |
+| bits  |       1       |       0       |       1       |       1       |       0       |
+| contrib |    +16      |       0       |      +4       |      +2       |       0       | =22
+
+
+In some functional and logical programming languages (e.g. Haskell, Prolog) there are no loops so there only is recursion to implement repetition, but in Python we have a choice between recursion and iteration. Generally iteration is chosen in Python as it is often faster and many find it easier to understand. However, in some situations recursion comes with great benefits so it's important to master both ways.
 
 # Permutations #
 
@@ -371,7 +382,7 @@ def quick_sort(values):
 
 values = [7, 4, 2, 6, 1, 5, 3, 9, 10, 8, 7, 11]
 print('unsorted values:',values)
-tree = ivt.gif('quick_sort.png')
+tree = ivt.blocking()
 values = tree(quick_sort, values)
 print('  sorted values:',values)
 ```

@@ -19,7 +19,7 @@ def highlight_diff(str1, str2):
             result.append(f'<B>{str2[j1:j2]}&#8203;</B>&#8203;')
             is_highlighted = True
         elif tag == 'delete':
-            result.append(f'<FONT COLOR="#aaaaaa"><I>{str1[i1:i2]}&#8203;</I></FONT>&#8203;')
+            result.append(f'<FONT COLOR="#aaaaaa"><S>{str1[i1:i2]}&#8203;</S></FONT>&#8203;')
             is_highlighted = True
         elif tag == 'insert':
             result.append(f'<B>{str2[j1:j2]}&#8203;</B>&#8203;')
