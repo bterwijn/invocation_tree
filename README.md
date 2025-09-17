@@ -172,7 +172,7 @@ def permutations(elements, perm, n):
         for element in elements:                         # for each element
             permutations(elements, perm + element, n-1)  #   add it and do next step
 
-tree = ivt.gif('permutations.png')
+tree = ivt.blocking()
 tree(permutations, 'LR', '', 3)  # permutations of L and R of length 3
 ```
 ```
@@ -199,7 +199,7 @@ for perm in it.product('LR', repeat = 3):
     print(perm)
 ```
 
-# Recussion Benefit #
+# Recursion Benefit #
 
 The benefit recursion brings is that it gives more control over which permutations are generated. For example, if we don't want neighboring elements to be equal in all permutatations of 'A', 'B' and 'C' then we could simply write:
 
@@ -238,7 +238,7 @@ This stops neighbors from being equal early, in contrast to iteration, where we 
 
 **exercise3:** Print all permutations with replacements of elements 'A', 'B', and 'C' of length 5 that are palindrome ('ABABA' is palindrome because if you read it backwards it's the same).
 
-## Path Planning ##
+# Path Planning #
 
 A graph is defined by nodes which we name with letters, and edges which define the connections between nodes. For example edge `('a', 'j')` defines tat there is a connection between node `a` and node `j`. In a bidirectional graph a connection betweeen two nodes can be used in both directions, from `a` to `j` and from `j` to `a`.
 
@@ -250,7 +250,7 @@ that can be visualized as:
 
 ![permutations](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/graph_small.png)
 
-To print all the paths from `a` to `b` without going over the same node twice, we can use this short recursive implementation:
+To print all the paths from `a` to `b` without going over the same node twice, we can use this recursive implementation:
 
 ```python
 edges =  [('a', 'j'), ('f', 'j'), ('c', 'e'), ('b', 'd'), ('b', 'e'), ('f', 'g'), ('g', 'i'), ('h', 'i'), ('e', 'h'), ('a', 'i'), ('b', 'h'), ('b', 'f')]
@@ -295,6 +295,48 @@ This would be much harder to implement with iteration and shows the power of rec
 edges =  [('a', 's'), ('i', 'z'), ('c', 'p'), ('d', 'p'), ('d', 'u'), ('b', 'e'), ('b', 'g'), ('f', 'p'), ('g', 'm'), ('h', 't'), ('h', 'y'), ('i', 'w'), ('i', 'j'), ('i', 'x'), ('k', 's'), ('k', 'l'), ('a', 'm'), ('n', 'u'), ('a', 'o'), ('a', 'v'), ('n', 'p'), ('a', 'q'), ('a', 'h'), ('p', 'r'), ('l', 's'), ('t', 'v'), ('u', 'y'), ('j', 'v'), ('a', 'j'), ('r', 'w'), ('r', 'u'), ('f', 'x'), ('x', 'y'), ('j', 'x'), ('d', 'j'), ('b', 'k'), ('b', 'x'), ('b', 'w')]
 ![permutations](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/graph_big.png)
 
+# Collecting Results #
+
+If instead of printing we want to collect each result in a list for later use, we can use the return value of our recursive function, like in this example for our earlier permutation problem.
+
+```python
+import invocation_tree as ivt
+
+def permutations(elements, perm, n):
+    if n == 0:
+        return [perm]
+    else:
+        results = []
+        for element in elements:
+            results += permutations(elements, perm + element, n-1)
+        return results
+
+tree = ivt.blocking()
+print(tree(permutations, 'LR', '', 3))
+```
+![permutations_return](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations_return.gif)
+Or see it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/permutations_return.py)
+
+But often it is easier to pass a list (or other mutable container type) as an extra argument in the recursion to collect the results in. This can also be faster as it avoids many list copies as a result of the '+=' list concatenation.
+
+```python
+import invocation_tree as ivt
+
+def permutations(elements, perm, n, results):
+    if n == 0:
+        results.append(perm)
+    else:
+        for element in elements:
+            permutations(elements, perm + element, n-1, results)
+
+tree = ivt.blocking()
+results = []
+tree(permutations, 'LR', '', 3, results)
+print(results)
+```
+
+![permutations_collect](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations_collect.gif)
+Or see it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/permutations_collect.py)
 
 
 ## Blocking ##
