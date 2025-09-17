@@ -353,8 +353,14 @@ print(results)
 ![permutations_collect](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations_collect.gif)
 Or see it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/permutations_collect.py)
 
+# Quick Sort #
 
-## Blocking ##
+Another good example of divide-and-conquer is the recursive quicksort algorithm. It works by choosing a pivot element and dividing the list into elements smaller than the pivot and elements larger than the pivot. Each of these sublists is then quicksorted in the same way. When a sublist has zero or one element, it is already sorted. Finally, the sorted sublists are combined with the pivot to produce the fully sorted list.
+
+![quick_sort](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/quick_sort.gif)
+Or see it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/quick_sort.py)
+
+# Blocking #
 The program blocks execution at every function call and return statement, printing the current location in the source code. Press the &lt;Enter&gt; key to continue execution. To block at every line of the program (like in a debugger tool) and only where a change of value occured, use instead:
 
 ```python

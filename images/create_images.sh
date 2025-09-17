@@ -39,3 +39,8 @@ python permutations_collect.py
 rm -f permutations_collect0.png
 bash create_gif.sh permutations_collect -d
 
+rm -f quick_sort*.png
+python quick_sort.py
+rm -f quick_sort0.png
+bash create_gif.sh quick_sort -d
+
