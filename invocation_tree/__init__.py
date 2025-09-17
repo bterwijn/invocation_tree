@@ -259,7 +259,22 @@ class Invocation_Tree:
     def get_graph(self):
         return self.graph
 
+    def is_external(self, frame):
+        """ Returns True if the call is from an external library or builtin. """
+        filename = frame.f_code.co_filename
+        if ('<built-in>' in filename or
+            '<frozen' in filename or
+            filename.startswith('<') or
+            'site-packages' in filename or   # Cross-platform: works on Windows, Mac, Linux
+            'lib/python' in filename or      # Linux/Mac standard library
+            'lib\\python' in filename or     # Windows standard library (backslashes)
+            'Python.framework' in filename): # Mac framework Python
+            return True
+        return False
+
     def trace(self, frame, event, arg):
+        if self.is_external(frame):
+            return
         class_fun_name = get_class_function_name(frame)
         if not class_fun_name in self.hide_calls:
             skip_return = False
