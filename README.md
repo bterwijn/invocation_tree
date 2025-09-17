@@ -329,7 +329,7 @@ print(tree(permutations, 'LR', '', 3))
 <!-- ![permutations_return](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations_return.gif) -->
 See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/permutations_return.py)
 
-But often it is easier to pass a list (or other mutable container type) as an extra argument in the recursion to collect the results in. This can also be faster as it avoids many list copies as a result of the '+=' list concatenation.
+However, sometimes it is easier to pass a list (or other mutable container type) as an extra argument in the recursion to collect the results in. This can also be faster as it avoids many list copies as a result of the '+=' list concatenation.
 
 ```python
 import invocation_tree as ivt
@@ -355,7 +355,7 @@ See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#co
 
 # Quick Sort #
 
-Another good example of divide-and-conquer is the recursive quicksort algorithm. It works by choosing a pivot element and dividing the list into elements smaller than the pivot and elements larger than the pivot. Each of these sublists is then quicksorted in the same way. When a sublist has zero or one element, it is already sorted. Finally, the sorted sublists are combined with the pivot to produce the fully sorted list.
+Another nice example of divide-and-conquer is the recursive quicksort algorithm. It works by choosing a pivot element and dividing the list into elements smaller than the pivot and elements larger than the pivot. Each of these sublists is then quicksorted in the same way. When we get to the point a sublist has zero or one element, it is already sorted. Finally, these sorted sublists are then combined with the pivot to produce the fully sorted list.
 
 ```python
 import invocation_tree as ivt
@@ -380,7 +380,7 @@ unsorted values: [7, 4, 2, 6, 1, 5, 3, 9, 10, 8, 7, 11]
   sorted values: [1, 2, 3, 4, 5, 6, 7, 7, 8, 9, 10, 11]
 ```
 <!-- ![quick_sort](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/quick_sort.gif) -->
-see it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/quick_sort.py)
+See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/quick_sort.py)
 
 # Blocking #
 The program blocks execution at every function call and return statement, printing the current location in the source code. Press the &lt;Enter&gt; key to continue execution. To block at every line of the program (like in a debugger tool) and only where a change of value occured, use instead:
