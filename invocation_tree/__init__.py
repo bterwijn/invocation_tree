@@ -264,7 +264,6 @@ class Invocation_Tree:
         filename = frame.f_code.co_filename
         if ('<built-in>' in filename or
             '<frozen' in filename or
-            filename.startswith('<') or
             'site-packages' in filename or   # Cross-platform: works on Windows, Mac, Linux
             'lib/python' in filename or      # Linux/Mac standard library
             'lib\\python' in filename or     # Windows standard library (backslashes)
