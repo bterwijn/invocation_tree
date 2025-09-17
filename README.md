@@ -244,7 +244,8 @@ A graph is defined by nodes which we name with letters, and edges which define t
 
 We define a bidirectional graph by a list of edges:
 ```
-edges =  [('a', 'j'), ('f', 'j'), ('c', 'e'), ('b', 'd'), ('b', 'e'), ('f', 'g'), ('g', 'i'), ('h', 'i'), ('e', 'h'), ('a', 'i'), ('b', 'h'), ('b', 'f')]
+edges =  [('a', 'j'), ('f', 'j'), ('c', 'e'), ('b', 'd'), ('b', 'e'), ('f', 'g'), 
+          ('g', 'i'), ('h', 'i'), ('e', 'h'), ('a', 'i'), ('b', 'h'), ('b', 'f')]
 ```
 that can be visualized as:
 
@@ -253,7 +254,8 @@ that can be visualized as:
 To print all the paths from `a` to `b` without going over the same node twice, we can use this recursive implementation:
 
 ```python
-edges =  [('a', 'j'), ('f', 'j'), ('c', 'e'), ('b', 'd'), ('b', 'e'), ('f', 'g'), ('g', 'i'), ('h', 'i'), ('e', 'h'), ('a', 'i'), ('b', 'h'), ('b', 'f')]
+edges =  [('a', 'j'), ('f', 'j'), ('c', 'e'), ('b', 'd'), ('b', 'e'), ('f', 'g'), 
+          ('g', 'i'), ('h', 'i'), ('e', 'h'), ('a', 'i'), ('b', 'h'), ('b', 'f')]
 
 def edges_to_steps(edges: list[tuple[str, str]]) -> dict[str,list[str]]:
     """ Returns a dict with for each node the nodes it is connected with. """ 
@@ -284,7 +286,7 @@ print_all_paths(steps, 'a', 'b')
 ajfgiheb
 ajfgihb
 ajfb
-aigfb
+aigfbaihb
 aiheb
 aihb
 ```
@@ -293,7 +295,12 @@ This would be much harder to implement with iteration and shows the power of rec
 **exercise4:** In this larger bidirectional graph, print all the paths of length 7 that connect node `a` to node `b` where going over the same node multiple times is allowed (`avjxbxb` is one such path, there are 114 such paths in total).
 
 ```python
-edges =  [('a', 's'), ('i', 'z'), ('c', 'p'), ('d', 'p'), ('d', 'u'), ('b', 'e'), ('b', 'g'), ('f', 'p'), ('g', 'm'), ('h', 't'), ('h', 'y'), ('i', 'w'), ('i', 'j'), ('i', 'x'), ('k', 's'), ('k', 'l'), ('a', 'm'), ('n', 'u'), ('a', 'o'), ('a', 'v'), ('n', 'p'), ('a', 'q'), ('a', 'h'), ('p', 'r'), ('l', 's'), ('t', 'v'), ('u', 'y'), ('j', 'v'), ('a', 'j'), ('r', 'w'), ('r', 'u'), ('f', 'x'), ('x', 'y'), ('j', 'x'), ('d', 'j'), ('b', 'k'), ('b', 'x'), ('b', 'w')]
+edges =  [('a', 's'), ('i', 'z'), ('c', 'p'), ('d', 'p'), ('d', 'u'), ('b', 'e'), ('b', 'g'), 
+          ('f', 'p'), ('g', 'm'), ('h', 't'), ('h', 'y'), ('i', 'w'), ('i', 'j'), ('i', 'x'), 
+          ('k', 's'), ('k', 'l'), ('a', 'm'), ('n', 'u'), ('a', 'o'), ('a', 'v'), ('n', 'p'), 
+          ('a', 'q'), ('a', 'h'), ('p', 'r'), ('l', 's'), ('t', 'v'), ('u', 'y'), ('j', 'v'), 
+          ('a', 'j'), ('r', 'w'), ('r', 'u'), ('f', 'x'), ('x', 'y'), ('j', 'x'), ('d', 'j'), 
+          ('b', 'k'), ('b', 'x'), ('b', 'w')]
 ```
 ![permutations](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/graph_big.png)
 
