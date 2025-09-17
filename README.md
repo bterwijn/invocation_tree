@@ -357,6 +357,28 @@ Or see it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/
 
 Another good example of divide-and-conquer is the recursive quicksort algorithm. It works by choosing a pivot element and dividing the list into elements smaller than the pivot and elements larger than the pivot. Each of these sublists is then quicksorted in the same way. When a sublist has zero or one element, it is already sorted. Finally, the sorted sublists are combined with the pivot to produce the fully sorted list.
 
+```python
+import invocation_tree as ivt
+
+def quick_sort(values):
+    if len(values) <= 1:
+        return values
+    pivot = values[0]
+    smaller = [x for x in values if x  < pivot]
+    equal   = [x for x in values if x == pivot]
+    larger  = [x for x in values if x  > pivot]
+    return quick_sort(smaller) + equal + quick_sort(larger)
+
+values = [7, 4, 2, 6, 1, 5, 3, 9, 10, 8, 7, 11]
+print('unsorted values:',values)
+tree = ivt.gif('quick_sort.png')
+values = tree(quick_sort, values)
+print('  sorted values:',values)
+```
+```
+unsorted values: [7, 4, 2, 6, 1, 5, 3, 9, 10, 8, 7, 11]
+  sorted values: [1, 2, 3, 4, 5, 6, 7, 7, 8, 9, 10, 11]
+```
 ![quick_sort](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/quick_sort.gif)
 Or see it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/quick_sort.py)
 

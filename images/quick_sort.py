@@ -1,3 +1,4 @@
+import invocation_tree as ivt
 
 def quick_sort(values):
     if len(values) <= 1:
@@ -10,5 +11,6 @@ def quick_sort(values):
 
 values = [7, 4, 2, 6, 1, 5, 3, 9, 10, 8, 7, 11]
 print('unsorted values:',values)
-values = quick_sort(values)
+tree = ivt.gif('quick_sort.png')
+values = tree(quick_sort, values)
 print('  sorted values:',values)
