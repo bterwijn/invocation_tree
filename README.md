@@ -129,11 +129,34 @@ Each node in the invocation tree represents a function call, and the node's colo
 
 For every function call, the package displays its **local variables** and **return value**. Changes to the values of these variables over time are highlighted using bold text and gray shading to make them easier to track.
 
-In some functional and logical programming languages (e.g. Haskell, Prolog) there are not loops so there 2is only recursion to implement repetition, but in Python we have a choice between recursion and iteration. Generally iteration is the default choice in Python as it is often faster and many find it easier to understand. However, in some situation recursion comes with great benefits so it's important to master both ways of implemention repetition.
+With recursion we often use a divide and conquer strategy, spliting the problem in subproblems that are easier to solve. With factorial we split `factorial(4)` in a `4` and `factorial(3)` subproblem.
+
+**exerise1:** Use recursions to compute the sum of all the values in a list (hint: split for example the list `[1,2,3,...]` in head `1` and tail `[2,3,...]`).
+```python
+def sum(values):
+    # <your recursive implementation>
+
+print(sum([3,7,4,9,2]))  # 25
+```
+
+**exerise2:** Rewrite this iterative implementation of a decimal to binary conversion to a recursive implementation.
+
+```python
+def binary(decimal):
+    bin = []
+    while decimal > 0:
+        decimal, remainder = divmod(decimal, 2)
+        bin = [remainder] + bin
+    return bin
+
+print( binary(22) )  # [1, 0, 1, 1, 0]
+```
+
+In some functional and logical programming languages (e.g. Haskell, Prolog) there are not loops so there is only recursion to implement repetition, but in Python we have a choice between recursion and iteration. Generally iteration is chosen in Python as it is often faster and many find it easier to understand. However, in some situation recursion comes with great benefits so it's important to master both ways.
 
 # Permutations #
 
-We can use recursion to compute all permutation of a number of elements with replacement, meaning each element can be used any number of times. All permutations of length 3 of elements 'L' and 'R' can be made by moving down a tree for 3 steps and going first Left and then Right in a depth-first manner:
+We can use recursion to compute all permutation of a number of elements with replacement (each element can be used any number of times). All permutations of length 3 of elements 'L' and 'R' can be made by moving down a tree for 3 steps and going Left and Right at each step:
 
 ![perms_LR3](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/perms_LR3.png)
 
@@ -165,7 +188,7 @@ RRR
 ![permutations](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations.gif)
 Or see it in the [Invocation Tree Web Debugger](https://invocation-tree.com/#timestep=1.0&play)
 
-The visualization shows the depth-first nature of recursion. Each time the first elements is chosen first, and quickly the bottom of the tree is reached. Then one step back is made, and the next element is chosen. When each element had it's turn, another step back is made. This pattern repeats until all permutations are printed.
+The visualization shows the depth-first nature of recursion. In each step the first elements is chosen first, and quickly the bottom of the tree is reached. Then the permutation is printed, the function returns, one step back is made, and the next element is chosen. When each element had it's turn the function returns and another step back is made. This pattern repeats until all permutations are printed.
 
 We can also iterate over all permutations with replacement using the `product()` function of `iterools` to get the same result:
 
@@ -178,7 +201,7 @@ for perm in it.product('LR', repeat = 3):
 
 # Recussion Benefit #
 
-The benefit recursion brings is that we have more control over which permutations are generated. For example if we don't want neighboring elements to be equal we could simply write:
+The benefit recursion brings is that it gives more control over which permutations are generated. For example, if we don't want neighboring elements to be equal in all permutatations of 'A', 'B' and 'C' then we could simply write:
 
 ```python
 import invocation_tree as ivt
@@ -213,9 +236,65 @@ Or see it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/
 
 This stops neighbors from being equal early, in contrast to iteration, where we would have had to filter permutation with equal neighbors out after the fact which could be much slower.
 
-**exercise1:** Print all permutations with replacements of elements 'A', 'B', and 'C' of length 5 that are palindrome ('ABABA' is palindrome because if you read it backwards it's the same).
+**exercise3:** Print all permutations with replacements of elements 'A', 'B', and 'C' of length 5 that are palindrome ('ABABA' is palindrome because if you read it backwards it's the same).
 
 ## Path Planning ##
+
+A graph is defined by nodes which we name with letters, and edges which define the connections between nodes. For example edge `('a', 'j')` defines tat there is a connection between node `a` and node `j`. In a bidirectional graph a connection betweeen two nodes can be used in both directions, from `a` to `j` and from `j` to `a`.
+
+We define a bidirectional graph by a list of edges:
+```
+edges =  [('a', 'j'), ('f', 'j'), ('c', 'e'), ('b', 'd'), ('b', 'e'), ('f', 'g'), ('g', 'i'), ('h', 'i'), ('e', 'h'), ('a', 'i'), ('b', 'h'), ('b', 'f')]
+```
+that can be visualized as:
+
+![permutations](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/graph_small.png)
+
+To print all the paths from `a` to `b` without going over the same node twice, we can use this short recursive implementation:
+
+```python
+edges =  [('a', 'j'), ('f', 'j'), ('c', 'e'), ('b', 'd'), ('b', 'e'), ('f', 'g'), ('g', 'i'), ('h', 'i'), ('e', 'h'), ('a', 'i'), ('b', 'h'), ('b', 'f')]
+
+def edges_to_steps(edges: list[tuple[str, str]]) -> dict[str,list[str]]:
+    """ Returns a dict with for each node the nodes it is connected with. """ 
+    steps = {}
+    for n1, n2 in edges:
+        if not n1 in steps:
+            steps[n1] = []
+        steps[n1].append(n2)
+        if not n2 in steps:
+            steps[n2] = []
+        steps[n2].append(n1)
+    return steps
+
+def print_all_paths(steps, path, goal):
+    current = path[-1]
+    if current == goal:
+        print(path)
+    else:
+        valid_steps = steps[current]
+        for s in valid_steps:
+            if s not in path:  # don't use twice
+                print_all_paths(steps, path+s, goal)
+
+steps = edges_to_steps(edges)
+print_all_paths(steps, 'a', 'b')
+```
+```
+ajfgiheb
+ajfgihb
+ajfb
+aigfb
+aiheb
+aihb
+```
+This would be much harder to implement with iteration and shows the power of recursion.
+
+**exercise4:** In this larger bidirectional graph, print all the paths of length 7 that connect node `a` to node `b` where going over the same node multiple times is allowed (`avjxbxb` is one such path, there are 114 paths in total).
+
+edges =  [('a', 's'), ('i', 'z'), ('c', 'p'), ('d', 'p'), ('d', 'u'), ('b', 'e'), ('b', 'g'), ('f', 'p'), ('g', 'm'), ('h', 't'), ('h', 'y'), ('i', 'w'), ('i', 'j'), ('i', 'x'), ('k', 's'), ('k', 'l'), ('a', 'm'), ('n', 'u'), ('a', 'o'), ('a', 'v'), ('n', 'p'), ('a', 'q'), ('a', 'h'), ('p', 'r'), ('l', 's'), ('t', 'v'), ('u', 'y'), ('j', 'v'), ('a', 'j'), ('r', 'w'), ('r', 'u'), ('f', 'x'), ('x', 'y'), ('j', 'x'), ('d', 'j'), ('b', 'k'), ('b', 'x'), ('b', 'w')]
+![permutations](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/graph_big.png)
+
 
 
 ## Blocking ##

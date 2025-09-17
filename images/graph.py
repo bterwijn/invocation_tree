@@ -1,6 +1,5 @@
 import random
 import string
-random.seed(0)
 
 def get_name(i):
     name = ''
@@ -12,7 +11,8 @@ def get_name(i):
         i -= 1
     return name
 
-def generate(n, max_edge):
+def generate(n, max_edge, seed=0):
+    random.seed(seed)
     nodes = [get_name(i) for i in range(n)]
     if len(nodes) > 2:
         nodes[1], nodes[-1] = nodes[-1], nodes[1]

@@ -25,3 +25,6 @@ rm -f permutations_neighbor*.png
 python permutations_neighbor.py
 rm -f permutations_neighbor0.png
 bash create_gif.sh permutations_neighbor -d
+
+python draw_graph.py 10 2 graph_small 2 > edges_small.out
+python draw_graph.py 26 3 graph_big 1 > edges_big.out
