@@ -8,18 +8,8 @@ pip install --upgrade invocation_tree
 Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 
 # Highlights #
-
-```python
-def permutations(elements, perm, n):
-    if n == 0:
-        print(perm)
-    else:
-        for element in elements:
-            permutations(elements, perm + element, n-1)
-
-permutations('LR', '', 3)
 ```
-![permutations](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations.gif)
+![permutations_vscode](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations_vscode.gif)
 Run a live demo in the 👉 [**Invocation Tree Web Debugger**](https://invocation-tree.com/#timestep=1.0&play) 👈 now, no installation required!
 
 - shows the invocation tree (call tree) of a program **in real time**
@@ -167,7 +157,7 @@ In some functional and logical programming languages (e.g. Haskell, Prolog) ther
 
 # Permutations #
 
-We can use recursion to compute all permutation of a number of elements with replacement (each element can be used any number of times). All permutations of length 3 of elements 'L' and 'R' can be made by moving down a tree for 3 steps and going Left and Right at each step:
+We can use recursion to compute all permutation of a number of elements with replacement (each element can be used any number of times). All permutations of length 3 of elements 'L' and 'R' can be made by moving down a tree for 3 steps and going **L**eft and **R**ight at each step:
 
 ![perms_LR3](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/perms_LR3.png)
 
