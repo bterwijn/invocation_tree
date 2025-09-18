@@ -8,7 +8,7 @@ def quick_sort(values):
     larger  = [x for x in values if x  > pivot]
     return quick_sort(smaller) + equal + quick_sort(larger)
 
-values = [7, 4, 2, 6, 1, 5, 3, 9, 10, 8, 7, 11]
+values = [7, 4, 10, 11, 2, 6, 9, 1, 5, 3, 8, 12]
 print('unsorted values:',values)
 values = quick_sort(values)
 print('  sorted values:',values)

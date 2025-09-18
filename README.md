@@ -20,7 +20,11 @@ Run a live demo in the 👉 [**Invocation Tree Web Debugger**](https://invocatio
 
 [Permutations](#permutations)
 
-[Permutations Benefits](#recursion-benefits)
+[Recursion Benefits](#recursion-benefits)
+
+[Path Planning](#path-planning)
+
+[Collecting Results](#collecting-results)
 
 [Configuration](#Configuration)
 
@@ -250,7 +254,7 @@ edges =  [('a', 'j'), ('f', 'j'), ('c', 'e'), ('b', 'd'), ('b', 'e'), ('f', 'g')
 ```
 that can be visualized as:
 
-![permutations](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/graph_small.png)
+![graph_small](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/graph_small.png)
 
 To print all the paths from `a` to `b` without going over the same node twice, we can use this recursive implementation:
 
@@ -305,7 +309,7 @@ edges =  [('a', 's'), ('i', 'z'), ('c', 'p'), ('d', 'p'), ('d', 'u'), ('b', 'e')
           ('a', 'j'), ('r', 'w'), ('r', 'u'), ('f', 'x'), ('x', 'y'), ('j', 'x'), ('d', 'j'), 
           ('b', 'k'), ('b', 'x'), ('b', 'w')]
 ```
-![permutations](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/graph_big.png)
+![graph_big.png)](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/graph_big.png)
 
 # Collecting Results #
 
@@ -356,9 +360,23 @@ print(results)
 <!-- ![permutations_collect](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations_collect.gif) -->
 See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/permutations_collect.py)
 
+**exercise5:** Create a list with all paths of length 10 in the larger bidirectional graph that go from `a` to `b`, and that do go via `d` but do **not** go via `x` (`amajdjaskb` is one such path, there are 145 such paths in total).
+
+Where is the best place in the code to test for `x` to make the program run fast?
+
+```python
+edges =  [('a', 's'), ('i', 'z'), ('c', 'p'), ('d', 'p'), ('d', 'u'), ('b', 'e'), ('b', 'g'), 
+          ('f', 'p'), ('g', 'm'), ('h', 't'), ('h', 'y'), ('i', 'w'), ('i', 'j'), ('i', 'x'), 
+          ('k', 's'), ('k', 'l'), ('a', 'm'), ('n', 'u'), ('a', 'o'), ('a', 'v'), ('n', 'p'), 
+          ('a', 'q'), ('a', 'h'), ('p', 'r'), ('l', 's'), ('t', 'v'), ('u', 'y'), ('j', 'v'), 
+          ('a', 'j'), ('r', 'w'), ('r', 'u'), ('f', 'x'), ('x', 'y'), ('j', 'x'), ('d', 'j'), 
+          ('b', 'k'), ('b', 'x'), ('b', 'w')]
+```
+![graph_big_d_x.png)](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/graph_big.png_d_x)
+
 # Quick Sort #
 
-Another nice example of divide-and-conquer is the recursive quicksort algorithm. It works by choosing a pivot element and dividing the list into elements smaller than the pivot and elements larger than the pivot. Each of these sublists is then quicksorted in the same way. When we get to the point a sublist has zero or one element, it is already sorted. Finally, these sorted sublists are then combined with the pivot to produce the fully sorted list.
+Another nice example of divide-and-conquer is the recursive quicksort algorithm. It works by choosing a pivot element and dividing the list into elements smaller than the pivot and elements larger than the pivot. Each of these sublists is then quicksorted in the same way. When we get to the point a sublist has zero or one element, it is already sorted. When returning, these sorted sublists are then combined with the pivot to produce a larger sorted lists, so here we do need to use the return to get the result.
 
 ```python
 import invocation_tree as ivt
@@ -366,21 +384,21 @@ import invocation_tree as ivt
 def quick_sort(values):
     if len(values) <= 1:
         return values
-    pivot = values[0]
+    pivot = values[0]  # choose arbitrarity the first as pivot
     smaller = [x for x in values if x  < pivot]
     equal   = [x for x in values if x == pivot]
     larger  = [x for x in values if x  > pivot]
     return quick_sort(smaller) + equal + quick_sort(larger)
 
-values = [7, 4, 2, 6, 1, 5, 3, 9, 10, 8, 7, 11]
+values = [7, 4, 10, 11, 2, 6, 9, 1, 5, 3,  8, 12]
 print('unsorted values:',values)
 tree = ivt.blocking()
 values = tree(quick_sort, values)
 print('  sorted values:',values)
 ```
 ```
-unsorted values: [7, 4, 2, 6, 1, 5, 3, 9, 10, 8, 7, 11]
-  sorted values: [1, 2, 3, 4, 5, 6, 7, 7, 8, 9, 10, 11]
+unsorted values: [7, 4, 10, 11, 2, 6, 9, 1, 5, 3, 8, 12]
+  sorted values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 ```
 <!-- ![quick_sort](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/quick_sort.gif) -->
 See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/quick_sort.py)
@@ -472,7 +490,7 @@ For convenience we provide these functions to set common configurations:
 - **ivt.non_blocking(filename)**, non-blocking on each function call and return
 
 # Troubleshooting #
-- Adobe Acrobat Reader [doesn't refresh a PDF file](https://community.adobe.com/t5/acrobat-reader-discussions/reload-refresh-pdfs/td-p/9632292) when it changes on disk and blocks updates which results in an `Could not open 'somefile.pdf' for writing : Permission denied` error. One solution is to install a PDF reader that does refresh ([SumatraPDF](https://www.sumatrapdfreader.org/), [Okular](https://okular.kde.org/),  ...) and set it as the default PDF reader. Another solution is to `render()` the graph to a different output format.
+- Adobe Acrobat Reader [doesn't refresh a PDF file](https://community.adobe.com/t5/acrobat-reader-discussions/reload-refresh-pdfs/td-p/9632292) when it changes on disk and blocks updates which results in an `Could not open 'tree.pdf' for writing : Permission denied` error. One solution is to install a PDF reader that does refresh ([SumatraPDF](https://www.sumatrapdfreader.org/), [Okular](https://okular.kde.org/),  ...) and set it as the default PDF reader. Another solution is to `render()` the graph to a different output format.
 
 ## Memory_Graph Package ##
 The [invocation_tree](https://pypi.org/project/invocation-tree/) package visualizes function calls at different moments in time. If instead you want a detailed visualization of your data at the current time, check out the [memory_graph](https://pypi.org/project/memory-graph/) package.

@@ -28,6 +28,7 @@ bash create_gif.sh permutations_neighbor -d
 
 python draw_graph.py 10 2 graph_small 2 > edges_small.out
 python draw_graph.py 26 3 graph_big 1 > edges_big.out
+python draw_graph_d_x.py 26 3 graph_big_d_x 1 > edges_big_d_x.out
 
 rm -f permutations_return*.png
 python permutations_return.py
