@@ -372,7 +372,7 @@ edges =  [('a', 's'), ('i', 'z'), ('c', 'p'), ('d', 'p'), ('d', 'u'), ('b', 'e')
           ('a', 'j'), ('r', 'w'), ('r', 'u'), ('f', 'x'), ('x', 'y'), ('j', 'x'), ('d', 'j'), 
           ('b', 'k'), ('b', 'x'), ('b', 'w')]
 ```
-![graph_big_d_x.png)](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/graph_big.png_d_x)
+![graph_big_d_x.png)](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/graph_big.png_d_x.png)
 
 # Quick Sort #
 
