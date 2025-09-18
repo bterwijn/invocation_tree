@@ -8,9 +8,8 @@ pip install --upgrade invocation_tree
 Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 
 # Highlights #
-```
 ![permutations_vscode](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations_vscode.gif)
-Run a live demo in the 👉 [**Invocation Tree Web Debugger**](https://invocation-tree.com/#timestep=1.0&play) 👈 now, no installation required!
+Run a live demo in the 👉 [**Invocation Tree Web Debugger**](https://invocation-tree.com/#timestep=0.5&play) 👈 now, no installation required!
 
 - shows the invocation tree (call tree) of a program **in real time**
 - helps to **understand recursion** and its depth-first nature
