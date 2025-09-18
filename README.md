@@ -16,7 +16,7 @@ Run a live demo in the 👉 [**Invocation Tree Web Debugger**](https://invocatio
 
 # Chapters #
 
-[Recursion and Iteration](#recursion-and-iteration)
+[Iteration and Recursion](#iteration-and-recursion)
 
 [Permutations](#permutations)
 
@@ -39,9 +39,9 @@ ___
 ___
 
 
-# Recursion and Iteration #
+# Iteration and Recursion #
 
-Repetion can be implemented with recursion and iteration. Lets first look at simply computing the factorial of 4.
+Repetion can be implemented with recursion and iteration. Lets first look at computing the factorial of 4.
 
 ``` python
 import math
@@ -68,7 +68,7 @@ print(factorial(4))
 24
 ```
 
-or we can use recursion, a function that calls itself. Then we also need a stop condition to prevent the function from calling itself indefinitely, like so:
+Or we can use recursion, a function that calls itself. Then we also need a stop condition to prevent the function from calling itself indefinitely, like so:
 
 ```python
 def factorial(n):
@@ -173,7 +173,7 @@ def permutations(elements, perm, n):
             permutations(elements, perm + element, n-1)  #   add it and do next step
 
 tree = ivt.blocking()
-tree(permutations, 'LR', '', 3)  # permutations of L and R of length 3
+tree(permutations, 'LR', '', 3)  # all permutations of L and R of length 3
 ```
 ```
 LLL
@@ -201,7 +201,7 @@ for perm in it.product('LR', repeat = 3):
 
 # Recursion Benefit #
 
-The benefit recursion brings is that it gives more control over which permutations are generated. For example, if we don't want neighboring elements to be equal in all permutatations of 'A', 'B' and 'C' then we could simply write:
+The benefit recursion brings is that it gives us more control over which permutations are generated. For example, if we don't want neighboring elements to be equal in all permutatations of 'A', 'B' and 'C' then we could simply write:
 
 ```python
 import invocation_tree as ivt
@@ -215,8 +215,9 @@ def permutations(elems, perm, n):
                 permutations(elems, perm + element, n-1)  
 
 tree = ivt.blocking()
-tree(permutations, 'ABC', '', 3)  # permutations of A, B, C of length 3
+tree(permutations, 'ABC', '', 3)  # all permutations of A, B, C of length 3 without equal neigbors
 ```
+This generates all permutation but without equal neighors like `AAB`:
 ```
 ABA
 ABC
@@ -234,13 +235,13 @@ CBC
 ![permutations](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations_neighbor.gif)
 Or see it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/permutations_neighbor.py)
 
-This stops neighbors from being equal early, in contrast to iteration, where we would have had to filter permutation with equal neighbors out after the fact which could be much slower.
+With recursion we can stop neighbors from being equal early, in contrast to iteration, where we would have had to filter out a permutation with equal neighbors after it was fully generated, which could be much slower.
 
 **exercise3:** Print all permutations with replacements of elements 'A', 'B', and 'C' of length 5 that are palindrome ('ABABA' is palindrome because if you read it backwards it's the same).
 
 # Path Planning #
 
-A graph is defined by nodes which we name with letters, and edges which define the connections between nodes. For example edge `('a', 'j')` defines tat there is a connection between node `a` and node `j`. In a bidirectional graph a connection betweeen two nodes can be used in both directions, from `a` to `j` and from `j` to `a`.
+A graph is defined by nodes which we name with letters, and edges which define the connections between nodes. For example edge `('a', 'j')` defines that there is a connection between node `a` and node `j`. In a bidirectional graph a connection betweeen two nodes can be used in both directions, from `a` to `j` and from `j` to `a`.
 
 We define a bidirectional graph by a list of edges:
 ```
@@ -257,30 +258,30 @@ To print all the paths from `a` to `b` without going over the same node twice, w
 edges =  [('a', 'j'), ('f', 'j'), ('c', 'e'), ('b', 'd'), ('b', 'e'), ('f', 'g'), 
           ('g', 'i'), ('h', 'i'), ('e', 'h'), ('a', 'i'), ('b', 'h'), ('b', 'f')]
 
-def edges_to_steps(edges: list[tuple[str, str]]) -> dict[str,list[str]]:
+def edges_to_connections(edges: list[tuple[str, str]]) -> dict[str,list[str]]:
     """ Returns a dict with for each node the nodes it is connected with. """ 
-    steps = {}
+    connections = {}
     for n1, n2 in edges:
-        if not n1 in steps:
-            steps[n1] = []
-        steps[n1].append(n2)
-        if not n2 in steps:
-            steps[n2] = []
-        steps[n2].append(n1)
-    return steps
+        if not n1 in connections:
+            connections[n1] = []
+        connections[n1].append(n2)
+        if not n2 in connections:
+            connections[n2] = []
+        connections[n2].append(n1)
+    return connections
 
-def print_all_paths(steps, path, goal):
-    current = path[-1]
+def print_all_paths(connections, path, goal):
+    current = path[-1]  # last node in path is the current node
     if current == goal:
         print(path)
     else:
-        valid_steps = steps[current]
-        for s in valid_steps:
-            if s not in path:  # don't use twice
-                print_all_paths(steps, path+s, goal)
+        valid_connections = connections[current]  # get nodes connected to current
+        for n in valid_connections:
+            if n not in path:  # don't use same node twice
+                print_all_paths(connections, path + n, goal)
 
-steps = edges_to_steps(edges)
-print_all_paths(steps, 'a', 'b')
+connections = edges_to_connections(edges)
+print_all_paths(connections, 'a', 'b')
 ```
 ```
 ajfgiheb
@@ -290,6 +291,8 @@ aigfbaihb
 aiheb
 aihb
 ```
+See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/print_paths_1.py)
+
 This would be much harder to implement with iteration and shows the power of recursion.
 
 **exercise4:** In this larger bidirectional graph, print all the paths of length 7 that connect node `a` to node `b` where going over the same node multiple times is allowed (`avjxbxb` is one such path, there are 114 such paths in total).
