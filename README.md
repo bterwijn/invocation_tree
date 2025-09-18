@@ -199,7 +199,7 @@ for perm in it.product('LR', repeat = 3):
     print(perm)
 ```
 
-# Recursion Benefit #
+# Recursion Benefits #
 
 The benefit recursion brings is that it gives us more control over which permutations are generated. For example, if we don't want neighboring elements to be equal in all permutatations of 'A', 'B' and 'C' then we could simply write:
 
@@ -233,7 +233,7 @@ CBA
 CBC
 ```
 ![permutations](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations_neighbor.gif)
-Or see it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/permutations_neighbor.py)
+Or see it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/permutations_neighbor.py,breakpoints=30,continues=1)
 
 With recursion we can stop neighbors from being equal early, in contrast to iteration, where we would have had to filter out a permutation with equal neighbors after it was fully generated, which could be much slower.
 
