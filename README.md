@@ -79,6 +79,7 @@ def factorial(n):
     if n <= 1:  # stop condition
         return 1
     return n * factorial(n - 1)  # function calling itself
+
 print(factorial(4))
 ```
 ```
@@ -110,11 +111,11 @@ tree = ivt.blocking()  # block and wait for <Enter> key press
 tree(factorial, 4)     # call function 'factorial' with argument '4' 
 ```
 
-to graph the function invocations. Press &lt;Enter&gt; to walk through each step of the repetition until the stop condition is met.
+to graph the function invocations. Run this program and press &lt;Enter&gt; to step through program execution.
 
 ![factorial](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/factorial.gif)
 
-Or see it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/factorial.py).
+Or see it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/factorial.py&play).
 
 Each node in the invocation tree represents a function call, and the node's color indicates its state:
 
@@ -147,7 +148,7 @@ def binary(decimal):
 print( binary(22) )  # [1, 0, 1, 1, 0]
 ```
 
-To check that `[1, 0, 1, 1, 0]` is the correct binary repsentation for decimal 22:
+Checking that `[1, 0, 1, 1, 0]` is the correct binary repsentation for decimal 22:
 
 |       | 2<sup>4</sup> | 2<sup>3</sup> | 2<sup>2</sup> | 2<sup>1</sup> | 2<sup>0</sup> |               |
 |------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|
@@ -239,13 +240,13 @@ CBC
 ![permutations](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations_neighbor.gif)
 Or see it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/permutations_neighbor.py)
 
-With recursion we can stop neighbors from being equal early, in contrast to iteration, where we would have had to filter out a permutation with equal neighbors after it was fully generated, which could be much slower.
+With recursion we can stop neighbors from being equal early, in contrast to iteration, where we would have had to filter out a permutation with equal neighbors after it was fully generated, which could be much slower and would require a more complex program.
 
 **exercise3:** Print all permutations with replacements of elements 'A', 'B', and 'C' of length 5 that are palindrome ('ABABA' is palindrome because if you read it backwards it's the same).
 
 # Path Planning #
 
-A graph is defined by nodes which we name with letters, and edges which define the connections between nodes. For example edge `('a', 'j')` defines that there is a connection between node `a` and node `j`. In a bidirectional graph a connection betweeen two nodes can be used in both directions, from `a` to `j` and from `j` to `a`.
+A graph is defined by nodes, which we name with letters, and edges that define the connections between nodes. For example edge `('a', 'j')` defines that there is a connection between node `a` and node `j`. In a bidirectional graph a connection betweeen two nodes can be used in both directions, from `a` to `j` and from `j` to `a`.
 
 We define a bidirectional graph by a list of edges:
 ```
@@ -295,7 +296,7 @@ aigfbaihb
 aiheb
 aihb
 ```
-See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/print_paths_1.py&breakpoints=30&continues=1)
+See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/print_paths_1.py&breakpoints=30&continues=1&timestep=0.5&play)
 
 This would be much harder to implement with iteration and shows the power of recursion.
 
@@ -342,9 +343,9 @@ print(tree(permutations, 'LR', '', 3))
 ['LLL', 'LLR', 'LRL', 'LRR', 'RLL', 'RLR', 'RRL', 'RRR']
 ```
 <!-- ![permutations_return](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations_return.gif) -->
-See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/permutations_return.py)
+See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/permutations_return.py&timestep=0.5&play)
 
-However, sometimes it is easier to pass a list (or other mutable container type) as an extra argument in the recursion to collect the results in. This can also be faster as it avoids many list copies as a result of the '+=' list concatenation.
+However, sometimes it is easier to pass a list (or other mutable container type) as an extra argument in the recursion to collect the results in. This can also be faster as it avoids many list copies as a result of the '+=' list concatenations.
 
 ```python
 import invocation_tree as ivt
@@ -366,7 +367,7 @@ print(results)
 ```
 
 <!-- ![permutations_collect](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations_collect.gif) -->
-See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/permutations_collect.py)
+See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/permutations_collect.py&timestep=0.5&play)
 
 **exercise5:** Create a list with all paths of length 10 in the larger bidirectional graph that go from `a` to `b`, and that do go via `d` but do **not** go via `x` (`amajdjaskb` is one such path, there are 145 such paths in total).
 
@@ -409,7 +410,7 @@ unsorted values: [7, 4, 10, 11, 2, 6, 9, 1, 5, 3, 8, 12]
   sorted values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 ```
 <!-- ![quick_sort](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/quick_sort.gif) -->
-See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/quick_sort.py)
+See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/quick_sort.py&timestep=0.5&play)
 
 # Blocking #
 The program blocks execution at every function call and return statement, printing the current location in the source code. Press the &lt;Enter&gt; key to continue execution. To block at every line of the program (like in a debugger tool) and only where a change of value occured, use instead:
