@@ -305,8 +305,7 @@ Adding temporarely debug print statements is in general a good technique to unde
 
 See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/print_paths_print_1.py&continues=1)
 
-Temporarely add debug print statements anywhere where you don't fully understand what is going on.
-
+Add temporary debug prints wherever behavior isn’t clear. Experiment with what/how you print to maximize clarity.
 
 **exercise4:** In this larger bidirectional graph, print all the paths of length 7 that connect node `a` to node `b` where going over the same node multiple times is allowed (`avjxbxb` is one such path, there are 114 such paths in total).
 

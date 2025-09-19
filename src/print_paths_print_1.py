@@ -25,9 +25,9 @@ def print_all_paths(connections, path, goal):
         for n in valid_connections:
             if n not in path:
                 new_path = path + n
-                print(f'--- add   :{n}  {new_path}')
+                print(f'--- add   :{n}  {new_path}')  # <-------- debug print
                 print_all_paths(connections, new_path, goal)
-                print(f'--- remove:{n}  {path}')
+                print(f'--- remove:{n}  {path}')      # <-------- debug print
 
 connections = edges_to_connections(edges)
 print_all_paths(connections, 'a', 'b')
