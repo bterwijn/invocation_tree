@@ -301,9 +301,9 @@ This would be much harder to implement with iteration and shows the power of rec
 
 ## Debug Prints ##
 
-Adding temporarely debug print statements is in general a good technique to understand code, and is particulary helpful with recursion. Here we added a debug print statement when adding and removing a node from the path. As a result we can now in the output see how all paths are build step by step:
+Adding temporarely debug print statements is in general a good technique to understand code, and is particularly helpful with recursion. Here we added a debug print statement when adding and removing a node from the path. As a result we can now in the output see how all paths are build step by step:
 
-See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/print_paths_print_1.py&continues=1)
+See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/print_paths_print_1.py&breakpoints=33&continues=1&timestep=0.2&play)
 
 Add temporary debug prints wherever behavior isn’t clear. Experiment with what/how you print to maximize clarity.
 
