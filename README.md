@@ -237,7 +237,7 @@ CBA
 CBC
 ```
 ![permutations](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations_neighbor.gif)
-Or see it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/permutations_neighbor.py,breakpoints=30,continues=1)
+Or see it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/permutations_neighbor.py&breakpoints=30&continues=1)
 
 With recursion we can stop neighbors from being equal early, in contrast to iteration, where we would have had to filter out a permutation with equal neighbors after it was fully generated, which could be much slower.
 
