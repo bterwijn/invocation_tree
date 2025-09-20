@@ -88,44 +88,24 @@ def to_string(action):
         from_jug, to_jug, delta = action
         return f'Pour {delta} from jug {from_jug} to jug {to_jug}'
 
-def print_solution(jugs, visited):
-    solution = []
-    solution.append(str(jugs))
-    while True:
-        action = visited[jugs]
-        if action is None:
-            break
-        solution.append('- ' + to_string(action))
-        jugs.undo_action(action)
-        solution.append(str(jugs))
-    for line in solution[::-1]: # print in reverse order
-        print(line)
 
-def solver_breadth_first(jugs, goal):
-    visited = {jugs: None}
-    generation = [jugs]
-    while generation:
-        print('generation: ', generation)
-        next_generation = []
-        for jugs in generation:
-            actions = jugs.all_actions()
-            for action in actions:
-                new_jugs = jugs.copy()
-                goal_reached = new_jugs.do_action(action, goal)
-                print(jugs, action, '->', new_jugs)
-                if new_jugs not in visited:
-                    visited[new_jugs] = action # remember the action to get to new_jugs
-                    next_generation.append(new_jugs)
-                if goal_reached:
-                    print_solution(new_jugs, visited)
-                    return
-        generation = next_generation
-    return None
+def do_actions_and_print(jugs, actions):
+    print(jugs)
+    for action in actions:
+        print(to_string(action))
+        jugs.do_action(action, None)
+        print(jugs)
 
 
-goal = 4
-print('Goal is to get a jug with', goal, 'liters')
-jugs = Jugs((3, 5))
-print('We start with jugs:',jugs)
+if __name__ == '__main__':
+    goal = 4
+    print('Goal is to get a jug with', goal, 'liters')
+    jugs = Jugs((3, 5))
+    print('We start with jugs:',jugs)
 
-solver_breadth_first(jugs, goal)
+    print('=== breath first:')
+    solver_breadth_first(jugs, goal)
+
+    print('=== depth first:')
+    solution_actions = solver_depth_first(jugs, goal)
+    print_solution_actions(jugs, solution_actions)
