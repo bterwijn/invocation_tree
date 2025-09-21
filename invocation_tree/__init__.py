@@ -104,6 +104,8 @@ class Invocation_Tree:
         self.stack = []
         self.returned = []
         self.prev_returned = []
+        self.paused = []
+        self.prev_paused = []
         self.node_id = 0
         self.node_id_to_table = {}
         self.edges = []
@@ -146,7 +148,7 @@ class Invocation_Tree:
         return html.escape(val_str)
 
     def get_hightlighted_content(self, tree_node, key, value, use_old_content=False, use_repr=False):
-        if use_old_content:
+        if use_old_content and key in tree_node.strings:
             return tree_node.strings[key]
         is_highlighted = False
         content = self.value_to_string(key, value, use_repr=use_repr)
@@ -223,6 +225,7 @@ class Invocation_Tree:
                 graph_attr=graphviz_graph_attr,
                 node_attr=graphviz_node_attr,
                 edge_attr=graphviz_edge_attr)
+        # update returned nodes
         for node in self.prev_returned:
             self.update_node(node, use_old_content=True)
         self.prev_returned = []
@@ -230,8 +233,18 @@ class Invocation_Tree:
             self.update_node(node, returned=True)
             self.prev_returned.append(node)
         self.returned = []
-        for node in self.stack:
-            self.update_node(node, active=(node is self.stack[-1]))
+        # update active node
+        if len(self.stack)>0:
+            self.update_node(self.stack[-1], active=True)
+        # update paused nodes
+        for node in self.prev_paused:
+            self.update_node(node, active=False, use_old_content=True)
+        self.prev_paused = []
+        for node in self.paused:
+            self.update_node(node, active=False)
+            self.prev_paused.append(node)
+        self.paused = []
+        # add nodes and edges to graph
         for nid, table in self.node_id_to_table.items():
             graph.node(nid, label=table)
         for nid1, nid2 in self.edges:
@@ -296,6 +309,7 @@ class Invocation_Tree:
                 self.node_id += 1
                 if len(self.stack)>1:
                     self.add_edge(self.stack[-2], self.stack[-1])
+                    self.paused.append(self.stack[-2])
                 self.output_graph(frame, event)
             elif event == 'return':
                 self.stack[-1].return_value = arg
