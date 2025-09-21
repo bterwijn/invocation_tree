@@ -7,6 +7,8 @@ import html
 import sys
 import difflib 
 
+import invocation_tree.regex_set as regset
+
 __version__ = "0.0.27"
 __author__ = 'Bas Terwijn'
 
@@ -111,6 +113,9 @@ class Invocation_Tree:
         self.hide_calls = {'Invocation_Tree.__exit__', 'Invocation_Tree.stop_trace'}
         self.ignore_calls = set()
         self.ignoring_call = None
+        self.regset_hide_vars = regset.Regex_Set(self.hide_vars)
+        self.regset_hide_calls = regset.Regex_Set(self.hide_calls)
+        self.regset_ignore_calls = regset.Regex_Set(self.ignore_calls)
 
     def __repr__(self):
         return f'Invocation_Tree(filename={repr(self.filename)}, show={self.show}, block={self.block}, each_line={self.each_line}, gifcount={self.gifcount})'
@@ -179,7 +184,7 @@ class Invocation_Tree:
         for var,val in local_vars.items():
             var_name = class_fun_name+'..'+var
             val_name = class_fun_name+'.'+var
-            if filter_variables(var,val) and not val_name in self.hide_vars:
+            if filter_variables(var,val) and not self.regset_hide_vars.match(val_name, self.hide_vars):
                 table += '</TR>\n  <TR>'
                 hightlighted_var = self.get_hightlighted_content(tree_node, var_name, var, use_old_content)
                 hightlighted_val = self.get_hightlighted_content(tree_node, val_name, val, use_old_content, use_repr=True)
@@ -187,7 +192,7 @@ class Invocation_Tree:
                 table += '<TD ALIGN="left">'+ hightlighted_content  +'</TD>'
         if is_returned:
             return_name = class_fun_name+'.return'
-            if not return_name in self.hide_vars:
+            if not self.regset_hide_vars.match(return_name, self.hide_vars):
                 table += '</TR>\n  <TR>'
                 hightlighted_content = self.get_hightlighted_content(tree_node, return_name, return_value, use_old_content, use_repr=True)
                 table += '<TD ALIGN="left">'+ 'return ' + hightlighted_content +'</TD>'
@@ -275,24 +280,24 @@ class Invocation_Tree:
         if self.is_external(frame):
             return
         class_fun_name = get_class_function_name(frame)
-        if not class_fun_name in self.hide_calls:
-            skip_return = False
-            if event == 'call':
-                if class_fun_name in self.ignore_calls:
-                    self.ignoring_call = class_fun_name
-            elif event == 'return':
+        if not self.regset_hide_calls.match(class_fun_name, self.hide_calls):
+            if event == 'return':
                 if class_fun_name == self.ignoring_call:
                     self.ignoring_call = None
-                    skip_return = True
+                    return
             if self.ignoring_call is not None:
                 return
+            if event == 'call':
+                if self.regset_ignore_calls.match(class_fun_name, self.ignore_calls):
+                    self.ignoring_call = class_fun_name
+                    return
             if event == 'call':
                 self.stack.append(Tree_Node(self.node_id, frame, None))
                 self.node_id += 1
                 if len(self.stack)>1:
                     self.add_edge(self.stack[-2], self.stack[-1])
                 self.output_graph(frame, event)
-            elif event == 'return' and not skip_return:
+            elif event == 'return':
                 self.stack[-1].return_value = arg
                 self.returned.append(self.stack.pop())
                 self.output_graph(frame, event)
