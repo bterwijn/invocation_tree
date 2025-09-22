@@ -26,6 +26,10 @@ Run a live demo in the 👉 [**Invocation Tree Web Debugger**](https://invocatio
 
 [Collecting Results](#collecting-results)
 
+[Quick Sort](#quick-sort)
+
+[Jugs Puzzle](#jugs-puzzle)
+
 [Configuration](#Configuration)
 
 [Troubleshooting](#Troubleshooting)
@@ -468,9 +472,9 @@ Where:
 
 The breadth-first algorithm works and gives us the shortest path to a goal state, but to do that it uses a lot of memory to store each generation and all jugs states it has seen. Now we also want an algorithm that uses much less memory.
 
-**exercise6:** Write a recursive solver for the Jugs puzzle that uses less memory by searching for the solution in a depth-first manner.
+**exercise6:** Write a recursive solver for the Jugs Puzzle that uses less memory by searching for the solution in a depth-first manner.
 
-- A solution may not have the same jugs state multiple times (this avoids infinite loops).
+- A solution may not have the same jugs state multiple times (this also avoids infinite loops).
 - It is not necessary to find the shortest path to a goal state (like breadth-first does).
 
 **solution exercise6:** First try it yourself, but we give the [solution](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/jugs_depth_first.py) here for comparison:
@@ -482,33 +486,14 @@ A harder instance of this puzzle is with jugs with capacity 3, 5, 34 and 107 lit
 $ python jugs_breadth_first.py 51 3,5,34,107
 ```
 
-# Blocking #
-The program blocks execution at every function call and return statement, printing the current location in the source code. Press the &lt;Enter&gt; key to continue execution. To block at every line of the program (like in a debugger tool) and only where a change of value occured, use instead:
-
-```python
-    tree = ivt.blocking_each_change()
-```
-
-# Debugger #
-To visualize the invocation tree in a debugger tool, such as the integrated debugger in Visual Studio Code, use instead:
-
-```python
-    tree = ivt.debugger()
-```
-
-and open the 'tree.pdf' file manually.
-![Visual Studio Code debugger](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/vscode.png)
-
-
+# Configuration #
 
 ## Hidding ##
-It can be useful to hide certian variables or functions to avoid unnecessary complexity. This can for example be done with:
+It can be useful to hide certian variables or functions to avoid unnecessary complexity. This can be done with:
 
 ```python
 tree = ivt.blocking()
-tree.hide_vars.add('permutations.elements')
-tree.hide_vars.add('permutations.element')
-tree.hide_vars.add('permutations.all_perms')
+tree.hide_vars.add('namespace.functionname.variablename')
 ```
 
 Or hide certain function calls:
@@ -525,8 +510,38 @@ tree = ivt.blocking()
 tree.ignore_calls.add('namespace.functionname')
 ```
 
-# Configuration #
-These invocation_tree configurations are available for an `Invocation_Tree` objects:
+With the `re:` prefix we can use regular expresssions, for example:
+
+```python
+tree = ivt.blocking()
+tree.ignore_calls.add('re:namespace\..*')
+```
+
+to hide all function of `namespace`.
+
+## Blocking ##
+
+For convenience we provide these functions to set common configurations:
+
+- **ivt.blocking(filename)**, blocks on function call and return
+- **ivt.blocking_each_change(filename)**, blocks on each change of value
+- **ivt.debugger(filename)**, non-blocking for use in debugger tool (open &lt;filename&gt; manually)
+- **ivt.gif(filename)**, generates many output files on function call and return for gif creation
+- **ivt.gif_each_change(filename)**, generates many output files on each change of value for gif creation
+- **ivt.non_blocking(filename)**, non-blocking on each function call and return
+
+To visualize the invocation tree in a debugger tool, such as the integrated debugger in Visual Studio Code, use:
+
+```python
+tree = ivt.debugger()
+tree(som_function, arg1, arg2)
+```
+and open the 'tree.pdf' file in the local directory manually.
+![Visual Studio Code debugger](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/vscode.png)
+
+
+## Details ##
+More detailed configurations can be set on an `Invocation_Tree` objects:
 
 ```python
 tree = ivt.Invocation_Tree()
@@ -554,19 +569,14 @@ tree = ivt.Invocation_Tree()
   - HTML color for paused functions
 - **tree.color_returned***: string
   - HTML color for returned functions
-- **tree.hide** : set()
-  - set of all variables names that are not shown in the tree
 - **tree.to_string** : dict[str, fun]
-  - mapping from type/name to a to_string() function for custom printing of values
-
-For convenience we provide these functions to set common configurations:
-
-- **ivt.blocking(filename)**, blocks on function call and return
-- **ivt.blocking_each_change(filename)**, blocks on each change of value
-- **ivt.debugger(filename)**, non-blocking for use in debugger tool (open &lt;filename&gt; manually)
-- **ivt.gif(filename)**, generates many output files on function call and return for gif creation
-- **ivt.gif_each_change(filename)**, generates many output files on each change of value for gif creation
-- **ivt.non_blocking(filename)**, non-blocking on each function call and return
+  - mapping from type/name/id to a to_string() function for custom printing of values
+- **tree.hide_vars** : set()
+  - set of all variables names that are not shown in the tree
+- **tree.hide_calls** : set()
+  - set of all functions names that are not shown in the tree
+- **tree.ignore_calls** : set()
+  - set of all functions names that are not shown in the tree, including its children
 
 # Troubleshooting #
 - Adobe Acrobat Reader [doesn't refresh a PDF file](https://community.adobe.com/t5/acrobat-reader-discussions/reload-refresh-pdfs/td-p/9632292) when it changes on disk and blocks updates which results in an `Could not open 'tree.pdf' for writing : Permission denied` error. One solution is to install a PDF reader that does refresh ([SumatraPDF](https://www.sumatrapdfreader.org/), [Okular](https://okular.kde.org/),  ...) and set it as the default PDF reader. Another solution is to `render()` the graph to a different output format.
