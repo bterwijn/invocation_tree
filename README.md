@@ -1,5 +1,3 @@
-this page is under constructions, there may be inconsistencies or things missing
-
 # Installation #
 Install (or upgrade) `invocation_tree` using pip:
 ```
