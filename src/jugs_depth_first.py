@@ -130,8 +130,8 @@ def solver_depth_first(jugs, goal):
 
 if __name__ == '__main__':
     goal = 4
-    print('Goal is to get a jug with', goal, 'liters')
     jugs = Jugs((3, 5))
+    print('Goal is to get a jug with', goal, 'liters')
     print('We start with jugs:',jugs)   
     solution_actions = solver_depth_first( jugs, goal)
     print_solution(jugs, solution_actions)
