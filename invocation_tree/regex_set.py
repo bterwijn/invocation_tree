@@ -11,7 +11,7 @@ class Regex_Set:
     def update_pattern(self, target_set):
         if not target_set == self.target_set:
             self.target_set = target_set.copy()
-            pattern = r'^('
+            pattern = '^('
             sep = ''
             for target in self.target_set:
                 target = target.strip()
@@ -20,7 +20,7 @@ class Regex_Set:
                 else:
                     pattern += sep + re.escape(target)
                 sep = '|'
-            pattern += r')$'
+            pattern += ')$'
             self.compiled_pattern = re.compile(pattern)
 
     def match(self, s, target_set):
