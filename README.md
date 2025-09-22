@@ -426,8 +426,8 @@ In the Jugs puzzle we have a set of jugs of various capacities. Our goal is to g
 
 In the first puzzle instance we have a jug with `3` liter capacity, a jug with `5` liter capacity, and our goal is to get to a jug with `4` liters in it. We already have a breadth-first algorithm that solves this puzzle:
 
-- [jugs.py](https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/images/jugs.py)
-- [jugs_bread_first.py](https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/images/jugs_breadth_first.py)
+- [jugs.py](https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/jugs.py)
+- [jugs_bread_first.py](https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/jugs_breadth_first.py)
 
 If we run this code we get a solution:
 ```
