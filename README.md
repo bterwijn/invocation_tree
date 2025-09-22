@@ -414,51 +414,73 @@ See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#co
 
 # Jugs Puzzle #
 
-puzzle
+In the Jugs puzzle we have a set of jugs of various capacities. Our goal is to get a jug with a certain amount of liquid in it. In each step we can one of these actions:
 
-Allowed actions:
-- fill any jug until it is full
-- empty any jug until it is empty
+- fill one jug until it is full
+- empty one jug until it is empty
 - pour from jug A to jug B until A is empty or B is full
 
-jugs.py
-jugs_bread_first.py
+![jugs.png](jugs.png)
 
+In the first instance we have a jug with `3` liter capacity, a jug with `5` liter capacity, and our goal is to get to a jug with `4` liters in it. We already have a breadth-first algorithm that solves this puzzle:
+
+[jugs.py](https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/images/jugs.py)
+[jugs_bread_first.py](https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/images/jugs_breadth_first.py)
+
+If we run this code we get:
 ```
 $ python jugs_breadth_first.py 4 3,5
 Goal is to get a jug with 4 liters.
 We start with jugs: 0/3 0/5
+generation0:  [0/3 0/5]
+0/3 0/5 (0, 3) -> 3/3 0/5
+0/3 0/5 (1, 5) -> 0/3 5/5
+generation1:  [3/3 0/5, 0/3 5/5]
+3/3 0/5 (0, 1, 3) -> 0/3 3/5
+3/3 0/5 (1, 5) -> 3/3 5/5
+0/3 5/5 (1, 0, 3) -> 3/3 2/5
+generation2:  [0/3 3/5, 3/3 5/5, 3/3 2/5]
+0/3 3/5 (0, 3) -> 3/3 3/5
+3/3 2/5 (0, -3) -> 0/3 2/5
+generation3:  [3/3 3/5, 0/3 2/5]
+3/3 3/5 (0, 1, 2) -> 1/3 5/5
+0/3 2/5 (1, 0, 2) -> 2/3 0/5
+generation4:  [1/3 5/5, 2/3 0/5]
+1/3 5/5 (1, -5) -> 1/3 0/5
+2/3 0/5 (1, 5) -> 2/3 5/5
+generation5:  [1/3 0/5, 2/3 5/5]
+1/3 0/5 (0, 1, 1) -> 0/3 1/5
+2/3 5/5 (1, 0, 1) -> 3/3 4/5
 === solution:
-0/3 0/5  -  Fill jug 0 with 3
-3/3 0/5  -  Pour 3 from jug 0 to jug 1
-0/3 3/5  -  Fill jug 0 with 3
-3/3 3/5  -  Pour 2 from jug 0 to jug 1
-1/3 5/5  -  Fill jug 0 with 2
-3/3 5/5  -  Empty jug 0 with -3
+0/3 0/5  -  Fill jug 1 with 5
 0/3 5/5  -  Pour 3 from jug 1 to jug 0
 3/3 2/5  -  Empty jug 0 with -3
 0/3 2/5  -  Pour 2 from jug 1 to jug 0
 2/3 0/5  -  Fill jug 1 with 5
 2/3 5/5  -  Pour 1 from jug 1 to jug 0
-3/3 4/5  -  
+3/3 4/5  -
 ```
 
-breadth first, 
-requires a lot of memory
+Where:
+- `0/3` represents a jug with `0` liter content and `3` liter capacity.
+- `(0, 3)` represents the action of taking jug at index `0` and filling it with `3` liters
+- `(0, 1, 2)` represents the action of pouring `2` liters from jug at index `0` to jug at index `1`
+
+The breadth-first algorithm works and gives us the shortest path to a goal state, but to do that it uses a lot of memory to store each generation and all jugs states it has seen. Now we also want an algorithm that uses much less memory.
+
+**exercise6:** Write a recursive solver for the Jugs puzzle that uses less memory by searching for the solution in a depth-first manner.
+
+- A solution may not have the same jugs state multiple times (this avoids infinite loops).
+- It is not necessary to find the shortest path to a goal state (like breadth-first does).
+
+**solution exercise6:** First try it yourself, but we give the [solution](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/jugs_depth_first.py) here for comparison:
 
 
-
-**exercise6:** Write a recursive solver for the Jugs puzzle that uses less memory by searching for the solution in a depth first manner.
-
-- A solution may not have the same jugs state multiple times.
-- It is not necessary to find the shortest path (as breadth first does).
+A harder instance of this puzzle is with jugs with capacity 3, 5, 34 and 107 liter and the goal of getting to a jug with 51 liters.
 
 ```
 $ python jugs_breadth_first.py 51 3,5,34,107
 ```
-
-**exercise7:** 
-
 
 # Blocking #
 The program blocks execution at every function call and return statement, printing the current location in the source code. Press the &lt;Enter&gt; key to continue execution. To block at every line of the program (like in a debugger tool) and only where a change of value occured, use instead:
