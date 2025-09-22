@@ -241,7 +241,7 @@ class Invocation_Tree:
             self.update_node(node, active=False, use_old_content=True)
         self.prev_paused = []
         for node in self.paused:
-            self.update_node(node, active=False)
+            # node is already updated in trace() with its frame at pause time 
             self.prev_paused.append(node)
         self.paused = []
         # add nodes and edges to graph
@@ -305,6 +305,12 @@ class Invocation_Tree:
                     self.ignoring_call = class_fun_name
                     return
             if event == 'call':
+                # update previous active node with its current frame now
+                if len(self.stack)>0:
+                    previous = self.stack[-1]
+                    self.update_node(previous, active=False)
+                    self.paused.append(previous)
+                # create new node
                 self.stack.append(Tree_Node(self.node_id, frame, None))
                 self.node_id += 1
                 if len(self.stack)>1:
