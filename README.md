@@ -420,7 +420,7 @@ In the Jugs puzzle we have a set of jugs of various capacities. Our goal is to g
 - empty one jug until it is empty
 - pour from jug A to jug B until A is empty or B is full
 
-![jugs.png](jugs.png)
+![jugs.png](images/jugs.png)
 
 In the first instance we have a jug with `3` liter capacity, a jug with `5` liter capacity, and our goal is to get to a jug with `4` liters in it. We already have a breadth-first algorithm that solves this puzzle:
 
