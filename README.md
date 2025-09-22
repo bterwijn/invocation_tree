@@ -414,7 +414,7 @@ See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#co
 
 # Jugs Puzzle #
 
-In the Jugs puzzle we have a set of jugs of various capacities. Our goal is to get a jug with a certain amount of liquid in it. In each step we can one of these actions:
+In the Jugs puzzle we have a set of jugs of various capacities. Our goal is to get a jug with a certain amount of liquid in it. In each step we can take one of these actions:
 
 - fill one jug until it is full
 - empty one jug until it is empty
@@ -422,12 +422,12 @@ In the Jugs puzzle we have a set of jugs of various capacities. Our goal is to g
 
 ![jugs.png](images/jugs.png)
 
-In the first instance we have a jug with `3` liter capacity, a jug with `5` liter capacity, and our goal is to get to a jug with `4` liters in it. We already have a breadth-first algorithm that solves this puzzle:
+In the first puzzle instance we have a jug with `3` liter capacity, a jug with `5` liter capacity, and our goal is to get to a jug with `4` liters in it. We already have a breadth-first algorithm that solves this puzzle:
 
-[jugs.py](https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/images/jugs.py)
-[jugs_bread_first.py](https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/images/jugs_breadth_first.py)
+- [jugs.py](https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/images/jugs.py)
+- [jugs_bread_first.py](https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/images/jugs_breadth_first.py)
 
-If we run this code we get:
+If we run this code we get a solution:
 ```
 $ python jugs_breadth_first.py 4 3,5
 Goal is to get a jug with 4 liters.
