@@ -234,15 +234,15 @@ class Invocation_Tree:
             self.prev_returned.append(node)
         self.returned = []
         # update active node
+        active_node = None 
         if len(self.stack)>0:
-            self.update_node(self.stack[-1], active=True)
+            active_node = self.stack[-1]
+            self.update_node(active_node, active=True)
         # update paused nodes
         for node in self.prev_paused:
-            self.update_node(node, active=False, use_old_content=True)
-        self.prev_paused = []
-        for node in self.paused:
-            # node is already updated in trace() with its frame at pause time 
-            self.prev_paused.append(node)
+            if node is not active_node: # don't overwrite active node
+                self.update_node(node, active=False, use_old_content=True)
+        self.prev_paused = self.paused.copy()
         self.paused = []
         # add nodes and edges to graph
         for nid, table in self.node_id_to_table.items():
