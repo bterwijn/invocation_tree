@@ -108,7 +108,7 @@ def factorial(n):
     return n * factorial(n - 1)
 
 tree = ivt.blocking()  # block and wait for <Enter> key press
-tree(factorial, 4)     # call function 'factorial' with argument '4' 
+tree(factorial, 4)     # call function 'factorial' with argument '4'
 ```
 
 to graph the function invocations. Run this program and press &lt;Enter&gt; to step through program execution.
@@ -217,7 +217,7 @@ def permutations(elems, perm, n):
     else:
         for element in elems:
             if len(perm) == 0 or not perm[-1] == element:  # test neighbor
-                permutations(elems, perm + element, n-1)  
+                permutations(elems, perm + element, n-1)
 
 tree = ivt.blocking()
 tree(permutations, 'ABC', '', 3)  # all permutations of A, B, C of length 3 without equal neigbors
@@ -250,7 +250,7 @@ A graph is defined by nodes, which we name with letters, and edges that define t
 
 We define a bidirectional graph by a list of edges:
 ```
-edges =  [('a', 'j'), ('f', 'j'), ('c', 'e'), ('b', 'd'), ('b', 'e'), ('f', 'g'), 
+edges =  [('a', 'j'), ('f', 'j'), ('c', 'e'), ('b', 'd'), ('b', 'e'), ('f', 'g'),
           ('g', 'i'), ('h', 'i'), ('e', 'h'), ('a', 'i'), ('b', 'h'), ('b', 'f')]
 ```
 that can be visualized as:
@@ -260,11 +260,11 @@ that can be visualized as:
 To print all the paths from `a` to `b` without going over the same node twice, we can use this recursive implementation:
 
 ```python
-edges =  [('a', 'j'), ('f', 'j'), ('c', 'e'), ('b', 'd'), ('b', 'e'), ('f', 'g'), 
+edges =  [('a', 'j'), ('f', 'j'), ('c', 'e'), ('b', 'd'), ('b', 'e'), ('f', 'g'),
           ('g', 'i'), ('h', 'i'), ('e', 'h'), ('a', 'i'), ('b', 'h'), ('b', 'f')]
 
 def edges_to_connections(edges: list[tuple[str, str]]) -> dict[str,list[str]]:
-    """ Returns a dict with for each node the nodes it is connected with. """ 
+    """ Returns a dict with for each node the nodes it is connected with. """
     connections = {}
     for n1, n2 in edges:
         if not n1 in connections:
@@ -311,11 +311,11 @@ Add temporary debug prints wherever behavior isn’t clear. Experiment with what
 **exercise4:** In this larger bidirectional graph, print all the paths of length 7 that connect node `a` to node `b` where going over the same node multiple times is allowed (`avjxbxb` is one such path, there are 114 such paths in total).
 
 ```python
-edges =  [('a', 's'), ('i', 'z'), ('c', 'p'), ('d', 'p'), ('d', 'u'), ('b', 'e'), ('b', 'g'), 
-          ('f', 'p'), ('g', 'm'), ('h', 't'), ('h', 'y'), ('i', 'w'), ('i', 'j'), ('i', 'x'), 
-          ('k', 's'), ('k', 'l'), ('a', 'm'), ('n', 'u'), ('a', 'o'), ('a', 'v'), ('n', 'p'), 
-          ('a', 'q'), ('a', 'h'), ('p', 'r'), ('l', 's'), ('t', 'v'), ('u', 'y'), ('j', 'v'), 
-          ('a', 'j'), ('r', 'w'), ('r', 'u'), ('f', 'x'), ('x', 'y'), ('j', 'x'), ('d', 'j'), 
+edges =  [('a', 's'), ('i', 'z'), ('c', 'p'), ('d', 'p'), ('d', 'u'), ('b', 'e'), ('b', 'g'),
+          ('f', 'p'), ('g', 'm'), ('h', 't'), ('h', 'y'), ('i', 'w'), ('i', 'j'), ('i', 'x'),
+          ('k', 's'), ('k', 'l'), ('a', 'm'), ('n', 'u'), ('a', 'o'), ('a', 'v'), ('n', 'p'),
+          ('a', 'q'), ('a', 'h'), ('p', 'r'), ('l', 's'), ('t', 'v'), ('u', 'y'), ('j', 'v'),
+          ('a', 'j'), ('r', 'w'), ('r', 'u'), ('f', 'x'), ('x', 'y'), ('j', 'x'), ('d', 'j'),
           ('b', 'k'), ('b', 'x'), ('b', 'w')]
 ```
 ![graph_big.png)](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/graph_big.png)
@@ -374,11 +374,11 @@ See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#co
 Where is the best place in the code to test for `x` to make the program run fast?
 
 ```python
-edges =  [('a', 's'), ('i', 'z'), ('c', 'p'), ('d', 'p'), ('d', 'u'), ('b', 'e'), ('b', 'g'), 
-          ('f', 'p'), ('g', 'm'), ('h', 't'), ('h', 'y'), ('i', 'w'), ('i', 'j'), ('i', 'x'), 
-          ('k', 's'), ('k', 'l'), ('a', 'm'), ('n', 'u'), ('a', 'o'), ('a', 'v'), ('n', 'p'), 
-          ('a', 'q'), ('a', 'h'), ('p', 'r'), ('l', 's'), ('t', 'v'), ('u', 'y'), ('j', 'v'), 
-          ('a', 'j'), ('r', 'w'), ('r', 'u'), ('f', 'x'), ('x', 'y'), ('j', 'x'), ('d', 'j'), 
+edges =  [('a', 's'), ('i', 'z'), ('c', 'p'), ('d', 'p'), ('d', 'u'), ('b', 'e'), ('b', 'g'),
+          ('f', 'p'), ('g', 'm'), ('h', 't'), ('h', 'y'), ('i', 'w'), ('i', 'j'), ('i', 'x'),
+          ('k', 's'), ('k', 'l'), ('a', 'm'), ('n', 'u'), ('a', 'o'), ('a', 'v'), ('n', 'p'),
+          ('a', 'q'), ('a', 'h'), ('p', 'r'), ('l', 's'), ('t', 'v'), ('u', 'y'), ('j', 'v'),
+          ('a', 'j'), ('r', 'w'), ('r', 'u'), ('f', 'x'), ('x', 'y'), ('j', 'x'), ('d', 'j'),
           ('b', 'k'), ('b', 'x'), ('b', 'w')]
 ```
 ![graph_big_d_x.png)](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/graph_big_d_x.png)
@@ -411,6 +411,54 @@ unsorted values: [7, 4, 10, 11, 2, 6, 9, 1, 5, 3, 8, 12]
 ```
 <!-- ![quick_sort](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/quick_sort.gif) -->
 See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/quick_sort.py&timestep=0.5&play)
+
+# Jugs Puzzle #
+
+puzzle
+
+Allowed actions:
+- fill any jug until it is full
+- empty any jug until it is empty
+- pour from jug A to jug B until A is empty or B is full
+
+jugs.py
+jugs_bread_first.py
+
+```
+$ python jugs_breadth_first.py 4 3,5
+Goal is to get a jug with 4 liters.
+We start with jugs: 0/3 0/5
+=== solution:
+0/3 0/5  -  Fill jug 0 with 3
+3/3 0/5  -  Pour 3 from jug 0 to jug 1
+0/3 3/5  -  Fill jug 0 with 3
+3/3 3/5  -  Pour 2 from jug 0 to jug 1
+1/3 5/5  -  Fill jug 0 with 2
+3/3 5/5  -  Empty jug 0 with -3
+0/3 5/5  -  Pour 3 from jug 1 to jug 0
+3/3 2/5  -  Empty jug 0 with -3
+0/3 2/5  -  Pour 2 from jug 1 to jug 0
+2/3 0/5  -  Fill jug 1 with 5
+2/3 5/5  -  Pour 1 from jug 1 to jug 0
+3/3 4/5  -  
+```
+
+breadth first, 
+requires a lot of memory
+
+
+
+**exercise6:** Write a recursive solver for the Jugs puzzle that uses less memory by searching for the solution in a depth first manner.
+
+- A solution may not have the same jugs state multiple times.
+- It is not necessary to find the shortest path (as breadth first does).
+
+```
+$ python jugs_breadth_first.py 51 3,5,34,107
+```
+
+**exercise7:** 
+
 
 # Blocking #
 The program blocks execution at every function call and return statement, printing the current location in the source code. Press the &lt;Enter&gt; key to continue execution. To block at every line of the program (like in a debugger tool) and only where a change of value occured, use instead:
@@ -462,7 +510,7 @@ These invocation_tree configurations are available for an `Invocation_Tree` obje
 tree = ivt.Invocation_Tree()
 ```
 
-- **tree.filename** : str  
+- **tree.filename** : str
   - filename to save the tree to, defaults to 'tree.pdf'
 - **tree.show** : bool
   - if `True` the default application is open to view 'tree.filename'
@@ -473,13 +521,13 @@ tree = ivt.Invocation_Tree()
 - **tree.each_line** : bool
   - if `True` each line of the program is stepped through
 - **tree.max_string_len** : int
-  - the maximum string length, only the end is shown of longer strings 
+  - the maximum string length, only the end is shown of longer strings
 - **tree.gifcount** : int
   - if `>=0` the out filename is numbered for animated gif making
 - **tree.indent** : string
   - the string used for identing the local variables
 - **tree.color_active** : string
-  - HTML color for active function 
+  - HTML color for active function
 - **tree.color_paused*** : string
   - HTML color for paused functions
 - **tree.color_returned***: string

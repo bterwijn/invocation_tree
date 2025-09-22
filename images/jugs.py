@@ -89,23 +89,11 @@ def to_string(action):
         return f'Pour {delta} from jug {from_jug} to jug {to_jug}'
 
 
-def do_actions_and_print(jugs, actions):
-    print(jugs)
+def print_solution(jugs, actions):
+    print('=== solution:')
+    print(jugs, end='  -  ')
     for action in actions:
         print(to_string(action))
         jugs.do_action(action, None)
-        print(jugs)
-
-
-if __name__ == '__main__':
-    goal = 4
-    print('Goal is to get a jug with', goal, 'liters')
-    jugs = Jugs((3, 5))
-    print('We start with jugs:',jugs)
-
-    print('=== breath first:')
-    solver_breadth_first(jugs, goal)
-
-    print('=== depth first:')
-    solution_actions = solver_depth_first(jugs, goal)
-    print_solution_actions(jugs, solution_actions)
+        print(jugs, end='  -  ')
+    print()

@@ -11,7 +11,16 @@ class Regex_Set:
     def update_pattern(self, target_set):
         if not target_set == self.target_set:
             self.target_set = target_set.copy()
-            pattern = r'^(' + '|'.join(target_set) + r')$'
+            pattern = r'^('
+            sep = ''
+            for target in self.target_set:
+                target = target.strip()
+                if target[:3] == 're:':
+                    pattern += sep + '(' + target[3:] + ')'
+                else:
+                    pattern += sep + re.escape(target)
+                sep = '|'
+            pattern += r')$'
             self.compiled_pattern = re.compile(pattern)
 
     def match(self, s, target_set):
