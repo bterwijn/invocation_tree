@@ -293,17 +293,17 @@ class Invocation_Tree:
         if self.is_external(frame):
             return
         class_fun_name = get_class_function_name(frame)
-        if not self.regset_hide_calls.match(class_fun_name, self.hide_calls):
-            if event == 'return':
-                if class_fun_name == self.ignoring_call:
-                    self.ignoring_call = None
-                    return
-            if self.ignoring_call is not None:
+        if event == 'return':
+            if class_fun_name == self.ignoring_call:
+                self.ignoring_call = None
                 return
-            if event == 'call':
-                if self.regset_ignore_calls.match(class_fun_name, self.ignore_calls):
-                    self.ignoring_call = class_fun_name
-                    return
+        if self.ignoring_call is not None:
+            return
+        if event == 'call':
+            if self.regset_ignore_calls.match(class_fun_name, self.ignore_calls):
+                self.ignoring_call = class_fun_name
+                return
+        if not self.regset_hide_calls.match(class_fun_name, self.hide_calls):
             if event == 'call':
                 # update previous active node with its current frame now
                 if len(self.stack)>0:

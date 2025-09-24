@@ -475,7 +475,9 @@ The breadth-first algorithm works and gives us the shortest path to a goal state
 - A solution may not have the same jugs state multiple times (this also avoids infinite loops).
 - It is not necessary to find the shortest path to a goal state (like breadth-first does).
 
-**solution exercise6:** First try it yourself, but we give the [solution](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/jugs_depth_first.py&breakpoints=136&continues=1) here for comparison.
+You can use [configurations](https://invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/config.py) to keep the tree small and readable.
+
+**solution exercise6:** First try it yourself, we give the [solution](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/jugs_depth_first.py&breakpoints=136&continues=1) here for comparison.
 
 A harder more fun instance of this puzzle is with jugs with capacity 3, 5, 34 and 107 liter and the goal of getting to a jug with 51 liters.
 
@@ -484,6 +486,7 @@ $ python jugs_breadth_first.py 51 3,5,34,107
 ```
 
 # Configuration #
+The Invocation Tree Web Debugger gives examples of the [most important configurations](https://invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/config.py).
 
 ## Hidding ##
 It can be useful to hide certian variables or functions to avoid unnecessary complexity. This can be done with:

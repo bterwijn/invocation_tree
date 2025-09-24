@@ -29,5 +29,5 @@ funA()
 lst = [1, 2, 3]
 # change how type 'list' is shown in the tree:
 ivt_tree.to_string[list] = lambda v : '|'.join(str(i) for i in v)
-# there is bug somewhere that introduces extra white spaces, will look into that
+# there is bug somewhere that introduces extra white spaces, I will look into that
 lst.append(4)
