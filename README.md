@@ -347,7 +347,7 @@ print(tree(permutations, 'LR', '', 3))
 <!-- ![permutations_return](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations_return.gif) -->
 See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/permutations_return.py&timestep=0.5&play)
 
-However, sometimes it is easier to pass a list (or other mutable container type) as an extra argument in the recursion to collect the results in.
+However, sometimes it is easier to pass a list (or any other mutable container type) as an extra argument in the recursion to collect the results in. This is also faster because now just one list is used instead of each function call having to create its own `results` list.
 
 ```python
 import invocation_tree as ivt
