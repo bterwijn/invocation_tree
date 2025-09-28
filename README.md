@@ -12,7 +12,7 @@ Run a live demo in the 👉 [**Invocation Tree Web Debugger**](https://invocatio
 - shows the invocation tree (call tree) of a program **in real time**
 - helps to **understand recursion** and its depth-first nature
 
-# Chapters #
+# Topics #
 
 [Iteration and Recursion](#iteration-and-recursion)
 
