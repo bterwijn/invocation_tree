@@ -112,7 +112,7 @@ class Invocation_Tree:
         self.is_highlighted = False
         self.graph = None
         self.prev_global_tracer = None
-        self.hide_calls = {'Invocation_Tree.__exit__', 'Invocation_Tree.stop_trace'}
+        self.hide_calls = {'Invocation_Tree.__exit__', 'Invocation_Tree.stop_trace', '<genexpr>'}
         self.ignore_calls = set()
         self.ignoring_call = None
         self.regset_hide_vars = regset.Regex_Set(self.hide_vars)
