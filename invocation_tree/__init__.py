@@ -218,9 +218,9 @@ class Invocation_Tree:
         return self.filename
         
     def create_graph(self):
-        graphviz_graph_attr = {}
-        graphviz_node_attr = {'shape':'plaintext'}
-        graphviz_edge_attr = {}
+        graphviz_graph_attr = {'fontname': 'Courier', 'fontsize': '14'}
+        graphviz_node_attr = {'fontname': 'Courier', 'fontsize': '14', 'shape':'plaintext'}
+        graphviz_edge_attr = {'fontname': 'Courier', 'fontsize': '14'}
         graph = Digraph('invocation_tree',
                 graph_attr=graphviz_graph_attr,
                 node_attr=graphviz_node_attr,
