@@ -106,7 +106,7 @@ class Invocation_Tree:
         self.regset_hide_vars = regset.Regex_Set(self.hide_vars)
         self.regset_hide_calls = regset.Regex_Set(self.hide_calls)
         self.regset_ignore_calls = regset.Regex_Set(self.ignore_calls)
-        self.fontname = 'Courier'
+        self.fontname = 'Times-Roman'
         self.fontsize = '14'
         # --- core
         self.stack = []
