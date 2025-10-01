@@ -581,6 +581,10 @@ tree = ivt.Invocation_Tree()
   - set of all functions names that are not shown in the tree
 - **tree.ignore_calls** : set()
   - set of all functions names that are not shown in the tree, including its children
+- **tree.fontname** : str
+  - the font used in the graph, default 'Courier' (as widely available monospace).
+- **tree.fontsize** : str
+  - the font size used in the graph, default '14'.
 
 # Troubleshooting #
 - Adobe Acrobat Reader [doesn't refresh a PDF file](https://community.adobe.com/t5/acrobat-reader-discussions/reload-refresh-pdfs/td-p/9632292) when it changes on disk and blocks updates which results in an `Could not open 'tree.pdf' for writing : Permission denied` error. One solution is to install a PDF reader that does refresh ([SumatraPDF](https://www.sumatrapdfreader.org/), [Okular](https://okular.kde.org/),  ...) and set it as the default PDF reader. Another solution is to `render()` the graph to a different output format.

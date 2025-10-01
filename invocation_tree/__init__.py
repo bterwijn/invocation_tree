@@ -100,6 +100,14 @@ class Invocation_Tree:
             self.hide_vars = hide_vars
         self.cleanup = cleanup
         self.quiet = quiet
+        self.hide_calls = {'Invocation_Tree.__exit__', 'Invocation_Tree.stop_trace', '<genexpr>'}
+        self.ignore_calls = set()
+        self.ignoring_call = None
+        self.regset_hide_vars = regset.Regex_Set(self.hide_vars)
+        self.regset_hide_calls = regset.Regex_Set(self.hide_calls)
+        self.regset_ignore_calls = regset.Regex_Set(self.ignore_calls)
+        self.fontname = 'Courier'
+        self.fontsize = '14'
         # --- core
         self.stack = []
         self.returned = []
@@ -112,12 +120,7 @@ class Invocation_Tree:
         self.is_highlighted = False
         self.graph = None
         self.prev_global_tracer = None
-        self.hide_calls = {'Invocation_Tree.__exit__', 'Invocation_Tree.stop_trace', '<genexpr>'}
-        self.ignore_calls = set()
-        self.ignoring_call = None
-        self.regset_hide_vars = regset.Regex_Set(self.hide_vars)
-        self.regset_hide_calls = regset.Regex_Set(self.hide_calls)
-        self.regset_ignore_calls = regset.Regex_Set(self.ignore_calls)
+        
 
     def __repr__(self):
         return f'Invocation_Tree(filename={repr(self.filename)}, show={self.show}, block={self.block}, each_line={self.each_line}, gifcount={self.gifcount})'
@@ -218,9 +221,9 @@ class Invocation_Tree:
         return self.filename
         
     def create_graph(self):
-        graphviz_graph_attr = {'fontname': 'Courier', 'fontsize': '14'}
-        graphviz_node_attr = {'fontname': 'Courier', 'fontsize': '14', 'shape':'plaintext'}
-        graphviz_edge_attr = {'fontname': 'Courier', 'fontsize': '14'}
+        graphviz_graph_attr = {'fontname': self.fontname, 'fontsize': str(self.fontsize)}
+        graphviz_node_attr = {'fontname': self.fontname, 'fontsize': str(self.fontsize), 'shape':'plaintext'}
+        graphviz_edge_attr = {'fontname': self.fontname, 'fontsize': str(self.fontsize)}
         graph = Digraph('invocation_tree',
                 graph_attr=graphviz_graph_attr,
                 node_attr=graphviz_node_attr,

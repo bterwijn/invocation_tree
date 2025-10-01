@@ -31,3 +31,13 @@ lst = [1, 2, 3]
 ivt_tree.to_string[list] = lambda v : '|'.join(str(i) for i in v)
 # there is a bug somewhere that introduces extra white spaces, I will look into that
 lst.append(4)
+
+import string
+lower = string.ascii_lowercase
+upper = string.ascii_uppercase
+punctuation = string.punctuation
+
+print(f'{ivt_tree.fontname=}')
+print(f'{ivt_tree.fontsize=}')
+ivt_tree.fontname = 'Helvetica'      # change font name
+ivt_tree.fontsize = '32'             # change font size
