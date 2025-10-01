@@ -43,3 +43,5 @@ print(f'{ivt_tree.fontname=}')
 print(f'{ivt_tree.fontsize=}')
 ivt_tree.fontname = 'Helvetica'      # change font name
 ivt_tree.fontsize = '32'             # change font size
+# Not all fonts work well on the web.
+# Right click the graph to save and view it locally.
