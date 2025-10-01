@@ -9,7 +9,7 @@ import difflib
 
 import invocation_tree.regex_set as regset
 
-__version__ = "0.0.31"
+__version__ = "0.0.32"
 __author__ = 'Bas Terwijn'
 
 def highlight_diff(str1, str2):
