@@ -1,6 +1,8 @@
 # Some useful invocation_tree configuration examples.
 # Step through this file to see the effects.
 
+print('invocation_tree version:', ivt.__version__)
+
 def funC():
     x = 3
 
