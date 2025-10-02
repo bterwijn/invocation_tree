@@ -3,7 +3,7 @@ import invocation_tree as ivt
 # hide some things to keep the tree smaller
 ivt_tree.hide_vars.add('solver_depth_first_recursive.jugs_hist')
 ivt_tree.hide_vars.add('solver_depth_first_recursive.action_hist')
-ivt_tree.ignore_calls.add('re:Jugs.*')
+ivt_tree.ignore_calls.add(r're:Jugs.*')
 
 import copy
 

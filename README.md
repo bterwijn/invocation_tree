@@ -12,7 +12,7 @@ Run a live demo in the 👉 [**Invocation Tree Web Debugger**](https://invocatio
 - shows the invocation tree (call tree) of a program **in real time**
 - helps to **understand recursion** and its depth-first nature
 
-# Chapters #
+# Topics #
 
 [Iteration and Recursion](#iteration-and-recursion)
 
@@ -47,7 +47,7 @@ ___
 
 # Iteration and Recursion #
 
-Repetition can be implemented with recursion and iteration. Lets first look at computing the factorial of 4.
+Repetition can be implemented with **iteration** and **recursion**. As an example we compute the factorial of 4.
 
 ``` python
 import math
@@ -57,7 +57,7 @@ print(math.factorial(4))
 ```
 24
 ```
-The result is `1 * 2 * 3 * 4 = 24`.
+The result is computed with repeated multiplication: `1 * 2 * 3 * 4 = 24`.
 
 To implement our own factorial function we can use iteration, a for-loop or while-loop, like so:
 
@@ -74,7 +74,7 @@ print(factorial(4))
 24
 ```
 
-Or we can use recursion, a function that calls itself. Then we also need a stop condition to prevent the function from calling itself indefinitely, like so:
+Or we can use recursion, a function that calls itself. Then we also need a **base case** as **stop condition** to prevent the function from calling itself indefinitely, like so:
 
 ```python
 def factorial(n):
@@ -242,7 +242,7 @@ CBC
 ![permutations](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations_neighbor.gif)
 Or see it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/permutations_neighbor.py)
 
-With recursion we can stop neighbors from being equal early, in contrast to iteration, where we would have had to filter out a permutation with equal neighbors after it was fully generated, which could be much slower and would require more complex program.
+With recursion we can stop neighbors from being equal early, in contrast to iteration, where we would have had to filter out a permutation with equal neighbors after it was fully generated, which could be much slower and would require a more complex program.
 
 **exercise3:** Print all permutations with replacements of elements 'A', 'B', and 'C' of length 5 that are palindrome ('ABABA' is palindrome because if you read it backwards it's the same).
 
@@ -308,7 +308,7 @@ Adding temporarely debug print statements is in general a good technique to unde
 
 See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/print_paths_print_1.py&breakpoints=33&continues=1&timestep=0.2&play)
 
-Add temporary debug prints wherever behavior isn’t clear. Experiment with what/how you print to maximize clarity.
+Add temporary debug prints wherever behavior isn’t clear. Experiment with what and how you print to maximize clarity.
 
 **exercise4:** In this larger bidirectional graph, print all the paths of length 7 that connect node `a` to node `b` where going over the same node multiple times is allowed (`avjxbxb` is one such path, there are 114 such paths in total).
 
@@ -347,7 +347,7 @@ print(tree(permutations, 'LR', '', 3))
 <!-- ![permutations_return](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations_return.gif) -->
 See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/permutations_return.py&timestep=0.5&play)
 
-However, sometimes it is easier to pass a list (or other mutable container type) as an extra argument in the recursion to collect the results in. This can also be faster as it avoids many list copies as a result of the '+=' list concatenations.
+However, sometimes it is easier to pass a list (or any other mutable container type) as an extra argument in the recursion to collect the results in. This is also faster because now just one list is used instead of each function call having to create its own `results` list.
 
 ```python
 import invocation_tree as ivt
@@ -387,7 +387,7 @@ edges =  [('a', 's'), ('i', 'z'), ('c', 'p'), ('d', 'p'), ('d', 'u'), ('b', 'e')
 
 # Quick Sort #
 
-Another nice example of divide-and-conquer is the recursive quicksort algorithm. It works by choosing a pivot element and dividing the list into elements smaller than the pivot and elements larger than the pivot. Each of these sublists is then quicksorted in the same way. When we get to the point a sublist has zero or one element, it is already sorted. When returning, these sorted sublists are then combined with the pivot to produce a larger sorted lists, so here we do need to use the return to get the result.
+Another nice example of divide-and-conquer is the recursive quicksort algorithm. It works by choosing a pivot element and dividing the list into elements smaller than the pivot and elements larger than the pivot. Each of these sublists is then quicksorted in the same way. When we get to the point a sublist has zero or one element, it is already sorted. When returning, these sorted sublists are then combined with the pivot to produce a larger sorted lists. Here we use the return value to get the sorted result.
 
 ```python
 import invocation_tree as ivt
@@ -414,9 +414,11 @@ unsorted values: [7, 4, 10, 11, 2, 6, 9, 1, 5, 3, 8, 12]
 <!-- ![quick_sort](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/quick_sort.gif) -->
 See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/quick_sort.py&timestep=0.5&play)
 
+**exercise6:** Rewrite this quick sort program so that we can pass in a list to collect the sorted result and we don't need to use a return value. This would make the program faster as it avoids having to use the `+` list concatenation operator that creates a new list each time we use it, whereas `+=` or `append()` only add to an existing list.
+
 # Jugs Puzzle #
 
-In the Jugs puzzle we have a set of jugs of various capacities. Our goal is to get a jug with a certain amount of liquid in it. In each step we can take one of these actions:
+In the Jugs Puzzle we have a set of jugs of various capacities. Our goal is to get a jug with a certain amount of liquid in it. In each step we can take one of these actions:
 
 - fill one jug until it is full
 - empty one jug until it is empty
@@ -470,12 +472,14 @@ Where:
 
 The breadth-first algorithm works and gives us the shortest path to a goal state, but to do that it uses a lot of memory to store each generation and all jugs states it has seen. Now we also want an algorithm that uses much less memory.
 
-**exercise6:** Write a recursive solver for the Jugs Puzzle that uses less memory by searching for the solution in a depth-first manner.
+**exercise7:** Write a recursive solver for the Jugs Puzzle that uses less memory by searching for the solution in a depth-first manner.
 
 - A solution may not have the same jugs state multiple times (this also avoids infinite loops).
 - It is not necessary to find the shortest path to a goal state (like breadth-first does).
 
-**solution exercise6:** First try it yourself, but we give the [solution](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/jugs_depth_first.py&breakpoints=136&continues=1) here for comparison.
+If you want to use the Invocation Tree Web Debugger, you can look at these [configuration examples](https://invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/config.py) to keep the tree small and readable.
+
+**solution exercise7:** First try it yourself, we give the [solution](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/jugs_depth_first.py&breakpoints=136&continues=1) here for comparison.
 
 A harder more fun instance of this puzzle is with jugs with capacity 3, 5, 34 and 107 liter and the goal of getting to a jug with 51 liters.
 
@@ -484,12 +488,14 @@ $ python jugs_breadth_first.py 51 3,5,34,107
 ```
 
 # Configuration #
+The Invocation Tree Web Debugger gives examples of the [most important configurations](https://invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/config.py).
 
 ## Hidding ##
 It can be useful to hide certian variables or functions to avoid unnecessary complexity. This can be done with:
 
 ```python
 tree = ivt.blocking()
+tree.hide_vars.add('functionname.variablename')  # or:
 tree.hide_vars.add('namespace.functionname.variablename')
 ```
 
@@ -497,6 +503,7 @@ Or hide certain function calls:
 
 ```python
 tree = ivt.blocking()
+tree.hide_calls.add('functionname')  # or:
 tree.hide_calls.add('namespace.functionname')
 ```
 
@@ -511,10 +518,10 @@ With the `re:` prefix we can use regular expresssions, for example:
 
 ```python
 tree = ivt.blocking()
-tree.ignore_calls.add('re:namespace\..*')
+tree.ignore_calls.add(r're:namespace\..*')
 ```
 
-to hide all function of `namespace`.
+ignores all function of `namespace`.
 
 ## Blocking ##
 
@@ -574,6 +581,10 @@ tree = ivt.Invocation_Tree()
   - set of all functions names that are not shown in the tree
 - **tree.ignore_calls** : set()
   - set of all functions names that are not shown in the tree, including its children
+- **tree.fontname** : str
+  - the font used in the graph, default 'Times-Roman' (widely available on the web)
+- **tree.fontsize** : str
+  - the font size used in the graph, default '14'
 
 # Troubleshooting #
 - Adobe Acrobat Reader [doesn't refresh a PDF file](https://community.adobe.com/t5/acrobat-reader-discussions/reload-refresh-pdfs/td-p/9632292) when it changes on disk and blocks updates which results in an `Could not open 'tree.pdf' for writing : Permission denied` error. One solution is to install a PDF reader that does refresh ([SumatraPDF](https://www.sumatrapdfreader.org/), [Okular](https://okular.kde.org/),  ...) and set it as the default PDF reader. Another solution is to `render()` the graph to a different output format.
