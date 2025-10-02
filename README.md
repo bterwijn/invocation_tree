@@ -47,7 +47,7 @@ ___
 
 # Iteration and Recursion #
 
-Repetion can be implemented with recursion and iteration. Lets first look at computing the factorial of 4.
+Repetition can be implemented with recursion and iteration. Lets first look at computing the factorial of 4.
 
 ``` python
 import math
@@ -99,7 +99,7 @@ factorial(4) = 4 * factorial(3)
              = 24
 ```
 
-To better understand what is going on when we run the program we can use invocation_tree:
+To better understand what is going on when we run the program, we can use invocation_tree:
 
 ```python
 import invocation_tree as ivt
@@ -113,7 +113,7 @@ tree = ivt.blocking()  # block and wait for <Enter> key press
 tree(factorial, 4)     # call function 'factorial' with argument '4'
 ```
 
-to graph the function invocations. Run this program and press &lt;Enter&gt; to step through program execution.
+to graph the function invocations where function calls happen on the way down, and where results combine on the way up when a function returns. Run this program and press &lt;Enter&gt; to step through program execution.
 
 ![factorial](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/factorial.gif)
 
@@ -127,7 +127,7 @@ Each node in the invocation tree represents a function call, and the node's colo
 
 For every function call, the package displays its **local variables** and **return value**. Changes to the values of these variables over time are highlighted using bold text and gray shading to make them easier to track.
 
-With recursion we often use a divide and conquer strategy, spliting the problem in subproblems that are easier to solve. With factorial we split `factorial(4)` in a `4` and `factorial(3)` subproblem.
+With recursion we often use a divide and conquer strategy, splitting the problem in subproblems that are easier to solve. With factorial we split `factorial(4)` in a `4` and `factorial(3)` subproblem.
 
 **exercise1:** Use recursions to compute the sum of all the values in a list (hint: split for example the list `[1, 2, 3, ...]` in head `1` and tail `[2, 3, ...]`).
 ```python
@@ -150,7 +150,7 @@ def binary(decimal):
 print( binary(22) )  # [1, 0, 1, 1, 0]
 ```
 
-Checking that `[1, 0, 1, 1, 0]` is the correct binary repsentation for decimal 22:
+Checking that `[1, 0, 1, 1, 0]` is the correct binary representation for decimal 22:
 
 |       | 2<sup>4</sup> | 2<sup>3</sup> | 2<sup>2</sup> | 2<sup>1</sup> | 2<sup>0</sup> |               |
 |------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|
@@ -167,7 +167,7 @@ We can use recursion to compute all permutation of a number of elements with rep
 
 ![perms_LR3](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/perms_LR3.png)
 
-This can be implemented recursively like:
+This can be implemented recursively, using a divide and conquer strategy, like:
 
 ```python
 import invocation_tree as ivt
