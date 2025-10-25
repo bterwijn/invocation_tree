@@ -148,7 +148,10 @@ class Invocation_Tree:
             val_str = '<not-string-convertable>'
         if len(val_str) > self.max_string_len:
             val_str = '...'+val_str[-self.max_string_len:]
-        return html.escape(val_str)
+        result = html.escape(val_str)
+        # Replace newlines with HTML line breaks for GraphViz
+        result = result.replace('\n', '<BR/>')
+        return result
 
     def get_hightlighted_content(self, tree_node, key, value, use_old_content=False, use_repr=False):
         if use_old_content and key in tree_node.strings:
@@ -192,14 +195,14 @@ class Invocation_Tree:
             if filter_variables(var,val) and not self.regset_hide_vars.match(val_name, self.hide_vars):
                 table += '</TR>\n  <TR>'
                 hightlighted_var = self.get_hightlighted_content(tree_node, var_name, var, use_old_content)
-                hightlighted_val = self.get_hightlighted_content(tree_node, val_name, val, use_old_content, use_repr=True)
+                hightlighted_val = self.get_hightlighted_content(tree_node, val_name, val, use_old_content, use_repr=False)
                 hightlighted_content = self.indent + hightlighted_var + ': ' + hightlighted_val
                 table += '<TD ALIGN="left">'+ hightlighted_content  +'</TD>'
         if is_returned:
             return_name = class_fun_name+'.return'
             if not self.regset_hide_vars.match(return_name, self.hide_vars):
                 table += '</TR>\n  <TR>'
-                hightlighted_content = self.get_hightlighted_content(tree_node, return_name, return_value, use_old_content, use_repr=True)
+                hightlighted_content = self.get_hightlighted_content(tree_node, return_name, return_value, use_old_content, use_repr=False)
                 table += '<TD ALIGN="left">'+ 'return ' + hightlighted_content +'</TD>'
         table += '</TR>\n</TABLE>>'
         return table
