@@ -490,6 +490,7 @@ $ python jugs_breadth_first.py 51 3,5,34,107
 # Configuration #
 The Invocation Tree Web Debugger gives examples of the [most important configurations](https://invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/config.py).
 
+
 ## Hidding ##
 It can be useful to hide certian variables or functions to avoid unnecessary complexity. This can be done with:
 
@@ -522,6 +523,26 @@ tree.ignore_calls.add(r're:namespace\..*')
 ```
 
 ignores all function of `namespace`.
+
+## Decorator ##
+
+A better way to hide functions is to use the `@ivt.show` decorator on only the functions you want to graph. The decorator uses the global `ivt.decorator_tree`.
+
+```
+import invocation_tree as ivt
+
+ivt.decorator_tree = ivt.blocking()  # set tree used by decorator
+
+@ivt.show  # use decorator to select which functions to graph
+def permutations(elements, perm, n):
+    if n == 0:
+        print(perm)
+    else:
+        for element in elements:
+            permutations(elements, perm + '\n' + element, n-1)
+
+permutations( 'LR', '', 3)  # all permutations of L and R of length 3
+```
 
 ## Blocking ##
 
