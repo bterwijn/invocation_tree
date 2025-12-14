@@ -6,6 +6,7 @@ from graphviz import Digraph
 import html
 import sys
 import difflib 
+import functools
 
 import invocation_tree.regex_set as regset
 
@@ -349,6 +350,11 @@ class Invocation_Tree:
                    return None # stop tracing if debugger stopped tracing
             return local_multiplexer
 
+        # Optimize: disable line tracing if not needed
+        if not self.each_line:
+            frame.f_trace_lines = False
+            frame.f_trace_opcodes = False
+
         return local_multiplexer
 
 def blocking(filename='tree.pdf'):
@@ -371,3 +377,85 @@ def gif_each_change(filename='tree.png'):
 
 def non_blocking(filename='tree.pdf'):
     return Invocation_Tree(filename=filename, block=False)
+
+
+# ------ decorator ------
+
+decorator_tree = None
+
+def show(fun):
+    """ decorate a function with @ivt.show to visualize its invocation tree """
+    target_code = fun.__code__
+
+    @functools.wraps(fun)
+    def wrapper_ivt_deco(*args, **kwargs):
+        global decorator_tree
+        if decorator_tree is None:
+            return fun(*args, **kwargs)
+        prev_tracer = sys.gettrace()
+        active_depth = 0  # handles recursion of fun
+
+        def tracer(frame, event, arg):
+            nonlocal active_depth
+            # Check if this is our target function
+            if frame.f_code is target_code:
+                if event == "call":
+                    active_depth += 1
+                    if active_depth == 1:
+                        decorator_tree.trace(frame, event, None)
+                    # Optimize: disable line tracing if not needed
+                    if not getattr(decorator_tree, "each_line", False):
+                        frame.f_trace_lines = False
+                        frame.f_trace_opcodes = False
+                elif event == "line":
+                    if active_depth == 1 and getattr(decorator_tree, "each_line", False):
+                        decorator_tree.trace(frame, event, None)
+                elif event == "return":
+                    if active_depth == 1:
+                        decorator_tree.trace(frame, event, arg)
+                    active_depth -= 1
+                return tracer
+            
+            # Not our target: chain to previous tracer or return None to stop tracing this frame
+            if prev_tracer is not None:
+                return prev_tracer(frame, event, arg)
+            
+            return None  # Don't trace non-target frames
+
+        sys.settrace(tracer)
+        try:
+            return fun(*args, **kwargs)
+        finally:
+            sys.settrace(prev_tracer)
+    return wrapper_ivt_deco
+
+# faster decorator but no 'line' events
+def decorate_profile(fun): 
+    target_code = fun.__code__
+
+    @functools.wraps(fun)
+    def wrapper_ivt_deco(*args, **kwargs):
+        global decorator_tree
+        if decorator_tree is None:
+            return fun(*args, **kwargs)
+        prev_profiler = sys.getprofile()
+        active_depth = 0  # handles recursion of fun
+        
+        def profiler(frame, event, arg):
+            nonlocal active_depth
+            if frame.f_code is target_code:
+                if event == "call":
+                    active_depth += 1
+                    if active_depth == 1:
+                        decorator_tree.trace(frame, event, None)
+                elif event == "return":
+                    if active_depth == 1:
+                        decorator_tree.trace(frame, event, arg)
+                    active_depth -= 1
+
+        sys.setprofile(profiler)
+        try:
+            return fun(*args, **kwargs)
+        finally:
+            sys.setprofile(prev_profiler)
+    return wrapper_ivt_deco
