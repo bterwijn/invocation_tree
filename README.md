@@ -528,7 +528,7 @@ ignores all function of `namespace`.
 
 A better way to hide functions is to use the `@ivt.show` decorator on only the functions you want to graph. The decorator uses the global `ivt.decorator_tree`.
 
-```
+```python
 import invocation_tree as ivt
 
 ivt.decorator_tree = ivt.blocking()  # set tree used by decorator
