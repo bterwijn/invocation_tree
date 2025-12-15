@@ -150,7 +150,8 @@ class Invocation_Tree:
         if len(val_str) > self.max_string_len:
             val_str = '...'+val_str[-self.max_string_len:]
         result = html.escape(val_str)
-        result = result.replace('\n', '<BR/>') # use HTML line breaks
+        if '\n' in result:
+            result = '<BR/>' + result.replace('\n', '<BR/>') # use HTML line breaks
         return result
     
     def get_hightlighted_content(self, tree_node, key, value, use_old_content=False):
