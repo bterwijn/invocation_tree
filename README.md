@@ -526,12 +526,11 @@ ignores all function of `namespace`.
 
 ## Decorator ##
 
-A better way to hide functions is to use the `@ivt.show` decorator on only the functions you want to graph. The decorator uses the global `ivt.decorator_tree`.
+A better way to hide functions is to use the `@ivt.show` decorator on only the functions you want to graph. The decorator uses the global `ivt.decorator_tree` tree.
 
 ```python
 import invocation_tree as ivt
-
-ivt.decorator_tree = ivt.blocking()  # set tree used by decorator
+ivt.decorator_tree = ivt.blocking_each_change()  # set tree used by decorator
 
 @ivt.show  # use decorator to select which functions to graph
 def permutations(elements, perm, n):
@@ -539,9 +538,11 @@ def permutations(elements, perm, n):
         print(perm)
     else:
         for element in elements:
-            permutations(elements, perm + '\n' + element, n-1)
-
-permutations( 'LR', '', 3)  # all permutations of L and R of length 3
+            perm.append(element)
+            permutations(elements, perm, n-1)
+            perm.pop()
+            
+permutations( 'LR', [], 3)  # all permutations of L and R of length 3
 ```
 
 ## Blocking ##
