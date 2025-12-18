@@ -12,6 +12,8 @@ Run a live demo in the 👉 [**Invocation Tree Web Debugger**](https://invocatio
 - shows the invocation tree (call tree) of a program **in real time**
 - helps to **understand recursion** and its depth-first nature
 
+The new `@ivt.show` [decorator interface](#decorator) now allows to scale to application in **production code**.
+
 # Topics #
 
 [Iteration and Recursion](#iteration-and-recursion)
