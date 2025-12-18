@@ -400,6 +400,14 @@ def show(fun):
 
         def tracer(frame, event, arg):
             nonlocal active_depth
+
+            if event == "exception":
+                exc_type, exc, tb = arg
+                if exc_type is KeyboardInterrupt:
+                    # ensure we stop tracing before bailing out
+                    sys.settrace(prev_tracer)
+                    raise exc.with_traceback(tb)
+            
             # Check if this is our target function
             if frame.f_code is target_code:
                 if event == "call":

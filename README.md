@@ -530,7 +530,8 @@ A better way to hide functions is to use the `@ivt.show` decorator on only the f
 
 ```python
 import invocation_tree as ivt
-ivt.decorator_tree = ivt.blocking_each_change()  # set tree used by decorator
+ivt.decorator_tree = ivt.blocking()               # set tree used by decorator
+#ivt.decorator_tree = ivt.blocking_each_change()  # block at each change, but much slower
 
 @ivt.show  # use decorator to select which functions to graph
 def permutations(elements, perm, n):
