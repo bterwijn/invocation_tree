@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "invocation_tree"
-version = "0.0.34"
+version = "0.0.35"
 description = "Generates an invocation tree of functions calls."
 authors = [
     {name = "Bas Terwijn", email = "bterwijn@gmail.com"}
