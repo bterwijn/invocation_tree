@@ -451,7 +451,7 @@ The [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.gi
 
 The [Invocation Tree Web Debugger](https://invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/perm_mutable_copy.py&timestep=1&play) shows that all permutation are generated in the same way as when we used immutable type `str` to represent each permutation.
 
-A second way is to mutate the `list` value with the `+=` operator or `append()` function and then after the recursive call to undo this action to restore its original value. This way we avoid creating new lists so this is much faster. However, now we have to take care to correctly undo each action we take so the code can get it a bit more complex, but this generally is worth it for faster execution.
+A second way is to mutate the `list` value with the `+=` operator or `append()` function and then after the recursive call to undo this action to restore its original value. This way we avoid creating new lists so this is much faster. We couldn't do this before with immutable type `str` because a value of immutable type is always copied when we change it. However, now we have to take care to correctly undo each action we take so the code can get it a bit more complex, but this generally is worth it for faster execution.
 
 ```python
 def permutations(elements, perm, n):
@@ -459,7 +459,7 @@ def permutations(elements, perm, n):
         print(perm)
     else:
         for element in elements:
-            perm.append(element)  # do action that mutates list, FAST!
+            perm.append(element)  # do action that mutates, FAST!
             permutations(elements, perm, n-1)
             perm.pop()            # undo action
             
@@ -546,7 +546,7 @@ The Invocation Tree Web Debugger gives examples of the [most important configura
 
 
 ## Hidding ##
-It can be useful to hide certian variables or functions to avoid unnecessary complexity. This can be done with:
+It can be useful to hide certian variables to avoid unnecessary complexity. This can be done with:
 
 ```python
 tree = ivt.blocking()
@@ -576,11 +576,11 @@ tree = ivt.blocking()
 tree.ignore_calls.add(r're:namespace\..*')
 ```
 
-ignores all function of `namespace`.
+ignores all functions starting with `namespace.`.
 
 ## Decorator ##
 
-A better way to hide functions is to use the `@ivt.show` decorator on only the functions you want to graph. The decorator uses the global `ivt.decorator_tree` tree.
+A better way to hide functions is to use the `@ivt.show` decorator on only the functions you want to graph but this can only be used when running the code locally and not in the Invocation Tree Web Debugger. The decorator uses the global `ivt.decorator_tree` tree.
 
 ```python
 import invocation_tree as ivt
@@ -594,11 +594,11 @@ def permutations(elements, perm, n):
         print(perm)
     else:
         for element in elements:
-            perm.append(element)
+            perm.append(element)  # do action that mutates
             permutations(elements, perm, n-1)
-            perm.pop()
+            perm.pop()            # undo action
             
-permutations( 'LR', [], 3)  # all permutations of L and R of length 3
+permutations('LR', [], 3)  # all permutations of L and R of length 3
 ```
 
 ## Blocking ##
