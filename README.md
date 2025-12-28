@@ -434,7 +434,7 @@ See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#co
 
 # Mutability #
 
-Lets revisit the permutation problem but now using mutable type `list` to represent a permutation instead of immutable type `str`. This can be done in two ways. The first way is to use the `+` list concatenation operator that creates a new list each time so this is slow:
+Let's revisit the permutation problem but now using mutable type `list` to represent a permutation instead of the immutable type `str` we used before. This can be done in two ways. One way is to use the `+` list concatenation operator that creates a new list each time we use it so this is slow:
 
 ```python
 def permutations(elements, perm, n):
@@ -449,9 +449,9 @@ permutations('LR', [], 3)
 
 The [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/perm_mutable_copy.py&timestep=1&play) shows that each function call has it's own list copy.
 
-The [Invocation Tree Web Debugger](https://invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/perm_mutable_copy.py&timestep=1&play) shows that all permutation are generated.
+The [Invocation Tree Web Debugger](https://invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/perm_mutable_copy.py&timestep=1&play) shows that all permutation are generated in the same way as when we used immutable type `str` to represent each permutation.
 
-A faster way is to mutate the `list` value with the `+=` operator or `append()` function and then after the recursive call to undo this action to restore its original value. This way we avoid creating new lists but we still produce each permutation correctly.
+A second way is to mutate the `list` value with the `+=` operator or `append()` function and then after the recursive call to undo this action to restore its original value. This way we avoid creating new lists so this is much faster. However, now we have to take care to correctly undo each action we take so the code can get it a bit more complex, but this generally is worth it for faster execution.
 
 ```python
 def permutations(elements, perm, n):
@@ -468,7 +468,7 @@ permutations('LR', [], 3)
 
 The [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/perm_mutable_undo.py&timestep=1&play) now shows that all function calls share the same list.
 
-The [Invocation Tree Web Debugger](https://invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/perm_mutable_undo.py&timestep=1&play) shows that all permutation are generated with each action being undone so that in the end the list is empty again.
+The [Invocation Tree Web Debugger](https://invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/perm_mutable_undo.py&timestep=1&play) shows that all permutation are generated but with each action being undone so that in the end the list is empty again.
 
 # Jugs Puzzle #
 
