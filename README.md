@@ -129,6 +129,16 @@ Each node in the invocation tree represents a function call, and the node's colo
 
 For every function call, the package displays its **local variables** and **return value**. Changes to the values of these variables over time are highlighted using bold text and gray shading to make them easier to track.
 
+We can also visualize the execution of the program using [memory_graph](https://github.com/bterwijn/memory_graph?tab=readme-ov-file#installation) where the **call stack** is explicit. Each function call adds a stack frame to the call stack with a reference to its local variables and when a function returns it's stack frame is removed:
+
+![factorial](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial.gif)
+
+Or see it in the [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/factorial.py&timestep=1.0&play)
+
+But when later a function calls itself multiple times the [invocation_tree](https://github.com/bterwijn/invocation_tree?tab=readme-ov-file#installation) will give us a better visualization than [memory_graph](https://github.com/bterwijn/memory_graph?tab=readme-ov-file#installation), so we will use that here mostly.
+
+# Divide and Conquer #
+
 With recursion we often use a divide and conquer strategy, splitting the problem in subproblems that are easier to solve. With factorial we split `factorial(4)` in a `4` and `factorial(3)` subproblem.
 
 **exercise1:** Use recursions to compute the sum of all the values in a list (hint: split for example the list `[1, 2, 3, ...]` in head `1` and tail `[2, 3, ...]`).
