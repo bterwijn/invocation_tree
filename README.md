@@ -134,7 +134,8 @@ Each node in the invocation tree represents a function call, and the node's colo
 For every function call, the package displays its **local variables** and **return value**. Changes to the values of these variables over time are highlighted using bold text and gray shading to make them easier to track.
 
 We can also visualize the execution of this program in the [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/factorial.py&timestep=1.0&play):
-![factorial_mgwd](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/factorial_mgwd.svg)
+
+[![factorial_mgwd](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/factorial_mgwd.svg)](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/factorial_mgwd.svg)
 
 where the **call stack** is explicit. Each function call adds a stack frame to the call stack with a reference to its local variables and when a function returns it's stack frame is removed from the call stack. But when later a function calls itself multiple times the [invocation_tree](https://github.com/bterwijn/invocation_tree?tab=readme-ov-file#installation) will give us a better visualization than [memory_graph](https://github.com/bterwijn/memory_graph?tab=readme-ov-file#installation), so we will use that here mostly.
 
