@@ -18,6 +18,8 @@ The new `@ivt.show` [decorator interface](#decorator) now allows for **scaling**
 
 [Iteration and Recursion](#iteration-and-recursion)
 
+[Divide and Conquer](#divide-and-conquer)
+
 [Permutations](#permutations)
 
 [Recursion Benefits](#recursion-benefits)
@@ -27,6 +29,8 @@ The new `@ivt.show` [decorator interface](#decorator) now allows for **scaling**
 [Collecting Results](#collecting-results)
 
 [Quick Sort](#quick-sort)
+
+[Mutability](#mutability)
 
 [Jugs Puzzle](#jugs-puzzle)
 
