@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="516pt" height="190pt" viewBox="0.00 0.00 516.00 190.00" style="">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 186)">
+<title>memory_graph</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-186 512.22,-186 512.22,4 -4,4"/>
+<!-- node23679880 -->
+<g id="node1" class="node">
+<title>node23679880</title>
+<polygon fill="#60a5ff" stroke="none" points="103.86,-21.9 103.86,-40.7 109.36,-40.7 109.36,-21.9 103.86,-21.9"/>
+<text xml:space="preserve" text-anchor="start" x="104.86" y="-27.1" font-family="Times,serif" font-size="14.00"> </text>
+<polygon fill="none" stroke="black" points="103.86,-21.9 103.86,-40.7 109.36,-40.7 109.36,-21.9 103.86,-21.9"/>
+<text xml:space="preserve" text-anchor="middle" x="69.11" y="-53.5" font-family="Times,serif" font-size="14.00">dict</text>
+</g>
+<!-- node22540544 -->
+<g id="node2" class="node">
+<title>node22540544</title>
+<polygon fill="#60a5ff" stroke="none" points="160.11,-15.9 160.11,-46.7 209.11,-46.7 209.11,-15.9 160.11,-15.9"/>
+<path fill="none" stroke="black" d="M171.44,-21.9C171.44,-21.9 176.78,-21.9 176.78,-21.9 179.44,-21.9 182.11,-24.57 182.11,-27.23 182.11,-27.23 182.11,-35.37 182.11,-35.37 182.11,-38.03 179.44,-40.7 176.78,-40.7 176.78,-40.7 171.44,-40.7 171.44,-40.7 168.78,-40.7 166.11,-38.03 166.11,-35.37 166.11,-35.37 166.11,-27.23 166.11,-27.23 166.11,-24.57 168.78,-21.9 171.44,-21.9"/>
+<text xml:space="preserve" text-anchor="start" x="167.11" y="-27.1" font-family="Times,serif" font-size="14.00"> n </text>
+<polygon fill="none" stroke="black" points="187.11,-21.9 187.11,-40.7 203.11,-40.7 203.11,-21.9 187.11,-21.9"/>
+<text xml:space="preserve" text-anchor="start" x="188.11" y="-27.1" font-family="Times,serif" font-size="14.00"> 4 </text>
+<polygon fill="none" stroke="black" points="160.11,-15.9 160.11,-46.7 209.11,-46.7 209.11,-15.9 160.11,-15.9"/>
+<text xml:space="preserve" text-anchor="middle" x="141.61" y="-54.9" font-family="Times,serif" font-size="14.00">dict</text>
+</g>
+<!-- node23679880&#45;&gt;node22540544 -->
+<!-- node20806712 -->
+<g id="node3" class="node">
+<title>node20806712</title>
+<polygon fill="#60a5ff" stroke="none" points="243.11,-15.9 243.11,-46.7 292.11,-46.7 292.11,-15.9 243.11,-15.9"/>
+<path fill="none" stroke="black" d="M254.44,-21.9C254.44,-21.9 259.78,-21.9 259.78,-21.9 262.44,-21.9 265.11,-24.57 265.11,-27.23 265.11,-27.23 265.11,-35.37 265.11,-35.37 265.11,-38.03 262.44,-40.7 259.78,-40.7 259.78,-40.7 254.44,-40.7 254.44,-40.7 251.78,-40.7 249.11,-38.03 249.11,-35.37 249.11,-35.37 249.11,-27.23 249.11,-27.23 249.11,-24.57 251.78,-21.9 254.44,-21.9"/>
+<text xml:space="preserve" text-anchor="start" x="250.11" y="-27.1" font-family="Times,serif" font-size="14.00"> n </text>
+<polygon fill="none" stroke="black" points="270.11,-21.9 270.11,-40.7 286.11,-40.7 286.11,-21.9 270.11,-21.9"/>
+<text xml:space="preserve" text-anchor="start" x="271.11" y="-27.1" font-family="Times,serif" font-size="14.00"> 3 </text>
+<polygon fill="none" stroke="black" points="243.11,-15.9 243.11,-46.7 292.11,-46.7 292.11,-15.9 243.11,-15.9"/>
+<text xml:space="preserve" text-anchor="middle" x="224.61" y="-54.9" font-family="Times,serif" font-size="14.00">dict</text>
+</g>
+<!-- node22540544&#45;&gt;node20806712 -->
+<!-- node24051176 -->
+<g id="node4" class="node">
+<title>node24051176</title>
+<polygon fill="#60a5ff" stroke="none" points="326.11,-15.9 326.11,-46.7 375.11,-46.7 375.11,-15.9 326.11,-15.9"/>
+<path fill="none" stroke="black" d="M337.44,-21.9C337.44,-21.9 342.78,-21.9 342.78,-21.9 345.44,-21.9 348.11,-24.57 348.11,-27.23 348.11,-27.23 348.11,-35.37 348.11,-35.37 348.11,-38.03 345.44,-40.7 342.78,-40.7 342.78,-40.7 337.44,-40.7 337.44,-40.7 334.78,-40.7 332.11,-38.03 332.11,-35.37 332.11,-35.37 332.11,-27.23 332.11,-27.23 332.11,-24.57 334.78,-21.9 337.44,-21.9"/>
+<text xml:space="preserve" text-anchor="start" x="333.11" y="-27.1" font-family="Times,serif" font-size="14.00"> n </text>
+<polygon fill="none" stroke="black" points="353.11,-21.9 353.11,-40.7 369.11,-40.7 369.11,-21.9 353.11,-21.9"/>
+<text xml:space="preserve" text-anchor="start" x="354.11" y="-27.1" font-family="Times,serif" font-size="14.00"> 2 </text>
+<polygon fill="none" stroke="black" points="326.11,-15.9 326.11,-46.7 375.11,-46.7 375.11,-15.9 326.11,-15.9"/>
+<text xml:space="preserve" text-anchor="middle" x="307.61" y="-54.9" font-family="Times,serif" font-size="14.00">dict</text>
+</g>
+<!-- node20806712&#45;&gt;node24051176 -->
+<!-- node18489440 -->
+<g id="node5" class="node">
+<title>node18489440</title>
+<polygon fill="#60a5ff" stroke="none" points="409,-4 409,-58.6 500.22,-58.6 500.22,-4 409,-4"/>
+<path fill="none" stroke="black" d="M421.27,-33.8C421.27,-33.8 466.95,-33.8 466.95,-33.8 470.08,-33.8 473.22,-36.93 473.22,-40.07 473.22,-40.07 473.22,-46.33 473.22,-46.33 473.22,-49.47 470.08,-52.6 466.95,-52.6 466.95,-52.6 421.27,-52.6 421.27,-52.6 418.13,-52.6 415,-49.47 415,-46.33 415,-46.33 415,-40.07 415,-40.07 415,-36.93 418.13,-33.8 421.27,-33.8"/>
+<text xml:space="preserve" text-anchor="start" x="437.11" y="-39" font-family="Times,serif" font-size="14.00"> n </text>
+<polygon fill="none" stroke="black" points="478.22,-33.8 478.22,-52.6 494.22,-52.6 494.22,-33.8 478.22,-33.8"/>
+<text xml:space="preserve" text-anchor="start" x="479.22" y="-39" font-family="Times,serif" font-size="14.00"> 1 </text>
+<path fill="none" stroke="black" d="M421.27,-10C421.27,-10 466.95,-10 466.95,-10 470.08,-10 473.22,-13.13 473.22,-16.27 473.22,-16.27 473.22,-22.53 473.22,-22.53 473.22,-25.67 470.08,-28.8 466.95,-28.8 466.95,-28.8 421.27,-28.8 421.27,-28.8 418.13,-28.8 415,-25.67 415,-22.53 415,-22.53 415,-16.27 415,-16.27 415,-13.13 418.13,-10 421.27,-10"/>
+<text xml:space="preserve" text-anchor="start" x="416" y="-15.2" font-family="Times,serif" font-size="14.00"> &lt;return&gt; </text>
+<polygon fill="none" stroke="black" points="478.22,-10 478.22,-28.8 494.22,-28.8 494.22,-10 478.22,-10"/>
+<text xml:space="preserve" text-anchor="start" x="479.22" y="-15.2" font-family="Times,serif" font-size="14.00"> 1 </text>
+<polygon fill="none" stroke="black" points="409,-4 409,-58.6 500.22,-58.6 500.22,-4 409,-4"/>
+<text xml:space="preserve" text-anchor="middle" x="390.5" y="-66.8" font-family="Times,serif" font-size="14.00">dict</text>
+</g>
+<!-- node24051176&#45;&gt;node18489440 -->
+<!-- node18719144 -->
+<g id="node6" class="node">
+<title>node18719144</title>
+<polygon fill="khaki" stroke="none" points="63.97,-102.6 63.97,-161.2 461.24,-161.2 461.24,-102.6 63.97,-102.6"/>
+<path fill="none" stroke="black" d="M78.24,-134.4C78.24,-134.4 146.88,-134.4 146.88,-134.4 150.01,-134.4 153.15,-137.53 153.15,-140.67 153.15,-140.67 153.15,-146.93 153.15,-146.93 153.15,-150.07 150.01,-153.2 146.88,-153.2 146.88,-153.2 78.24,-153.2 78.24,-153.2 75.11,-153.2 71.97,-150.07 71.97,-146.93 71.97,-146.93 71.97,-140.67 71.97,-140.67 71.97,-137.53 75.11,-134.4 78.24,-134.4"/>
+<text xml:space="preserve" text-anchor="start" x="72.97" y="-139.6" font-family="Times,serif" font-size="14.00"> 0: &lt;module&gt; </text>
+<path fill="none" stroke="black" d="M164.41,-134.4C164.41,-134.4 221.9,-134.4 221.9,-134.4 225.04,-134.4 228.17,-137.53 228.17,-140.67 228.17,-140.67 228.17,-146.93 228.17,-146.93 228.17,-150.07 225.04,-153.2 221.9,-153.2 221.9,-153.2 164.41,-153.2 164.41,-153.2 161.28,-153.2 158.15,-150.07 158.15,-146.93 158.15,-146.93 158.15,-140.67 158.15,-140.67 158.15,-137.53 161.28,-134.4 164.41,-134.4"/>
+<text xml:space="preserve" text-anchor="start" x="159.15" y="-139.6" font-family="Times,serif" font-size="14.00"> 1: factorial </text>
+<path fill="none" stroke="black" d="M239.44,-134.4C239.44,-134.4 296.93,-134.4 296.93,-134.4 300.06,-134.4 303.2,-137.53 303.2,-140.67 303.2,-140.67 303.2,-146.93 303.2,-146.93 303.2,-150.07 300.06,-153.2 296.93,-153.2 296.93,-153.2 239.44,-153.2 239.44,-153.2 236.3,-153.2 233.17,-150.07 233.17,-146.93 233.17,-146.93 233.17,-140.67 233.17,-140.67 233.17,-137.53 236.3,-134.4 239.44,-134.4"/>
+<text xml:space="preserve" text-anchor="start" x="234.17" y="-139.6" font-family="Times,serif" font-size="14.00"> 2: factorial </text>
+<path fill="none" stroke="black" d="M314.46,-134.4C314.46,-134.4 371.95,-134.4 371.95,-134.4 375.09,-134.4 378.22,-137.53 378.22,-140.67 378.22,-140.67 378.22,-146.93 378.22,-146.93 378.22,-150.07 375.09,-153.2 371.95,-153.2 371.95,-153.2 314.46,-153.2 314.46,-153.2 311.33,-153.2 308.2,-150.07 308.2,-146.93 308.2,-146.93 308.2,-140.67 308.2,-140.67 308.2,-137.53 311.33,-134.4 314.46,-134.4"/>
+<text xml:space="preserve" text-anchor="start" x="309.2" y="-139.6" font-family="Times,serif" font-size="14.00"> 3: factorial </text>
+<path fill="none" stroke="black" d="M389.49,-134.4C389.49,-134.4 446.98,-134.4 446.98,-134.4 450.11,-134.4 453.24,-137.53 453.24,-140.67 453.24,-140.67 453.24,-146.93 453.24,-146.93 453.24,-150.07 450.11,-153.2 446.98,-153.2 446.98,-153.2 389.49,-153.2 389.49,-153.2 386.35,-153.2 383.22,-150.07 383.22,-146.93 383.22,-146.93 383.22,-140.67 383.22,-140.67 383.22,-137.53 386.35,-134.4 389.49,-134.4"/>
+<text xml:space="preserve" text-anchor="start" x="384.22" y="-139.6" font-family="Times,serif" font-size="14.00"> 4: factorial </text>
+<polygon fill="none" stroke="black" points="71.97,-110.6 71.97,-129.4 153.15,-129.4 153.15,-110.6 71.97,-110.6"/>
+<text xml:space="preserve" text-anchor="start" x="110.81" y="-115.8" font-family="Times,serif" font-size="14.00"> </text>
+<polygon fill="none" stroke="black" points="158.15,-110.6 158.15,-129.4 228.17,-129.4 228.17,-110.6 158.15,-110.6"/>
+<text xml:space="preserve" text-anchor="start" x="191.41" y="-115.8" font-family="Times,serif" font-size="14.00"> </text>
+<polygon fill="none" stroke="black" points="233.17,-110.6 233.17,-129.4 303.2,-129.4 303.2,-110.6 233.17,-110.6"/>
+<text xml:space="preserve" text-anchor="start" x="266.43" y="-115.8" font-family="Times,serif" font-size="14.00"> </text>
+<polygon fill="none" stroke="black" points="308.2,-110.6 308.2,-129.4 378.22,-129.4 378.22,-110.6 308.2,-110.6"/>
+<text xml:space="preserve" text-anchor="start" x="341.46" y="-115.8" font-family="Times,serif" font-size="14.00"> </text>
+<polygon fill="none" stroke="black" points="383.22,-110.6 383.22,-129.4 453.24,-129.4 453.24,-110.6 383.22,-110.6"/>
+<text xml:space="preserve" text-anchor="start" x="416.48" y="-115.8" font-family="Times,serif" font-size="14.00"> </text>
+<polygon fill="none" stroke="black" stroke-width="3" points="65.47,-104.1 65.47,-159.7 459.74,-159.7 459.74,-104.1 65.47,-104.1"/>
+<text xml:space="preserve" text-anchor="middle" x="27.99" y="-169.4" font-family="Times,serif" font-size="14.00">call_stack</text>
+</g>
+<!-- node18719144&#45;&gt;node23679880 -->
+<g id="edge1" class="edge">
+<title>node18719144:ref0-&gt;node23679880:table</title>
+<path fill="none" stroke="black" d="M112.56,-109.6C112.56,-89.83 110.6,-67.3 108.93,-51.69"/>
+<polygon fill="black" stroke="black" points="112.43,-51.45 107.82,-41.91 105.47,-52.24 112.43,-51.45"/>
+</g>
+<!-- node18719144&#45;&gt;node22540544 -->
+<g id="edge2" class="edge">
+<title>node18719144:ref1-&gt;node22540544:table</title>
+<path fill="none" stroke="black" d="M193.16,-109.6C193.16,-92.13 190.97,-72.57 188.81,-57.5"/>
+<polygon fill="black" stroke="black" points="192.33,-57.35 187.36,-47.99 185.41,-58.41 192.33,-57.35"/>
+</g>
+<!-- node18719144&#45;&gt;node20806712 -->
+<g id="edge3" class="edge">
+<title>node18719144:ref2-&gt;node20806712:table</title>
+<path fill="none" stroke="black" d="M268.18,-109.6C268.18,-92.4 268.04,-73.06 267.9,-58.02"/>
+<polygon fill="black" stroke="black" points="271.4,-58.02 267.79,-48.06 264.4,-58.1 271.4,-58.02"/>
+</g>
+<!-- node18719144&#45;&gt;node24051176 -->
+<g id="edge4" class="edge">
+<title>node18719144:ref3-&gt;node24051176:table</title>
+<path fill="none" stroke="black" d="M343.21,-109.6C343.21,-92.15 345.1,-72.59 346.97,-57.51"/>
+<polygon fill="black" stroke="black" points="350.38,-58.38 348.23,-48.01 343.45,-57.46 350.38,-58.38"/>
+</g>
+<!-- node18719144&#45;&gt;node18489440 -->
+<g id="edge5" class="edge">
+<title>node18719144:ref4-&gt;node18489440:table</title>
+<path fill="none" stroke="black" d="M418.23,-109.6C418.23,-95.35 423.36,-80.9 429.76,-68.42"/>
+<polygon fill="black" stroke="black" points="432.78,-70.2 434.61,-59.76 426.67,-66.77 432.78,-70.2"/>
+</g>
+</g>
+</svg>
