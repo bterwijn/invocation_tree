@@ -145,10 +145,10 @@ With recursion we often use a divide and conquer strategy, splitting the problem
 
 **exercise1:** Use recursions to compute the sum of all the values in a list (hint: split for example the list `[1, 2, 3, ...]` in head `1` and tail `[2, 3, ...]`).
 ```python
-def sum(values):
+def sum_list(values):
     # <your recursive implementation>
 
-print(sum([3, 7, 4, 9, 2]))  # 25
+print(sum_list([3, 7, 4, 9, 2]))  # 25
 ```
 
 **exercise2:** Rewrite this iterative implementation of decimal to binary conversion to a recursive implementation.
