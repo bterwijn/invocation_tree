@@ -430,7 +430,7 @@ See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#co
 
 # Mutability #
 
-Lets revisit the permutation problem but now using mutable type `list` to represent a permutation instead of a immutable type `str`. This can be done in two ways. The first way is to use the `+` list concatenation operator that creates a new list each time so this is slow:
+Lets revisit the permutation problem but now using mutable type `list` to represent a permutation instead of immutable type `str`. This can be done in two ways. The first way is to use the `+` list concatenation operator that creates a new list each time so this is slow:
 
 ```python
 def permutations(elements, perm, n):
@@ -443,8 +443,9 @@ def permutations(elements, perm, n):
 permutations('LR', [], 3)
 ```
 
-The [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/perm_mutable_copy.py&play) shows that each function call has it's own list copy.
-The [Invocation Tree Web Debugger](https://invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/perm_mutable_copy.py&play) shows all permutation are generated.
+The [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/perm_mutable_copy.py&timestep=1&play) shows that each function call has it's own list copy.
+
+The [Invocation Tree Web Debugger](https://invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/perm_mutable_copy.py&timestep=1&play) shows that all permutation are generated.
 
 A faster way is to mutate the `list` value with the `+=` operator or `append()` function and then after the recursive call to undo this action to restore its original value. This way we avoid creating new lists but we still produce each permutation correctly.
 
@@ -461,8 +462,9 @@ def permutations(elements, perm, n):
 permutations('LR', [], 3)
 ```
 
-The [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/perm_mutable_undo.py&play) now shows that all function calls share the same list. 
-The [Invocation Tree Web Debugger](https://invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/perm_mutable_undo.py&play) shows all permutation are generated with each action undone.
+The [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/perm_mutable_undo.py&timestep=1&play) now shows that all function calls share the same list.
+
+The [Invocation Tree Web Debugger](https://invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/perm_mutable_undo.py&timestep=1&play) shows that all permutation are generated with each action being undone so that in the end the list is empty again.
 
 # Jugs Puzzle #
 
