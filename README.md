@@ -133,7 +133,7 @@ We can also visualize the execution of the program using [memory_graph](https://
 
 ![factorial](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial.gif)
 
-Or see it in the [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/factorial.py&timestep=1.0&play)
+Or see it in the [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/factorial.py&timestep=1.0&play).
 
 But when later a function calls itself multiple times the [invocation_tree](https://github.com/bterwijn/invocation_tree?tab=readme-ov-file#installation) will give us a better visualization than [memory_graph](https://github.com/bterwijn/memory_graph?tab=readme-ov-file#installation), so we will use that here mostly.
 
@@ -179,7 +179,7 @@ We can use recursion to compute all permutation of a number of elements with rep
 
 ![perms_LR3](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/perms_LR3.png)
 
-This can be implemented recursively, using a divide and conquer strategy, like:
+This can be implemented recursively, using a divide and conquer strategy, with a function calling itself multiple times, like:
 
 ```python
 import invocation_tree as ivt
@@ -428,6 +428,42 @@ See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#co
 
 **exercise6:** Rewrite this quick sort program so that we can pass in a list to collect the sorted result and we don't need to use a return value. This would make the program faster as it avoids having to use the `+` list concatenation operator that creates a new list each time we use it, whereas `+=` or `append()` only add to an existing list.
 
+# Mutability #
+
+Lets revisit the permutation problem but now using mutable type `list` to represent a permutation instead of a immutable type `str`. This can be done in two ways. The first way is to use the `+` list concatenation operator that creates a new list each time so this is slow:
+
+```python
+def permutations(elements, perm, n):
+    if n == 0:
+        print(perm)
+    else:
+        for element in elements:
+            permutations(elements, perm + [element], n-1)  # creates new list, SLOW!
+
+permutations('LR', [], 3)
+```
+
+The [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/perm_mutable_copy.py&play) shows that each function call has it's own list copy.
+The [Invocation Tree Web Debugger](https://invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/perm_mutable_copy.py&play) shows all permutation are generated.
+
+A faster way is to mutate the `list` value with the `+=` operator or `append()` function and then after the recursive call to undo this action to restore its original value. This way we avoid creating new lists but we still produce each permutation correctly.
+
+```python
+def permutations(elements, perm, n):
+    if n == 0:
+        print(perm)
+    else:
+        for element in elements:
+            perm.append(element)  # do action that mutates list, FAST!
+            permutations(elements, perm, n-1)
+            perm.pop()            # undo action
+            
+permutations('LR', [], 3)
+```
+
+The [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/perm_mutable_undo.py&play) now shows that all function calls share the same list. 
+The [Invocation Tree Web Debugger](https://invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/perm_mutable_undo.py&play) shows all permutation are generated with each action undone.
+
 # Jugs Puzzle #
 
 In the Jugs Puzzle we have a set of jugs of various capacities. Our goal is to get a jug with a certain amount of liquid in it. In each step we can take one of these actions:
@@ -489,7 +525,7 @@ The breadth-first algorithm works and gives us the shortest path to a goal state
 - A solution may not have the same jugs state multiple times (this also avoids infinite loops).
 - It is not necessary to find the shortest path to a goal state (like breadth-first does).
 
-If you want to use the Invocation Tree Web Debugger, you can look at these [configuration examples](https://invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/config.py) to keep the tree small and readable.
+Use the [decorator interface](#decorator) to visualize the execution on your system (not the Invocation Tree Web Debugger) because that allows you to easily choose which functions show up in the tree.
 
 **solution exercise7:** First try it yourself, we give the [solution](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/jugs_depth_first.py&breakpoints=136&continues=1) here for comparison.
 
@@ -543,9 +579,10 @@ A better way to hide functions is to use the `@ivt.show` decorator on only the f
 ```python
 import invocation_tree as ivt
 ivt.decorator_tree = ivt.blocking()               # set tree used by decorator
-#ivt.decorator_tree = ivt.blocking_each_change()  # block at each change, but much slower
+#ivt.decorator_tree = ivt.blocking_each_change()  # block at each change, much slower
+#ivt.decorator_tree = ivt.debugger()              # for VS Code or PyCharm debugger
 
-@ivt.show  # use decorator to select which functions to graph
+@ivt.show  # use this decorator to select which functions to graph
 def permutations(elements, perm, n):
     if n == 0:
         print(perm)

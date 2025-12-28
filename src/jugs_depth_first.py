@@ -112,15 +112,15 @@ def solver_depth_first(jugs, goal):
         for action in actions:
             goal_reached = jugs.do_action(action, goal)
             if jugs not in jugs_hist:
-                jugs_hist.add(jugs.copy())
-                action_hist.append(action)
+                jugs_hist.add(jugs.copy())  # do action
+                action_hist.append(action)  # do action
                 if goal_reached:
                     return action_hist
                 result = solver_depth_first_recursive(jugs, goal, jugs_hist, action_hist)   
                 if result:
                     return result
-                action_hist.pop()
-                jugs_hist.remove(jugs)
+                action_hist.pop()           # undo action
+                jugs_hist.remove(jugs)      # undo action
             jugs.undo_action(action)
         return None 
 
