@@ -420,7 +420,7 @@ import invocation_tree as ivt
 def quick_sort(values):
     if len(values) <= 1:
         return values
-    pivot = values[0]  # choose arbitrarity the first as pivot
+    pivot = values[0]  # choose arbitrarily the first as pivot
     smaller = [x for x in values if x  < pivot]
     equal   = [x for x in values if x == pivot]
     larger  = [x for x in values if x  > pivot]
@@ -439,7 +439,7 @@ unsorted values: [7, 4, 10, 11, 2, 6, 9, 1, 5, 3, 8, 12]
 <!-- ![quick_sort](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/quick_sort.gif) -->
 See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/quick_sort.py&timestep=0.5&play)
 
-**exercise6:** Add a `key=None` argument so that we can use the `quick_sort(values, key)` function to sort each value `x` in `values` as if it was value `key(x)`, in exactly the same way as how the `sorted(iterable, key)` function works. The call `quick_sort([1, 3, 4, 2], key = lambda x : -x)` should return `[4, 3, 2, 1]` because each value is sorted as if it was negative ([-4, -3, -2, -1]).
+**exercise6:** Add the `key` argument so that we can use the `quick_sort(values, key=None)` function to sort each value `x` in `values` as if it was value `key(x)`, in exactly the same way as how the `sorted(iterable, key=None)` function works. The call `quick_sort([1, 3, 4, 2], key = lambda x : -x)` should return `[4, 3, 2, 1]` because then each value is sorted as if it was negative ([-4, -3, -2, -1]). When the `key` is `None` sort the values as normal.
 
 
 # Mutability #
