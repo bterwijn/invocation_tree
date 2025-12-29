@@ -1,3 +1,4 @@
+
 def permutations(elements, perm, n):
     if n == 0:
         yield perm
