@@ -143,7 +143,7 @@ where the **call stack** is explicit. Each function call adds a stack frame to t
 
 With recursion we often use a divide and conquer strategy, splitting the problem in subproblems that are easier to solve. With factorial we split `factorial(4)` in a `4` and `factorial(3)` subproblem.
 
-#### exercise1
+### exercise1
 Use recursions to compute the sum of all the values in a list (hint: split for example the list `[1, 2, 3, ...]` in head `1` and tail `[2, 3, ...]`).
 ```python
 def sum_list(values):
@@ -152,7 +152,7 @@ def sum_list(values):
 print(sum_list([3, 7, 4, 9, 2]))  # 25
 ```
 
-#### exercise2
+### exercise2
 Rewrite this iterative implementation of decimal to binary conversion to a recursive implementation.
 
 ```python
@@ -260,7 +260,7 @@ Or see it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/
 
 With recursion we can stop neighbors from being equal early, in contrast to iteration, where we would have had to filter out a permutation with equal neighbors after it was fully generated, which could be much slower and would require a more complex program.
 
-#### exercise3
+### exercise3
 Write function `palindromes(elems, perm, n)` that print all permutations with replacements of elements in `elems` of length `n` that are palindrome ('ABABA' is palindrome because if you read it backwards it's the same). The function call `palindromes('ABC', '', 3)` should result in these lines in any order:
 ```
 AAA
@@ -338,7 +338,7 @@ See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#co
 
 Add temporary debug prints wherever behavior isn’t clear. Experiment with what and how you print to maximize clarity.
 
-#### exercise4
+### exercise4
 In this larger bidirectional graph, print all the paths of length 7 that connect node `a` to node `b` where going over the same node multiple times is allowed (`avjxbxb` is one such path, there are 114 such paths in total).
 
 ```python
@@ -400,7 +400,7 @@ print(results)
 <!-- ![permutations_collect](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations_collect.gif) -->
 See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/permutations_collect.py&timestep=0.5&play)
 
-#### exercise5
+### exercise5
 Create a list with all paths of length 10 in the larger bidirectional graph that go from `a` to `b`, and that do go via `d` but do **not** go via `x` (`amajdjaskb` is one such path, there are 145 such paths in total).
 
 Where is the best place in the code to test for `x` to make the program run fast?
@@ -454,7 +454,7 @@ The [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.gi
 
 The [Invocation Tree Web Debugger](https://invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/perm_mutable_undo.py&timestep=1&play) shows that all permutation are generated but with each action being undone so that in the end the list is empty again.
 
-#### exercise6
+### exercise6
 Rewrite your code of **exercise5** so that it uses a list to represent each path and use backtracking with in-place mutation so that a single list is used in each recursive function call for higher performance.
 
 # Quick Sort #
@@ -486,7 +486,7 @@ unsorted values: [7, 4, 10, 11, 2, 6, 9, 1, 5, 3, 8, 12]
 
 See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/quick_sort.py&timestep=0.5&play)
 
-#### exercise7
+### exercise7
 Add the `key` argument so that we can use the `quick_sort(values, key=None)` function to sort each value `x` in `values` as if it was value `key(x)`, in exactly the same way as how the `sorted(iterable, key=None)` function works. The call `quick_sort([1, 3, 4, 2], key = lambda x : -x)` should return `[4, 3, 2, 1]` because then each value is sorted as if it was negative ([-4, -3, -2, -1]). When the `key` is `None` sort the values as normal.
 
 # Jugs Puzzle #
@@ -545,7 +545,7 @@ Where:
 
 The breadth-first algorithm works and gives us the shortest path to a goal state, but to do that it uses a lot of memory to store each generation and all jugs states it has seen. Now we also want an algorithm that uses much less memory.
 
-#### exercise8
+### exercise8
 Write a recursive solver for the Jugs Puzzle that uses less memory by searching for the solution in a depth-first manner.
 
 - A solution may not have the same jugs state multiple times (this also avoids infinite loops).
