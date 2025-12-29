@@ -455,11 +455,35 @@ The [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.gi
 The [Invocation Tree Web Debugger](https://invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/perm_mutable_undo.py&timestep=1&play) shows that all permutation are generated but with each action being undone so that in the end the list is empty again.
 
 ### exercise6
-Rewrite your code of **exercise5** so that it uses a list to represent each path and use backtracking with in-place mutation so that a single list is used in each recursive function call for higher performance.
+Rewrite your code of **exercise5** so that it uses a list to represent each path and uses backtracking with in-place mutation so that a single list is used in each recursive function call for faster execution. For example the path `'amajdjaskb'` should now be represented as `['a', 'm', 'a', 'j', 'd', 'j', 'a', 's', 'k', 'b']`.
+
+# Lazy Evaluation #
+
+We can combine recursion and lazy evaluation using the `yield` and `yield from` keywords. We use `yield` to produce a value, and we use `yield from` when calling each function that (indirectly) produces a value using `yield`. Here we see an example with the `permutations()` function:
+
+```python
+def permutations(elements, perm, n):
+    if n == 0:
+        yield perm
+    else:
+        for element in elements:
+            yield from permutations(elements, perm + element, n-1)
+
+generator_function = permutations('LR', '', 3)
+for perm in generator_function:
+    print(perm)
+```
+
+The first call to the `permutations()` function now results in a generator_function where we can iterate over to get all permutations that are yielded.
+
+The [Invocation Tree Web Debugger](https://invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/perm_lazy.py&timestep=1&play) shows how lazy evaluation is implemented. When we read a value from the generator_function the `permutations()` functions get called recursively until a permutation is yielded and then all `permutations()` calls return. When we read the next value the previous state of the recursion is restored and execution continues until the next permutation is yielded. This patterns repeats until all the recursive calls are completed and the generator is used up. Unfortunately this process makes the tree difficult to read, something we might improve in the future. At least it now gives and idea about the overhead of the lazy evaluation of recursive functions, the price we pay for not having to use memory for the `results` list.
+
+### exercise7
+Rewrite your code of **exercise6** so that `get_all_paths()` recursion is evaluated lazily.
 
 # Quick Sort #
 
-Another nice example of divide-and-conquer is the recursive quicksort algorithm. It works by choosing a pivot element and dividing the list into elements smaller than the pivot and elements larger than the pivot. Each of these sublists is then quicksorted in the same way. When we get to the point a sublist has zero or one element, it is already sorted. When returning, these sorted sublists are then combined with the pivot to produce a larger sorted lists. Here we use the return value to get the sorted result.
+Another nice example of divide-and-conquer is the recursive quicksort algorithm. It works by choosing a pivot element and splitting the list into elements smaller than the pivot, equal to the pivot, and larger than the pivot. The smaller and larger sublists are then quicksorted recursively. When we get to the point a sublist has zero or one element, then it is sorted. When returning, these sorted sublists are then combined with the elements equal to the pivot to produce a larger sorted lists.
 
 ```python
 import invocation_tree as ivt
@@ -486,7 +510,7 @@ unsorted values: [7, 4, 10, 11, 2, 6, 9, 1, 5, 3, 8, 12]
 
 See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/quick_sort.py&timestep=0.5&play)
 
-### exercise7
+### exercise8
 Add the `key` argument so that we can use the `quick_sort(values, key=None)` function to sort each value `x` in `values` as if it was value `key(x)`, in exactly the same way as how the `sorted(iterable, key=None)` function works. The call `quick_sort([1, 3, 4, 2], key = lambda x : -x)` should return `[4, 3, 2, 1]` because then each value is sorted as if it was negative ([-4, -3, -2, -1]). When the `key` is `None` sort the values as normal.
 
 # Jugs Puzzle #
@@ -545,7 +569,7 @@ Where:
 
 The breadth-first algorithm works and gives us the shortest path to a goal state, but to do that it uses a lot of memory to store each generation and all jugs states it has seen. Now we also want an algorithm that uses much less memory.
 
-### exercise8
+### exercise9
 Write a recursive solver for the Jugs Puzzle that uses less memory by searching for the solution in a depth-first manner.
 
 - A solution may not have the same jugs state multiple times (this also avoids infinite loops).
@@ -553,7 +577,7 @@ Write a recursive solver for the Jugs Puzzle that uses less memory by searching 
 
 Use the [decorator interface](#decorator) to visualize the execution on your system (not the Invocation Tree Web Debugger) because that allows you to easily choose which functions show up in the tree.
 
-**solution exercise7:** First try it yourself, we give the [solution](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/jugs_depth_first.py&breakpoints=136&continues=1) here for comparison.
+**solution exercise8:** First try it yourself, we give the [solution](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/jugs_depth_first.py&breakpoints=136&continues=1) here for comparison.
 
 A harder more fun instance of this puzzle is with jugs with capacity 3, 5, 34 and 107 liter and the goal of getting to a jug with 51 liters.
 
