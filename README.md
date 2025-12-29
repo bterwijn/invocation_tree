@@ -258,7 +258,18 @@ Or see it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/
 
 With recursion we can stop neighbors from being equal early, in contrast to iteration, where we would have had to filter out a permutation with equal neighbors after it was fully generated, which could be much slower and would require a more complex program.
 
-**exercise3:** Print all permutations with replacements of elements 'A', 'B', and 'C' of length 5 that are palindrome ('ABABA' is palindrome because if you read it backwards it's the same).
+**exercise3:** Write function `palindromes(elems, perm, n)` that print all permutations with replacements of elements in `elems` of length `n` that are palindrome ('ABABA' is palindrome because if you read it backwards it's the same). The function call `palindromes('ABC', '', 3)` should result in these lines in any order:
+```
+AAA
+ABA
+ACA
+BAB
+BBB
+BCB
+CAC
+CBC
+CCC
+```
 
 # Path Planning #
 
@@ -428,7 +439,8 @@ unsorted values: [7, 4, 10, 11, 2, 6, 9, 1, 5, 3, 8, 12]
 <!-- ![quick_sort](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/quick_sort.gif) -->
 See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/quick_sort.py&timestep=0.5&play)
 
-**exercise6:** Rewrite this quick sort program so that we can pass in a list to collect the sorted result and we don't need to use a return value. This would make the program faster as it avoids having to use the `+` list concatenation operator that creates a new list each time we use it, whereas `+=` or `append()` only add to an existing list.
+**exercise6:** Add a `key=None` argument so that we can use the `quick_sort(values, key)` function to sort each value `x` in `values` as if it was value `key(x)`, in exactly the same way as how the `sorted(iterable, key)` function works. The call `quick_sort([1, 3, 4, 2], key = lambda x : -x)` should return `[4, 3, 2, 1]` because each value is sorted as if it was negative ([-4, -3, -2, -1]).
+
 
 # Mutability #
 
