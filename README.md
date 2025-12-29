@@ -418,7 +418,7 @@ edges =  [('a', 's'), ('i', 'z'), ('c', 'p'), ('d', 'p'), ('d', 'u'), ('b', 'e')
 
 # Mutability #
 
-Let's revisit the permutation problem but now using mutable type `list` to represent a permutation instead of the immutable type `str` we used before. This can be done in two ways. One way is to use the `+` list concatenation operator that creates a new list each time we use it so this is slow:
+In the permutation problem we could choose to use mutable type `list` to represent a permutation instead of the immutable type `str` we used before. This can be done in two ways. One way is to use the `+` list concatenation operator to add elements to the permutation, but this is slow because this creates a whole new list each time:
 
 ```python
 def permutations(elements, perm, n):
@@ -431,11 +431,11 @@ def permutations(elements, perm, n):
 permutations('LR', [], 3)
 ```
 
-The [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/perm_mutable_copy.py&timestep=1&play) shows that each function call has it's own list copy.
+The [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/perm_mutable_copy.py&timestep=1&play) shows that each recursive function call has it's own list copy.
 
 The [Invocation Tree Web Debugger](https://invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/perm_mutable_copy.py&timestep=1&play) shows that all permutation are generated in the same way as when we used immutable type `str` to represent each permutation.
 
-A second way is to mutate the `list` value with the `+=` operator or `append()` function and then after the recursive call to undo this action to restore its original value. This way we avoid creating new lists so this is much faster. We now use the same list in each recursive function call. We couldn't do this before with immutable type `str` because a value of immutable type is always automatically copied when we change it. However, now we have to take care to correctly undo each action we take so the code can get it a bit more complex, but this generally is worth it for faster execution. This style of recursion is called **backtracking with in-place mutation**.
+A second way is to mutate the `list` value with the `+=` operator or `append()` function and then after the recursive call to undo this action to restore its original value. This way we avoid creating new lists so this is much faster. We now use the same list in each recursive function call. We couldn't do this before with immutable type `str` because a value of immutable type is always automatically copied when we change it. However, now we have to take care to correctly undo each action we take so the code can get it a bit more complex, but this generally is worth it for faster execution. This style of recursion is often called **backtracking with in-place mutation**.
 
 ```python
 def permutations(elements, perm, n):
@@ -450,12 +450,12 @@ def permutations(elements, perm, n):
 permutations('LR', [], 3)
 ```
 
-The [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/perm_mutable_undo.py&timestep=1&play) now shows that all function calls share the same list.
+The [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/perm_mutable_undo.py&timestep=1&play) now shows that all function calls use the same list.
 
 The [Invocation Tree Web Debugger](https://invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/perm_mutable_undo.py&timestep=1&play) shows that all permutation are generated but with each action being undone so that in the end the list is empty again.
 
 #### exercise6
-Rewrite your code of **exercise5** so that it uses a list to represent the path and use backtracking with in-place mutation so that a single list is used in each recursive function call for higher performance.
+Rewrite your code of **exercise5** so that it uses a list to represent each path and use backtracking with in-place mutation so that a single list is used in each recursive function call for higher performance.
 
 # Quick Sort #
 
