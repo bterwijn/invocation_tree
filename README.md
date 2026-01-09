@@ -511,7 +511,12 @@ unsorted values: [7, 4, 10, 11, 2, 6, 9, 1, 5, 3, 8, 12]
 See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/quick_sort.py&timestep=0.5&play)
 
 ### exercise8
-Add the `key` argument so that we can use the `quick_sort(values, key=None)` function to sort each value `x` in `values` as if it was value `key(x)`, in exactly the same way as how the `sorted(iterable, key=None)` function works. The call `quick_sort([1, 3, 4, 2], key = lambda x : -x)` should return `[4, 3, 2, 1]` because then each value is sorted as if it was negative ([-4, -3, -2, -1]). When the `key` is `None` sort the values as normal.
+Add a `key` argument so that we can use the `quick_sort(values, key=None)` function to sort each value `x` in `values` as if it was value `key(x)`, in exactly the same way as how the `sorted(iterable, key=None)` function works. For example:
+
+- The call `quick_sort([1, 3, 4, 2], key = lambda x : -x)` should return `[4, 3, 2, 1]` because then each value is sorted by its negative value ([-4, -3, -2, -1]). 
+- The call `quick_sort(['aaa', 'bb', 'c'], key = lambda x : len(x))` should return `['c', 'bb', 'aaa']` because then each value is sorted by its length ([1, 2, 3]).
+
+Sort the values as normal when `key` is `None`.
 
 # Jugs Puzzle #
 
