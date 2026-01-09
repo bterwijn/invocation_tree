@@ -513,8 +513,8 @@ See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#co
 ### exercise8
 Add a `key` argument so that we can use the `quick_sort(values, key=None)` function to sort each value `x` in `values` as if it was value `key(x)`, in exactly the same way as how the `sorted(iterable, key=None)` function works. For example:
 
-- The call `quick_sort([1, 3, 4, 2], key = lambda x : -x)` should return `[4, 3, 2, 1]` because then each value is sorted by its negative value ([-4, -3, -2, -1]). 
-- The call `quick_sort(['aaa', 'bb', 'c'], key = lambda x : len(x))` should return `['c', 'bb', 'aaa']` because then each value is sorted by its length ([1, 2, 3]).
+- The call `quick_sort([1, 3, 4, 2], key = lambda x : -x)` should return `[4, 3, 2, 1]` because then each value is sorted by its negative value [-4, -3, -2, -1]. 
+- The call `quick_sort(['aaa', 'bb', 'c'], key = lambda x : len(x))` should return `['c', 'bb', 'aaa']` because then each value is sorted by its length [1, 2, 3].
 
 Sort the values as normal when `key` is `None`.
 
