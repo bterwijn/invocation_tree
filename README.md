@@ -211,7 +211,7 @@ RRR
 ![permutations](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/permutations.gif)
 Or see it in the [Invocation Tree Web Debugger](https://invocation-tree.com/#timestep=1.0&play)
 
-The visualization shows the depth-first nature of recursion. In each step the first elements is chosen first, and quickly the bottom of the tree is reached. Then the permutation is printed, the function returns, one step back is made, and the next element is chosen. When each element had it's turn the function returns and another step back is made. This pattern repeats until all permutations are printed.
+The visualization shows the depth-first nature of recursion. In each step the first element is chosen first, and quickly the bottom of the tree is reached. Then the permutation is printed, the function returns, one step back is made, and the next element is chosen. When each element had it's turn the function returns and another step back is made. This pattern repeats until all permutations are printed.
 
 We can also iterate over all permutations with replacement using the `product()` function of `iterools` to get the same result:
 
