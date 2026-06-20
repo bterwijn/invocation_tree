@@ -177,7 +177,7 @@ class Invocation_Tree:
             sys.settrace(self.prev_global_tracer)
         return result
 
-    def value_to_string(self, key, value):
+    def value_to_string(self, key, value, is_value):
         try:
             if id(value) in self.to_string:
                 val_str = self.to_string[id(value)](value)
@@ -193,14 +193,17 @@ class Invocation_Tree:
             val_str = '...'+val_str[-self.max_string_len:]
         result = html.escape(val_str)
         if '\n' in result:
-            result = '<BR/>' + result.replace('\n', '<BR/>') # use HTML line breaks
+            lines = result.split('\n')
+            result = '<BR/>' + '<BR/>'.join([line + '&nbsp;' for line in lines]) # use HTML line breaks
+        elif is_value and isinstance(value, str):
+            result = "'" + result + "'" # add quotes around single line strings
         return result
     
-    def get_hightlighted_content(self, tree_node, key, value, use_old_content=False):
+    def get_hightlighted_content(self, tree_node, key, value, use_old_content=False, is_value=False):
         if use_old_content and key in tree_node.strings:
             return tree_node.strings[key]
         is_highlighted = False
-        content = self.value_to_string(key, value)
+        content = self.value_to_string(key, value, is_value)
         if key in tree_node.strings:
             use_old_content = tree_node.strings[key]
             hightlighted_content, is_highlighted = highlight_diff(use_old_content, content)
@@ -227,26 +230,27 @@ class Invocation_Tree:
             border = 3
         if is_returned:
             color = self.color_returned
+        alignment = 'ALIGN="left" BALIGN="LEFT"'
         table = f'<\n<TABLE BORDER="{str(border)}" COLOR="{self.foreground_color}" CELLBORDER="0" CELLSPACING="0" BGCOLOR="{color}">\n  <TR>'
         class_fun_name = get_class_function_name(tree_node.frame)
         local_vars = tree_node.frame.f_locals
         hightlighted_content = self.get_hightlighted_content(tree_node, class_fun_name, class_fun_name, use_old_content)
-        table += '<TD ALIGN="left">'+ '➤'+ hightlighted_content +'</TD>'
+        table += '<TD '+alignment+'>'+ '➤'+ hightlighted_content +'</TD>'
         for var,val in local_vars.items():
             var_name = class_fun_name+'..'+var
             val_name = class_fun_name+'.'+var
             if filter_variables(var,val) and not self.regset_hide_vars.match(val_name, self.hide_vars):
                 table += '</TR>\n  <TR>'
                 hightlighted_var = self.get_hightlighted_content(tree_node, var_name, var, use_old_content)
-                hightlighted_val = self.get_hightlighted_content(tree_node, val_name, val, use_old_content)
+                hightlighted_val = self.get_hightlighted_content(tree_node, val_name, val, use_old_content, is_value=True)
                 hightlighted_content = self.indent + hightlighted_var + ': ' + hightlighted_val
-                table += '<TD ALIGN="left">'+ hightlighted_content  +'</TD>'
+                table += '<TD '+alignment+'>'+ hightlighted_content  +'</TD>'
         if is_returned:
             return_name = class_fun_name+'.return'
             if not self.regset_hide_vars.match(return_name, self.hide_vars):
                 table += '</TR>\n  <TR>'
-                hightlighted_content = self.get_hightlighted_content(tree_node, return_name, return_value, use_old_content)
-                table += '<TD ALIGN="left">'+ 'return ' + hightlighted_content +'</TD>'
+                hightlighted_content = self.get_hightlighted_content(tree_node, return_name, return_value, use_old_content, is_value=True)
+                table += '<TD '+alignment+'>'+ 'return ' + hightlighted_content +'</TD>'
         table += '</TR>\n</TABLE>>'
         return table
 
