@@ -230,7 +230,7 @@ class Invocation_Tree:
             border = 3
         if is_returned:
             color = self.color_returned
-        alignment = 'ALIGN="left" BALIGN="LEFT"'
+        alignment = 'ALIGN="LEFT" BALIGN="LEFT"'
         table = f'<\n<TABLE BORDER="{str(border)}" COLOR="{self.foreground_color}" CELLBORDER="0" CELLSPACING="0" BGCOLOR="{color}">\n  <TR>'
         class_fun_name = get_class_function_name(tree_node.frame)
         local_vars = tree_node.frame.f_locals
