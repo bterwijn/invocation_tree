@@ -270,7 +270,7 @@ class Invocation_Tree:
                 return '.'.join(splits)
         return self.filename
         
-    def create_graph(self):
+    def graph_header(self):
         graphviz_graph_attr = {
             'fontname': self.fontname, 
             'fontsize': str(self.fontsize), 
@@ -293,6 +293,18 @@ class Invocation_Tree:
                 graph_attr=graphviz_graph_attr,
                 node_attr=graphviz_node_attr,
                 edge_attr=graphviz_edge_attr)
+        return graph
+
+    def build_graph_from_nodes(self):
+        # add nodes and edges to graph
+        graph = self.graph_header()
+        for nid, table in self.node_id_to_table.items():
+            graph.node(nid, label=table)
+        for nid1, nid2 in self.edges:
+            graph.edge(nid1, nid2)
+        return graph
+
+    def create_graph(self):
         # update returned nodes
         for node in self.prev_returned:
             self.update_node(node, use_old_content=True)
@@ -312,12 +324,11 @@ class Invocation_Tree:
                 self.update_node(node, active=False, use_old_content=True)
         self.prev_paused = self.paused.copy()
         self.paused = []
-        # add nodes and edges to graph
-        for nid, table in self.node_id_to_table.items():
-            graph.node(nid, label=table)
-        for nid1, nid2 in self.edges:
-            graph.edge(nid1, nid2)
-        return graph
+        return self.build_graph_from_nodes()
+    
+    def update_existing_graph(self):  # TODO
+        """ update the color of all nodes in the graph, used when switching dark/light mode """
+        return self.graph
         
     def render_graph(self, graph):
         view = (self.filename!=self.prev_filename) and self.show
