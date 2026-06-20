@@ -13,6 +13,21 @@ import invocation_tree.regex_set as regset
 __version__ = "0.0.35"
 __author__ = 'Bas Terwijn'
 
+# colors dark
+foreground_color_light = '#000000'
+background_color_light = '#ffffff'
+color_paused_light = '#ccffcc'
+color_active_light = '#ffffff'
+color_returned_light = '#ffcccc'
+
+# colors light
+foreground_color_dark = '#dddddd'
+background_color_dark = '#1d1d1d'
+color_paused_dark = '#779977' 
+color_active_dark = '#1d1d1d'
+color_returned_dark = '#997777'
+
+
 def highlight_diff(str1, str2):
     matcher = difflib.SequenceMatcher(None, str1, str2)
     result = []
@@ -72,9 +87,6 @@ class Invocation_Tree:
                  gifcount=-1,
                  max_string_len=150, 
                  indent='   ', 
-                 color_paused = '#ccffcc', 
-                 color_active = '#ffffff', 
-                 color_returned = '#ffcccc', 
                  to_string=None, 
                  hide_vars=None,
                  cleanup=True,
@@ -89,9 +101,6 @@ class Invocation_Tree:
         self.max_string_len = max_string_len
         self.gifcount = gifcount
         self.indent = indent
-        self.color_paused = color_paused
-        self.color_active = color_active
-        self.color_returned = color_returned
         self.each_line = each_line
         self.to_string = {}
         if not to_string is None:
@@ -109,6 +118,9 @@ class Invocation_Tree:
         self.regset_ignore_calls = regset.Regex_Set(self.ignore_calls)
         self.fontname = 'Times-Roman'
         self.fontsize = '14'
+        self.in_dark_mode = False
+        self.in_transparent_background = False
+        self.set_colors()
         # --- core
         self.stack = []
         self.returned = []
@@ -122,9 +134,39 @@ class Invocation_Tree:
         self.graph = None
         self.prev_global_tracer = None
         
-
     def __repr__(self):
         return f'Invocation_Tree(filename={repr(self.filename)}, show={self.show}, block={self.block}, each_line={self.each_line}, gifcount={self.gifcount})'
+    
+    def set_colors(self):
+        if self.in_dark_mode:
+            self.foreground_color = foreground_color_dark
+            self.background_color = background_color_dark
+            self.color_paused = color_paused_dark
+            self.color_active = color_active_dark
+            self.color_returned = color_returned_dark
+        else:
+            self.foreground_color = foreground_color_light
+            self.background_color = background_color_light
+            self.color_paused = color_paused_light
+            self.color_active = color_active_light
+            self.color_returned = color_returned_light
+        if self.in_transparent_background:
+            self.background_color = 'transparent'
+            self.color_active = 'transparent'
+
+    def dark_mode(self, dark = None):
+        if dark is None:
+            self.in_dark_mode = not self.in_dark_mode
+        else:
+            self.in_dark_mode = dark
+        self.set_colors()
+
+    def transparent_background(self, transparent = None):
+        if transparent is None:
+            self.in_transparent_background = not self.in_transparent_background
+        else:
+            self.in_transparent_background = transparent
+        self.set_colors()
 
     def __call__(self, fun, *args, **kwargs):
         try:
@@ -185,7 +227,7 @@ class Invocation_Tree:
             border = 3
         if is_returned:
             color = self.color_returned
-        table = f'<\n<TABLE BORDER="{str(border)}" CELLBORDER="0" CELLSPACING="0" BGCOLOR="{color}">\n  <TR>'
+        table = f'<\n<TABLE BORDER="{str(border)}" COLOR="{self.foreground_color}" CELLBORDER="0" CELLSPACING="0" BGCOLOR="{color}">\n  <TR>'
         class_fun_name = get_class_function_name(tree_node.frame)
         local_vars = tree_node.frame.f_locals
         hightlighted_content = self.get_hightlighted_content(tree_node, class_fun_name, class_fun_name, use_old_content)
@@ -225,9 +267,24 @@ class Invocation_Tree:
         return self.filename
         
     def create_graph(self):
-        graphviz_graph_attr = {'fontname': self.fontname, 'fontsize': str(self.fontsize)}
-        graphviz_node_attr = {'fontname': self.fontname, 'fontsize': str(self.fontsize), 'shape':'plaintext'}
-        graphviz_edge_attr = {'fontname': self.fontname, 'fontsize': str(self.fontsize)}
+        graphviz_graph_attr = {
+            'fontname': self.fontname, 
+            'fontsize': str(self.fontsize), 
+            'fontcolor': self.foreground_color, 
+            'bgcolor': self.background_color,
+            }
+        graphviz_node_attr = {
+            'fontname': self.fontname, 
+            'fontsize': str(self.fontsize), 
+            'shape':'plaintext',
+            'fontcolor': self.foreground_color
+            }
+        graphviz_edge_attr = {
+            'fontname': self.fontname, 
+            'fontsize': str(self.fontsize),
+            'fontcolor': self.foreground_color, 
+            'color': self.foreground_color
+            }
         graph = Digraph('invocation_tree',
                 graph_attr=graphviz_graph_attr,
                 node_attr=graphviz_node_attr,

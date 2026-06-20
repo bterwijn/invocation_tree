@@ -694,12 +694,6 @@ tree = ivt.Invocation_Tree()
   - if `>=0` the out filename is numbered for animated gif making
 - **tree.indent** : string
   - the string used for identing the local variables
-- **tree.color_active** : string
-  - HTML color for active function
-- **tree.color_paused*** : string
-  - HTML color for paused functions
-- **tree.color_returned***: string
-  - HTML color for returned functions
 - **tree.to_string** : dict[str, fun]
   - mapping from type/name/id to a to_string() function for custom printing of values
 - **tree.hide_vars** : set()
@@ -712,6 +706,32 @@ tree = ivt.Invocation_Tree()
   - the font used in the graph, default 'Times-Roman' (widely available on the web)
 - **tree.fontsize** : str
   - the font size used in the graph, default '14'
+
+## Functions ##
+
+- **tree.dark_mode(b: bool = None)**
+  - set dark mode to 'True' or 'False', or 'None' to toggle.
+- **tree.transparent_background(b: bool = None)**
+  - set transparent background to 'True' or 'False', or 'None' to toggle.
+
+## Colors ##
+
+For light mode the colors are:
+
+- ivt.foreground_color_light
+- ivt.background_color_light
+- ivt.color_paused_light
+- ivt.color_active_light
+- ivt.color_returned_light
+
+For dark mode the colors are:
+
+- ivt.foreground_color_dark
+- ivt.background_color_dark
+- ivt.color_paused_dark
+- ivt.color_active_dark 
+- ivt.color_returned_dark 
+
 
 # Troubleshooting #
 - Adobe Acrobat Reader [doesn't refresh a PDF file](https://community.adobe.com/t5/acrobat-reader-discussions/reload-refresh-pdfs/td-p/9632292) when it changes on disk and blocks updates which results in an `Could not open 'tree.pdf' for writing : Permission denied` error. One solution is to install a PDF reader that does refresh ([SumatraPDF](https://www.sumatrapdfreader.org/), [Okular](https://okular.kde.org/),  ...) and set it as the default PDF reader. Another solution is to `render()` the graph to a different output format.
