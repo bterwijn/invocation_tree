@@ -10,7 +10,7 @@ import functools
 
 import invocation_tree.regex_set as regset
 
-__version__ = "0.0.36"
+__version__ = "0.0.37"
 __author__ = 'Bas Terwijn'
 
 # colors dark
