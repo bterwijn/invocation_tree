@@ -2,7 +2,7 @@
 # Copyright (c) 2023, Bas Terwijn.
 # SPDX-License-Identifier: BSD-2-Clause
 
-from graphviz import Digraph
+from graphviz import Digraph, Source
 import html
 import sys
 import difflib 
@@ -26,6 +26,13 @@ background_color_dark = '#1d1d1d'
 color_paused_dark = '#779977' 
 color_active_dark = '#1d1d1d'
 color_returned_dark = '#997777'
+
+# color placeholders
+foreground_color_PH = 'foreground_color_PH'
+background_color_PH = 'background_color_PH'
+color_paused_PH = 'color_paused_PH'
+color_active_PH = 'color_active_PH'
+color_returned_PH = 'color_returned_PH'
 
 
 def highlight_diff(str1, str2):
@@ -133,6 +140,7 @@ class Invocation_Tree:
         self.is_highlighted = False
         self.graph = None
         self.prev_global_tracer = None
+        self.uncolored_graph = None
         
     def __repr__(self):
         return f'Invocation_Tree(filename={repr(self.filename)}, show={self.show}, block={self.block}, each_line={self.each_line}, gifcount={self.gifcount})'
@@ -231,7 +239,7 @@ class Invocation_Tree:
         if is_returned:
             color = self.color_returned
         alignment = 'ALIGN="LEFT" BALIGN="LEFT"'
-        table = f'<\n<TABLE BORDER="{str(border)}" COLOR="{self.foreground_color}" CELLBORDER="0" CELLSPACING="0" BGCOLOR="{color}">\n  <TR>'
+        table = f'<\n<TABLE BORDER="{str(border)}" COLOR="{foreground_color_PH}" CELLBORDER="0" CELLSPACING="0" BGCOLOR="{color}">\n  <TR>'
         class_fun_name = get_class_function_name(tree_node.frame)
         local_vars = tree_node.frame.f_locals
         hightlighted_content = self.get_hightlighted_content(tree_node, class_fun_name, class_fun_name, use_old_content)
@@ -274,20 +282,20 @@ class Invocation_Tree:
         graphviz_graph_attr = {
             'fontname': self.fontname, 
             'fontsize': str(self.fontsize), 
-            'fontcolor': self.foreground_color, 
-            'bgcolor': self.background_color,
+            'fontcolor': foreground_color_PH, 
+            'bgcolor': background_color_PH,
             }
         graphviz_node_attr = {
             'fontname': self.fontname, 
             'fontsize': str(self.fontsize), 
             'shape':'plaintext',
-            'fontcolor': self.foreground_color
+            'fontcolor': foreground_color_PH
             }
         graphviz_edge_attr = {
             'fontname': self.fontname, 
             'fontsize': str(self.fontsize),
-            'fontcolor': self.foreground_color, 
-            'color': self.foreground_color
+            'fontcolor': foreground_color_PH, 
+            'color': foreground_color_PH
             }
         graph = Digraph('invocation_tree',
                 graph_attr=graphviz_graph_attr,
@@ -302,6 +310,27 @@ class Invocation_Tree:
             graph.node(nid, label=table)
         for nid1, nid2 in self.edges:
             graph.edge(nid1, nid2)
+        return graph
+
+    def recolor_last_graph(self):
+        if not self.uncolored_graph:
+            return self.uncolored_graph
+        graph_str = self.uncolored_graph.source
+
+        def replace_color(token, value):
+            # DOT attrs like fontcolor=... need quoted #RRGGBB values.
+            result = graph_str.replace(f'={token}', f'="{value}"')
+            # HTML-like labels contain quoted placeholder values already.
+            return result.replace(token, value)
+
+        graph_str = replace_color(foreground_color_PH, self.foreground_color)
+        graph_str = replace_color(background_color_PH, self.background_color)
+        graph_str = replace_color(color_paused_PH, self.color_paused)
+        graph_str = replace_color(color_active_PH, self.color_active)
+        graph_str = replace_color(color_returned_PH, self.color_returned)
+        graph = Source(graph_str)
+        graph.engine = self.uncolored_graph.engine
+        graph.format = self.uncolored_graph.format
         return graph
 
     def create_graph(self):
@@ -324,11 +353,9 @@ class Invocation_Tree:
                 self.update_node(node, active=False, use_old_content=True)
         self.prev_paused = self.paused.copy()
         self.paused = []
-        return self.build_graph_from_nodes()
-    
-    def update_existing_graph(self):  # TODO
-        """ update the color of all nodes in the graph, used when switching dark/light mode """
-        return self.graph
+        self.uncolored_graph = self.build_graph_from_nodes()
+        graph = self.recolor_last_graph()
+        return graph
         
     def render_graph(self, graph):
         view = (self.filename!=self.prev_filename) and self.show
