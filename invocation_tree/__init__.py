@@ -28,11 +28,11 @@ color_active_dark = '#1d1d1d'
 color_returned_dark = '#997777'
 
 # color placeholders
-foreground_color_PH = 'foreground_color_PH'
-background_color_PH = 'background_color_PH'
-color_paused_PH = 'color_paused_PH'
-color_active_PH = 'color_active_PH'
-color_returned_PH = 'color_returned_PH'
+foreground_color_PH = '<foreground_color_PH>'
+background_color_PH = '<background_color_PH>'
+color_paused_PH = '<color_paused_PH>'
+color_active_PH = '<color_active_PH>'
+color_returned_PH = '<color_returned_PH>'
 
 
 def highlight_diff(str1, str2):
@@ -232,14 +232,14 @@ class Invocation_Tree:
             tree_node.is_returned = is_returned
         return_value = tree_node.return_value
         border = 1
-        color = self.color_paused
+        color = color_paused_PH
         if active:
-            color = self.color_active
+            color = color_active_PH
             border = 3
         if is_returned:
-            color = self.color_returned
+            color = color_returned_PH
         alignment = 'ALIGN="LEFT" BALIGN="LEFT"'
-        table = f'<\n<TABLE BORDER="{str(border)}" COLOR="{foreground_color_PH}" CELLBORDER="0" CELLSPACING="0" BGCOLOR="{color}">\n  <TR>'
+        table = f'<\n<TABLE BORDER="{str(border)}" COLOR={foreground_color_PH} CELLBORDER="0" CELLSPACING="0" BGCOLOR={color}>\n  <TR>'
         class_fun_name = get_class_function_name(tree_node.frame)
         local_vars = tree_node.frame.f_locals
         hightlighted_content = self.get_hightlighted_content(tree_node, class_fun_name, class_fun_name, use_old_content)
@@ -318,10 +318,7 @@ class Invocation_Tree:
         graph_str = self.uncolored_graph.source
 
         def replace_color(token, value):
-            # DOT attrs like fontcolor=... need quoted #RRGGBB values.
-            result = graph_str.replace(f'={token}', f'="{value}"')
-            # HTML-like labels contain quoted placeholder values already.
-            return result.replace(token, value)
+            return graph_str.replace(f'{token}', f'"{value}"')
 
         graph_str = replace_color(foreground_color_PH, self.foreground_color)
         graph_str = replace_color(background_color_PH, self.background_color)
