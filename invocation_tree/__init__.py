@@ -21,11 +21,11 @@ color_active_light = '#ffffff'
 color_returned_light = '#ffcccc'
 
 # colors light
-foreground_color_dark = '#dddddd'
+foreground_color_dark = '#cccccc'
 background_color_dark = '#1d1d1d'
-color_paused_dark = '#779977' 
+color_paused_dark = '#446644'
 color_active_dark = '#1d1d1d'
-color_returned_dark = '#997777'
+color_returned_dark = '#664444'
 
 # color placeholders
 foreground_color_PH = '<foreground_color_PH>'
