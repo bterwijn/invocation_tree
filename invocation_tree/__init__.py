@@ -71,9 +71,11 @@ def filter_variables(var, val):
     return True
 
 class Tree_Node:
+    node_id = 0
 
-    def __init__(self, node_id, frame, return_value):
-        self.node_id = node_id
+    def __init__(self, frame, return_value):
+        self.node_id = Tree_Node.node_id
+        Tree_Node.node_id += 1
         self.frame = frame
         self.return_value = return_value
         self.is_returned = False
@@ -134,7 +136,6 @@ class Invocation_Tree:
         self.prev_returned = []
         self.paused = []
         self.prev_paused = []
-        self.node_id = 0
         self.node_id_to_table = {}
         self.edges = []
         self.is_highlighted = False
@@ -414,8 +415,7 @@ class Invocation_Tree:
                     self.update_node(previous, active=False)
                     self.paused.append(previous)
                 # create new node
-                self.stack.append(Tree_Node(self.node_id, frame, None))
-                self.node_id += 1
+                self.stack.append(Tree_Node(frame, None))
                 if len(self.stack)>1:
                     self.add_edge(self.stack[-2], self.stack[-1])
                     self.paused.append(self.stack[-2])
