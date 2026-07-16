@@ -129,9 +129,9 @@ Or see it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/
 
 Each node in the invocation tree represents a function call, and the node's color indicates its state:
 
- - White: The function is currently being executed.
- - Green: The function is paused and will resume execution later.
- - Red: The function has completed execution and has returned.
+ - Green: the function is paused and will resume execution later
+ - White: the function is currently being executed
+ - Red: the function has completed execution and has returned
 
 For every function call, the package displays its **local variables** and **return value**. Changes to the values of these variables over time are highlighted using bold text and gray shading to make them easier to track.
 
