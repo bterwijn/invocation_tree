@@ -28,9 +28,11 @@ The new `@ivt.show` [decorator interface](#decorator) now allows for **scaling**
 
 [Collecting Results](#collecting-results)
 
+[Mutability](#mutability)
+
 [Quick Sort](#quick-sort)
 
-[Mutability](#mutability)
+[Tower of Hanoi](#tower-of-hanoi)
 
 [Jugs Puzzle](#jugs-puzzle)
 
@@ -517,6 +519,19 @@ Add a `key` argument so that we can use the `quick_sort(values, key=None)` funct
 - The call `quick_sort(['aaa', 'bb', 'c'], key = lambda x : len(x))` should return `['c', 'bb', 'aaa']` because then each value is sorted by its length [1, 2, 3].
 
 Sort the values as normal when `key` is `None`.
+
+# Tower of Hanoi #
+
+Another classic recursion problem is the Tower of Hanoi problem where we need to move disks from A to C, by moving one disk at a time, and a disk may never be on top of a smaller disk.
+
+![jugs.png](images/tower_of_hanoi.png)
+
+Doing this by hand can quickly get confusing, but the recursive solution is beautifully short. To move n disks we:
+- first remove n-1 disks from the largest disk
+- then move the largest disk
+- and then move the n-1 disks back on top
+
+See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/tower_of_hanoi.py&timestep=0.5&play)
 
 # Jugs Puzzle #
 
