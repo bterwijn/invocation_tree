@@ -55,7 +55,7 @@ ___
 
 # Iteration and Recursion #
 
-Repetition can be implemented with **iteration** and **recursion**. As an example we compute the factorial of 4.
+Repetition can in Python be implemented with **iteration** and **recursion**. As an example we compute the factorial of 4.
 
 ``` python
 import math
