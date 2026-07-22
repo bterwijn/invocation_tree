@@ -522,7 +522,7 @@ Sort the values as normal when `key` is `None`.
 
 # Tower of Hanoi #
 
-Another classic recursion problem is the Tower of Hanoi problem where we need to move all disks from A to C, by moving one disk at a time between any two positions, where a disk may never be on top of a smaller disk.
+Another classic recursion problem is the Tower of Hanoi problem where we need to move all disks from position A to position C, by moving one disk at a time between any two positions, where a disk may never be on top of a smaller disk.
 
 ![jugs.png](images/tower_of_hanoi.png)
 
