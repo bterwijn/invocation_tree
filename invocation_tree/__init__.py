@@ -129,6 +129,7 @@ class Invocation_Tree:
         self.fontsize = '14'
         self.in_dark_mode = False
         self.in_transparent_background = False
+        self.horizontal = False
         self.set_colors()
         # --- core
         self.stack = []
@@ -169,6 +170,12 @@ class Invocation_Tree:
         else:
             self.in_dark_mode = dark
         self.set_colors()
+
+    def layout(self, horizontal = None):
+        if horizontal is None:
+            self.horizontal = not self.horizontal
+        else:
+            self.horizontal = horizontal
 
     def transparent_background(self, transparent = None):
         if transparent is None:
@@ -302,6 +309,7 @@ class Invocation_Tree:
                 graph_attr=graphviz_graph_attr,
                 node_attr=graphviz_node_attr,
                 edge_attr=graphviz_edge_attr)
+        graph.attr(rankdir= "LR" if self.horizontal else "TB")
         return graph
 
     def build_graph_from_nodes(self):

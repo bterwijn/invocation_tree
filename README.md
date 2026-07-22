@@ -724,6 +724,8 @@ tree = ivt.Invocation_Tree()
 
 ## Functions ##
 
+- **mg.layout(horizontal: bool = None)**
+  - set tree layout to 'True' for horizontal, 'False' for vertical, or 'None' to toggle.
 - **tree.dark_mode(b: bool = None)**
   - set dark mode to 'True' or 'False', or 'None' to toggle.
 - **tree.transparent_background(b: bool = None)**
