@@ -309,15 +309,21 @@ class Invocation_Tree:
                 graph_attr=graphviz_graph_attr,
                 node_attr=graphviz_node_attr,
                 edge_attr=graphviz_edge_attr)
-        graph.attr(rankdir= "LR" if self.horizontal else "TB")
+        if self.horizontal:
+            graph.attr(rankdir="LR")
         return graph
 
     def build_graph_from_nodes(self):
         # add nodes and edges to graph
         graph = self.graph_header()
-        for nid, table in self.node_id_to_table.items():
+        node_items = self.node_id_to_table.items()
+        edges = self.edges
+        if self.horizontal:  # reverse so left to right order is preserved
+            node_items = reversed(node_items)
+            edges.reverse()
+        for nid, table in node_items:
             graph.node(nid, label=table)
-        for nid1, nid2 in self.edges:
+        for nid1, nid2 in edges:
             graph.edge(nid1, nid2)
         return graph
 
