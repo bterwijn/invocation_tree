@@ -32,6 +32,8 @@ The new `@ivt.show` [decorator interface](#decorator) now allows for **scaling**
 
 [Quick Sort](#quick-sort)
 
+[Merge Sort](#merge-sort)
+
 [Tower of Hanoi](#tower-of-hanoi)
 
 [Jugs Puzzle](#jugs-puzzle)
@@ -510,7 +512,7 @@ unsorted values: [7, 4, 10, 11, 2, 6, 9, 1, 5, 3, 8, 12]
   sorted values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 ```
 
-See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/quick_sort.py&timestep=0.5&play)
+See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/quick_sort.py&timestep=0.5&play).
 
 ### exercise8
 Add a `key` argument so that we can use the `quick_sort(values, key=None)` function to sort each value `x` in `values` as if it was value `key(x)`, in exactly the same way as how the `sorted(iterable, key=None)` function works. For example:
@@ -522,7 +524,9 @@ Sort the values as normal when `key` is `None`.
 
 # Merge Sort #
 
-A different way of sorting recursively is the merge_sort algorithm. Here the list is repeatedly split in halfs until a list has zero or one element remaining, as then obviously a list is sorted. When backtracking on return, the two sorted halfs are merged together into a larger sorted list. Because merging two sorted list can be done efficiently this is a relatively fast algorithm, although making many list copies slows things down, same as with quick_sort. There are ways to reduce copying but that will make the code more complex and less readable, we'll stick with more readable code here.
+A different way of sorting recursively is the merge_sort algorithm. Here the list is repeatedly split in halfs until a list has zero or one element remaining, as then obviously a list is sorted. When backtracking on return, the two sorted halfs are merged together into a larger sorted list. 
+
+Because merging two sorted list can be done efficiently this is a relatively fast algorithm, although making many list copies slows things down, same as with quick_sort. There are ways to reduce copying but that will make the code more complex and less readable, we'll stick with more readable code here.
 
 ```python
 import random
@@ -560,20 +564,20 @@ values_sorted = merge_sort(values)
 print('values_sorted:', values_sorted)
 ```
 
-See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/merge_sort.py&timestep=0.5&play)
+See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/merge_sort.py&timestep=0.5&play).
 
 # Tower of Hanoi #
 
 Another classic recursion problem is the Tower of Hanoi problem where we need to move all disks from position A to position C, by moving one disk at a time between any two positions, where a disk may never be on top of a smaller disk.
 
-![jugs.png](images/tower_of_hanoi.png)
+![tower_of_hanois](images/tower_of_hanoi.png)
 
 Doing this by hand can quickly get confusing, but the recursive solution is beautifully short. To move n disks we:
 - first remove n-1 disks from the largest disk
 - then move the largest disk
 - and then move the n-1 disks back on top
 
-See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/tower_of_hanoi.py&timestep=0.5&play)
+See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/tower_of_hanoi.py&timestep=0.5&play).
 
 # Jugs Puzzle #
 
