@@ -5,13 +5,13 @@ def merge_sort(values):
     def merge(values1, values2):
         values = []
         i1, i2 = 0, 0
-        while not (i1==len(values1) and i2==len(values2)):
+        while True:
             if i1 == len(values1):
                 values.extend(values2[i2:])
-                i2 = len(values2)
+                break
             elif i2 == len(values2):
                 values.extend(values1[i1:])
-                i1 = len(values1)
+                break
             else:
                 if values1[i1] <= values2[i2]:
                     values.append(values1[i1])
