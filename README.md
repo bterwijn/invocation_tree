@@ -121,7 +121,7 @@ tree = ivt.blocking()  # block and wait for <Enter> key press
 tree(factorial, 4)     # call function 'factorial' with argument '4'
 ```
 
-to graph the function invocations where function calls happen on the way down, and where results combine on the way up when a function returns. Run this program and press &lt;Enter&gt; to step through program execution.
+to graph the function invocations where function calls happen on the way down, and where results combine while backtracking on the way back up when each function call returns. Run this program and press &lt;Enter&gt; to step through the program execution.
 
 ![factorial](https://raw.githubusercontent.com/bterwijn/invocation_tree/main/images/factorial.gif)
 
@@ -485,7 +485,7 @@ Rewrite your code of **exercise6** so that `get_all_paths()` recursion is evalua
 
 # Quick Sort #
 
-Another nice example of divide-and-conquer is the recursive quicksort algorithm. It works by choosing a pivot element and splitting the list into elements smaller than the pivot, equal to the pivot, and larger than the pivot. The smaller and larger sublists are then quicksorted recursively. When we get to the point a sublist has zero or one element, then it is sorted. When returning, these sorted sublists are then combined with the elements equal to the pivot to produce a larger sorted lists.
+Another nice example of divide-and-conquer is the recursive quick_sort algorithm. It works by choosing a pivot element and splitting the list into elements smaller than the pivot, equal to the pivot, and larger than the pivot. The smaller and larger sublists are then quicksorted recursively. When we get to the point a sublist has zero or one element, then it obviously is sorted. When backtracking on return, these sorted sublists are then combined with the elements equal to the pivot to produce a larger sorted lists.
 
 ```python
 import invocation_tree as ivt
@@ -519,6 +519,48 @@ Add a `key` argument so that we can use the `quick_sort(values, key=None)` funct
 - The call `quick_sort(['aaa', 'bb', 'c'], key = lambda x : len(x))` should return `['c', 'bb', 'aaa']` because then each value is sorted by its length [1, 2, 3].
 
 Sort the values as normal when `key` is `None`.
+
+# Merge Sort #
+
+A different way of sorting recursively is the merge_sort algorithm. Here the list is repeatedly split in halfs until a list has zero or one element remaining, as then obviously a list is sorted. When backtracking on return, the two sorted halfs are merged together into a larger sorted list. Because merging two sorted list can be done efficiently this is a relatively fast algorithm, although making many list copies slows things down, same as with quick_sort. There are ways to reduce copying but that will make the code more complex and less readable, we'll stick with more readable code here.
+
+```python
+import random
+
+def merge_sort(values):
+    
+    def merge(values1, values2):
+        values = []
+        i1, i2 = 0, 0
+        while True:
+            if i1 == len(values1):
+                values.extend(values2[i2:])
+                break
+            elif i2 == len(values2):
+                values.extend(values1[i1:])
+                break
+            else:
+                if values1[i1] <= values2[i2]:
+                    values.append(values1[i1])
+                    i1 += 1
+                else:
+                    values.append(values2[i2])
+                    i2 += 1
+        return values 
+
+    if (len(values)<=1):  # stop condition
+        return values
+    values1, values2 = values[:len(values)//2], values[len(values)//2:]
+    return merge(merge_sort(values1), merge_sort(values2))
+
+n = 10
+values = [random.randrange(n*2) for i in range(n)]
+print('values       :', values)
+values_sorted = merge_sort(values)
+print('values_sorted:', values_sorted)
+```
+
+See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/merge_sort.py&timestep=0.5&play)
 
 # Tower of Hanoi #
 
