@@ -524,9 +524,7 @@ Sort the values as normal when `key` is `None`.
 
 # Merge Sort #
 
-A different way of sorting recursively is the merge_sort algorithm. Here the list is repeatedly split in halfs until a list has zero or one element remaining, as then obviously a list is sorted. When backtracking on return, the two sorted halfs are merged together into a larger sorted list. 
-
-Because merging two sorted lists can be done efficiently, this is a relatively fast algorithm, although making many list copies slows things down, same as with quick_sort. There are ways to reduce copying but that will make the code more complex and less readable and is left as an exercise for the reader.
+A different way of sorting recursively is with the merge_sort algorithm. Merge sort works by repeatedly splitting the list is in halfs until a list has zero or one element remaining, as then obviously a list is sorted. When backtracking on return, the two sorted halfs are merged together into a larger sorted list. 
 
 ```python
 import random
@@ -567,6 +565,8 @@ print('values_sorted:', values_sorted)
 ```
 
 See it in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/invocation_tree/refs/heads/main/src/merge_sort.py&timestep=0.5&play).
+
+Because merging two sorted lists can be done efficiently, this is a relatively fast algorithm, although making many list copies slows things down, same as with quick_sort. There are ways to reduce copying but that will make the code more complex and less readable and is left as an exercise to the reader.
 
 # Tower of Hanoi #
 
