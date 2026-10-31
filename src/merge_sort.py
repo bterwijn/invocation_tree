@@ -14,7 +14,7 @@ def merge_sort(values):
                 values.extend(values1[i1:])  # so add remainder values1
                 break
             else:
-                if values1[i1] <= values2[i2]:  # test next smallest value
+                if values1[i1] <= values2[i2]:  # find next smallest value
                     values.append(values1[i1])
                     i1 += 1
                 else:
